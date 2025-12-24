@@ -81,6 +81,7 @@ class _SignInViewState extends State<SignInView> {
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text(state.message)));
+                      debugPrint(state.message);
                     }
                   },
                   buildWhen: (previous, current) =>
@@ -138,20 +139,10 @@ class _SignInViewState extends State<SignInView> {
             ],
           ),
           SizedBox(height: size.height * 0.03),
-          FittedBox(
-            child: Row(
-              children: [
-                CustomContainer(
-                  imgPath: AppConstants.googlePath,
-                  title: "Google",
-                ),
-                SizedBox(width: size.width * 0.03),
-                CustomContainer(
-                  imgPath: AppConstants.microsoftPath,
-                  title: "Microsoft",
-                ),
-              ],
-            ),
+          CustomContainer(
+            imgPath: AppConstants.googlePath,
+            title: "Google",
+            onTap: () async => await authCubit.nativeGoogleSignIn(),
           ),
           SizedBox(height: size.height * 0.04),
           Stack(

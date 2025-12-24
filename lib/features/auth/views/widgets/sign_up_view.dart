@@ -119,26 +119,15 @@ class _SignUpViewState extends State<SignUpView> {
             ],
           ),
           SizedBox(height: size.height * 0.03),
-          FittedBox(
-            child: Row(
-              children: [
-                CustomContainer(
-                  imgPath: AppConstants.googlePath,
-                  title: "Google",
-                ),
-                SizedBox(width: size.width * 0.03),
-                CustomContainer(
-                  imgPath: AppConstants.microsoftPath,
-                  title: "Microsoft",
-                ),
-              ],
-            ),
+          CustomContainer(
+            imgPath: AppConstants.googlePath,
+            title: "Google",
+            onTap: () async => await authCubit.nativeGoogleSignIn(),
           ),
           SizedBox(height: size.height * 0.04),
           Stack(
             alignment: Alignment.center,
             children: [
-              //  CircleShadow(offset: Offset(140, 90)),
               InkWell(
                 onTap: () => widget.onGoToTab(0),
                 child: Text.rich(

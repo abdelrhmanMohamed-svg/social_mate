@@ -6,25 +6,35 @@ class CustomContainer extends StatelessWidget {
     super.key,
     required this.imgPath,
     required this.title,
+    this.onTap,
   });
   final String imgPath;
   final String title;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: AppColors.blackwith60Opacity),
-      ),
-      child: Row(
-        children: [
-          Image.asset(imgPath, height: size.height * 0.03, fit: BoxFit.contain),
-          SizedBox(width: size.width * 0.02),
-          Text(title, style: Theme.of(context).textTheme.bodyLarge),
-        ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(color: AppColors.blackwith60Opacity),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imgPath,
+              height: size.height * 0.03,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(width: size.width * 0.02),
+            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+          ],
+        ),
       ),
     );
   }
