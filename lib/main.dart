@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/routes/app_router.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_theme.dart';
+import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -22,12 +24,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppConstants.appName,
-      theme: AppTheme.lightTheme,
-      onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: AppRoutes.auhtPageRoute,
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppConstants.appName,
+        theme: AppTheme.lightTheme,
+        onGenerateRoute: AppRouter.generateRoute,
+        initialRoute: AppRoutes.auhtPageRoute,
+      ),
     );
   }
 }

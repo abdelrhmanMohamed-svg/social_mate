@@ -10,6 +10,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String name,
   }) async {
     emit(AuthLoading());
     try {
