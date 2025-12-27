@@ -20,14 +20,14 @@ class MainButton extends StatelessWidget {
       width: double.infinity,
       height: height,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.white,
-          textStyle: Theme.of(context).textTheme.bodyLarge,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+        // style: ElevatedButton.styleFrom(
+        //   backgroundColor: AppColors.primary,
+        //   foregroundColor: AppColors.white,
+        //   textStyle: Theme.of(context).textTheme.bodyLarge,
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(10),
+        //   ),
+        // ),
 
         onPressed: onTap,
         child: isLoading

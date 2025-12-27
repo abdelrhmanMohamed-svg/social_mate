@@ -15,7 +15,6 @@ abstract class AuthServices {
 }
 
 class AuthServicesImpl implements AuthServices {
-  final _googleSignIn = GoogleSignIn.instance;
   final supabase = Supabase.instance.client;
   @override
   Future<bool> signInWithEmailAndPassword({

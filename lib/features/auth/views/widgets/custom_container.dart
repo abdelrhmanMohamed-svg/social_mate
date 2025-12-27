@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_mate/core/utils/extenstions/theme_extenstion.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -21,7 +22,14 @@ class CustomContainer extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: AppColors.blackwith60Opacity),
+          border: Border.all(
+            color: context.isDarkMode
+                ? AppColors.socialButtonBorder
+                : AppColors.blackwith60Opacity,
+          ),
+          color: context.isDarkMode
+              ? AppColors.socialButtonBackground
+              : Colors.transparent,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
