@@ -48,12 +48,30 @@ class _SignUpViewState extends State<SignUpView> {
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(labelText: "your name"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "please enter name";
+                    }
+
+                    return null;
+                  },
                 ),
                 SizedBox(height: size.height * 0.02),
 
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: "E-mail"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "please enter email";
+                    }
+
+                    if (!value.contains("@")) {
+                      return "please enter valid email";
+                    }
+
+                    return null;
+                  },
                 ),
                 SizedBox(height: size.height * 0.02),
                 TextFormField(
@@ -62,6 +80,13 @@ class _SignUpViewState extends State<SignUpView> {
                     labelText: "Password",
                     hintText: "Enter password",
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "please enter paswword";
+                    }
+
+                    return null;
+                  },
                 ),
                 SizedBox(height: size.height * 0.04),
                 BlocConsumer<AuthCubit, AuthState>(
@@ -129,7 +154,7 @@ class _SignUpViewState extends State<SignUpView> {
           CustomContainer(
             imgPath: AppConstants.googlePath,
             title: "Google",
-            onTap: () async => await authCubit.nativeGoogleSignIn(),
+            onTap: () async => await authCubit.nativeGoogleSignUp(),
           ),
           SizedBox(height: size.height * 0.04),
           Stack(

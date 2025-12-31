@@ -10,6 +10,7 @@ import 'package:social_mate/core/utils/routes/app_router.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_theme.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
+import 'package:social_mate/features/auth/views/pages/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
         BlocProvider(create: (context) => ThemeCubit()),
       ],
       child: Builder(
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
                 darkTheme: AppTheme.darkTheme,
                 themeMode: state,
                 onGenerateRoute: AppRouter.generateRoute,
-                initialRoute: AppRoutes.auhtPageRoute,
+                home: const AuthGate(),
               );
             },
           );

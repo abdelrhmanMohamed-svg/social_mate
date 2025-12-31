@@ -5,17 +5,21 @@ abstract class AuthServices {
   Future<bool> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String name,
   });
   Future<bool> signInWithEmailAndPassword({
     required String email,
     required String password,
   });
   Future<void> signOut();
-  Future<void> nativeGoogleSignIn();
+  Future<void> nativeGoogleSignIn(bool isSignUp);
+  User? checkAuthStatus();
+  Future<void> logOut();
 }
 
 class AuthServicesImpl implements AuthServices {
   final supabase = Supabase.instance.client;
+  final googleSignIn = GoogleSignIn.instance;
   @override
   Future<bool> signInWithEmailAndPassword({
     required String email,
@@ -36,11 +40,17 @@ class AuthServicesImpl implements AuthServices {
   Future<bool> signUpWithEmailAndPassword({
     required String email,
     required String password,
+    required String name,
   }) async {
     final res = await supabase.auth.signUp(email: email, password: password);
     if (res.user == null) {
       return false;
     }
+    await supabase.from('users').insert({
+      'name': name,
+      'email': email,
+      'id': res.user!.id,
+    });
     return true;
   }
 
@@ -48,25 +58,16 @@ class AuthServicesImpl implements AuthServices {
   Future<void> signOut() async => await supabase.auth.signOut();
 
   @override
-  Future<void> nativeGoogleSignIn() async {
-    /// Web Client ID that you registered with Google Cloud.  
+  Future<void> nativeGoogleSignIn(bool isSignUp) async {
     const webClientId =
         '74758644962-2e3t5uet7en7sjpn4k6b0elcu8g3f3mn.apps.googleusercontent.com';
 
     final scopes = ['email', 'profile'];
-    final googleSignIn = GoogleSignIn.instance;
 
     await googleSignIn.initialize(serverClientId: webClientId);
 
-    final googleUser = await googleSignIn.attemptLightweightAuthentication();
-    // or await googleSignIn.authenticate(); which will return a GoogleSignInAccount or throw an exception
+    final googleUser = await googleSignIn.authenticate();
 
-    if (googleUser == null) {
-      throw AuthException('Failed to sign in with Google.');
-    }
-
-    /// Authorization is required to obtain the access token with the appropriate scopes for Supabase authentication,
-    /// while also granting permission to access user information.
     final authorization =
         await googleUser.authorizationClient.authorizationForScopes(scopes) ??
         await googleUser.authorizationClient.authorizeScopes(scopes);
@@ -82,5 +83,26 @@ class AuthServicesImpl implements AuthServices {
       idToken: idToken,
       accessToken: authorization.accessToken,
     );
+    if (isSignUp) {
+      if (supabase.auth.currentUser != null) {
+        throw AuthException('User already exists.');
+      }
+      await supabase.from('users').insert({
+        'name': googleUser.displayName,
+        'email': googleUser.email,
+        'id': supabase.auth.currentUser!.id,
+      });
+    }
+  }
+
+  @override
+  User? checkAuthStatus() {
+    return supabase.auth.currentUser;
+  }
+
+  @override
+  Future<void> logOut() async {
+    await supabase.auth.signOut();
+    await googleSignIn.signOut();
   }
 }
