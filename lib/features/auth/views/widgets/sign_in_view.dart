@@ -34,7 +34,6 @@ class _SignInViewState extends State<SignInView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     final authCubit = BlocProvider.of<AuthCubit>(context);
     return SingleChildScrollView(
       child: Column(
