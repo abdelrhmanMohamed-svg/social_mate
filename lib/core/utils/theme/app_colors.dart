@@ -6,6 +6,8 @@ class AppColors {
   static const Color primary = Color(0xff007AFF);
   static const Color lightBackground = Color(0xffffffff);
   static const Color darkBackgroundColor = Color(0xFF0B1020);
+  static const Color inactiveColor = Color(0xff45556C);
+  static Color gray = Color(0xff000000).withValues(alpha: 0.4);
 
   static const Color logoShadow = Color(0xffD8F1FE);
   static const Color black = Color(0xff000000);
@@ -30,7 +32,6 @@ class AppColors {
   static const Color gradiantColorDark2 = Color(0xFF141A2E);
   static const Color gradiantColorLight1 = Color(0xffD8F1FE);
   static const Color gradiantColorLight2 = Color(0xFFFFFFFF);
-
 
   static const Color primaryButton = Color(0xFF2F6BFF);
   static const Color primaryButtonText = Color(0xFFFFFFFF);

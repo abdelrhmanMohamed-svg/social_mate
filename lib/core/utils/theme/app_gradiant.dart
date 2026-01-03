@@ -18,4 +18,13 @@ class AppGradiant {
       AppColors.gradiantColorLight1,
     ],
   );
+  static const LinearGradient paddPostBoxGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      AppColors.gradiantColorLight1,
+      AppColors.gradiantColorLight2,
+      AppColors.gradiantColorLight1,
+    ],
+  );
 }

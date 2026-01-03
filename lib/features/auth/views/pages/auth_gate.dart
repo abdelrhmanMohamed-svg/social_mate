@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/auth/views/pages/auth_page.dart';
 import 'package:social_mate/features/home/views/pages/home_page.dart';
+import 'package:social_mate/root.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -16,7 +17,7 @@ class AuthGate extends StatelessWidget {
 
       builder: (context, state) {
         if (state is AuthSuccess) {
-          return const HomePage();
+          return const Root();
         }
         return const AuthPage();
       },
