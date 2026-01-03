@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/routes/app_router.dart';
-import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_theme.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/auth/views/pages/auth_gate.dart';
@@ -25,6 +25,7 @@ void main() async {
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
+  await ScreenUtil.ensureScreenSize();
 
   runApp(const MyApp());
 }
@@ -41,25 +42,32 @@ class MyApp extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          return BlocBuilder<ThemeCubit, ThemeMode>(
-            bloc: BlocProvider.of<ThemeCubit>(context),
-            builder: (context, state) {
-              return MaterialApp(
-                themeAnimationCurve: Curves.linear,
-                themeAnimationDuration: const Duration(milliseconds: 300),
-                themeAnimationStyle: AnimationStyle(
-                  curve: Curves.linear,
-                  duration: const Duration(milliseconds: 300),
-                ),
-                debugShowCheckedModeBanner: false,
-                title: AppConstants.appName,
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: state,
-                onGenerateRoute: AppRouter.generateRoute,
-                home: const AuthGate(),
+          return ScreenUtilInit(
+            designSize: const Size(428, 926),
+            minTextAdapt: true,
+            builder: (_, child) {
+              return BlocBuilder<ThemeCubit, ThemeMode>(
+                bloc: BlocProvider.of<ThemeCubit>(context),
+                builder: (context, state) {
+                  return MaterialApp(
+                    themeAnimationCurve: Curves.linear,
+                    themeAnimationDuration: const Duration(milliseconds: 300),
+                    themeAnimationStyle: AnimationStyle(
+                      curve: Curves.linear,
+                      duration: const Duration(milliseconds: 300),
+                    ),
+                    debugShowCheckedModeBanner: false,
+                    title: AppConstants.appName,
+                    theme: AppTheme.lightTheme,
+                    darkTheme: AppTheme.darkTheme,
+                    themeMode: state,
+                    onGenerateRoute: AppRouter.generateRoute,
+                    home: child,
+                  );
+                },
               );
             },
+            child: const AuthGate(),
           );
         },
       ),
