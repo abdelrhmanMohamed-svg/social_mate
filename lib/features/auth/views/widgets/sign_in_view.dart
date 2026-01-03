@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/extenstions/custom_colors_extenstions.dart';
 import 'package:social_mate/core/utils/extenstions/theme_extenstion.dart';
@@ -38,7 +39,7 @@ class _SignInViewState extends State<SignInView> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: size.height * 0.02),
+          15.verticalSpace,
           Form(
             key: _formKey,
             child: Column(
@@ -57,7 +58,7 @@ class _SignInViewState extends State<SignInView> {
                     return null;
                   },
                 ),
-                SizedBox(height: size.height * 0.02),
+                20.verticalSpace,
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -72,7 +73,7 @@ class _SignInViewState extends State<SignInView> {
                     return null;
                   },
                 ),
-                SizedBox(height: size.height * 0.04),
+                40.verticalSpace,
                 BlocConsumer<AuthCubit, AuthState>(
                   bloc: authCubit,
                   listenWhen: (previous, current) =>
@@ -117,7 +118,7 @@ class _SignInViewState extends State<SignInView> {
               ],
             ),
           ),
-          SizedBox(height: size.height * 0.01),
+          10.verticalSpace,
           Align(
             alignment: Alignment.centerRight,
             child: InkWell(
@@ -131,7 +132,7 @@ class _SignInViewState extends State<SignInView> {
               ),
             ),
           ),
-          SizedBox(height: size.height * 0.07),
+          60.verticalSpace,
           //sign in with google and facebook
           Row(
             children: [
@@ -146,41 +147,36 @@ class _SignInViewState extends State<SignInView> {
               const Expanded(child: Divider()),
             ],
           ),
-          SizedBox(height: size.height * 0.03),
+          25.verticalSpace,
           CustomContainer(
             imgPath: AppConstants.googlePath,
             title: "Google",
             onTap: () async => await authCubit.nativeGoogleSignIn(),
           ),
-          SizedBox(height: size.height * 0.04),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              InkWell(
-                onTap: () => widget.onGoToTab(1),
-                child: AutoSizeText.rich(
-                  maxLines: 1,
+          30.verticalSpace,
+          InkWell(
+            onTap: () => widget.onGoToTab(1),
+            child: AutoSizeText.rich(
+              maxLines: 1,
 
-                  TextSpan(
-                    text: "Don't have an account? ",
-                    style: AppTextStyles.sMedium.copyWith(
-                      color: Theme.of(context).customColors.secondaryColor,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: "Sign up",
-                        style: AppTextStyles.mSemiBold.copyWith(
-                          color: context.isDarkMode
-                              ? AppColors.linkColor
-                              : AppColors.primary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+              TextSpan(
+                text: "Don't have an account? ",
+                style: AppTextStyles.sMedium.copyWith(
+                  color: Theme.of(context).customColors.secondaryColor,
                 ),
+                children: [
+                  TextSpan(
+                    text: "Sign up",
+                    style: AppTextStyles.mSemiBold.copyWith(
+                      color: context.isDarkMode
+                          ? AppColors.linkColor
+                          : AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),

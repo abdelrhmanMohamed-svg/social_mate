@@ -1,137 +1,139 @@
-import 'app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'app_fonts.dart';
 
 class AppTextStyles {
   const AppTextStyles._();
   // heading
-  static const TextStyle headingH6 = TextStyle(
-    fontSize: 18,
+  static TextStyle headingH6 = TextStyle(
+    fontSize: 18.sp,
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.bold,
     letterSpacing: 0,
     height: 1.4,
   );
 
-  static const headingH5 = TextStyle(
+  static TextStyle headingH5 = TextStyle(
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.w600,
-    fontSize: 20,
+    fontSize: 20.sp,
     height: 1.4,
   );
 
-  static const headingH4 = TextStyle(
+  static TextStyle headingH4 = TextStyle(
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 24.sp,
     height: 1.5,
   );
 
-  static const headingH3 = TextStyle(
+  static TextStyle headingH3 = TextStyle(
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.w600,
-    fontSize: 32,
+    fontSize: 32.sp,
     height: 1.4,
   );
 
-  static const headingH2 = TextStyle(
+  static TextStyle headingH2 = TextStyle(
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.w600,
-    fontSize: 40,
+    fontSize: 40.sp,
     height: 1.2,
   );
 
-  static const headingH1 = TextStyle(
+  static TextStyle headingH1 = TextStyle(
     fontFamily: AppFonts.manrope,
     fontWeight: FontWeight.w600,
-    fontSize: 48,
+    fontSize: 48.sp,
     height: 1.2,
   );
 
   // body xs
-  static const xsRegular = TextStyle(
+  static TextStyle xsRegular = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 12,
+    fontSize: 12.sp,
     height: 1.55,
     letterSpacing: -0.24,
   );
-  static const xsMedium = TextStyle(
+  static TextStyle xsMedium = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 12,
+    fontSize: 12.sp,
     fontWeight: FontWeight.w500,
     height: 1.55,
     letterSpacing: -0.24,
   );
 
-  static const xsSemiBold = TextStyle(
+  static TextStyle xsSemiBold = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 12,
+    fontSize: 12.sp,
     fontWeight: FontWeight.w600,
     height: 1.55,
     letterSpacing: -0.24,
   );
 
   // body small
-  static const sRegular = TextStyle(
+  static TextStyle sRegular = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 14,
+    fontSize: 13.sp,
     height: 1.55,
     letterSpacing: -0.28,
   );
-  static const sMedium = TextStyle(
+  static TextStyle sMedium = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 14,
+    fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     height: 1.55,
     letterSpacing: -0.28,
   );
 
-  static const sSemiBold = TextStyle(
+  static TextStyle sSemiBold = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 14,
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     height: 1.55,
     letterSpacing: -0.28,
   );
 
   // body medium
-  static const mRegular = TextStyle(
+  static TextStyle mRegular = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 16,
+    fontSize: 16.sp,
     height: 1.6,
     letterSpacing: -0.32,
   );
-  static const mMedium = TextStyle(
+  static TextStyle mMedium = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 16,
+    fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     height: 1.6,
     letterSpacing: -0.32,
   );
 
-  static const mSemiBold = TextStyle(
+  static TextStyle mSemiBold = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 16,
+    fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     height: 1.6,
     letterSpacing: -0.32,
   );
 
   // body medium
-  static const lRegular = TextStyle(
+  static TextStyle lRegular = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 18,
+    fontSize: 18.sp,
     height: 1.55,
   );
-  static const lMedium = TextStyle(
+  static TextStyle lMedium = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontWeight: FontWeight.w500,
     height: 1.55,
   );
 
-  static const lSemiBold = TextStyle(
+  static TextStyle lSemiBold = TextStyle(
     fontFamily: AppFonts.manrope,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     height: 1.55,
   );
