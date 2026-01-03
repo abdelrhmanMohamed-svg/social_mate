@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/extenstions/theme_extenstion.dart';
 import 'package:social_mate/core/utils/theme/app_gradiant.dart';
@@ -33,25 +32,23 @@ class _AuthPageState extends State<AuthPage>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    final themeCubit = BlocProvider.of<ThemeCubit>(context);
     return Builder(
       builder: (context) {
         return Scaffold(
-          appBar: AppBar(
-            actions: [
-              BlocBuilder<ThemeCubit, ThemeMode>(
-                builder: (context, state) {
-                  return IconButton(
-                    onPressed: () => themeCubit.toggleTheme(),
-                    icon: state == ThemeMode.dark
-                        ? const Icon(Icons.dark_mode_outlined)
-                        : const Icon(Icons.light_mode_outlined),
-                  );
-                },
-              ),
-            ],
-          ),
+          // appBar: AppBar(
+          //   actions: [
+          //     BlocBuilder<ThemeCubit, ThemeMode>(
+          //       builder: (context, state) {
+          //         return IconButton(
+          //           onPressed: () => themeCubit.toggleTheme(),
+          //           icon: state == ThemeMode.dark
+          //               ? const Icon(Icons.dark_mode_outlined)
+          //               : const Icon(Icons.light_mode_outlined),
+          //         );
+          //       },
+          //     ),
+          //   ],
+          // ),
           body: DecoratedBox(
             decoration: BoxDecoration(
               gradient: context.isDarkMode
@@ -60,15 +57,13 @@ class _AuthPageState extends State<AuthPage>
             ),
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 60,
-                  vertical: 50,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 50.h),
                 child: Column(
                   children: [
                     // logo
                     Image.asset(AppConstants.logoPath),
-                    SizedBox(height: size.height * 0.06),
+                    35.verticalSpace,
+
                     //tab bar
                     TabBar(
                       controller: _tabController,
@@ -81,7 +76,9 @@ class _AuthPageState extends State<AuthPage>
                       tabs: tabs,
                     ),
 
-                    SizedBox(height: size.height * 0.04),
+                    30.verticalSpace,
+
+                    //tab bar view
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
