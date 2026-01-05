@@ -1,4 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:social_mate/core/services/supabase_database_services.dart';
+import 'package:social_mate/core/utils/supabase_tables_names.dart';
+import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthServices {
@@ -18,14 +21,16 @@ abstract class AuthServices {
 }
 
 class AuthServicesImpl implements AuthServices {
-  final supabase = Supabase.instance.client;
-  final googleSignIn = GoogleSignIn.instance;
+  final _supabase = Supabase.instance.client;
+  final _googleSignIn = GoogleSignIn.instance;
+  final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
+
   @override
   Future<bool> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    final res = await supabase.auth.signInWithPassword(
+    final res = await _supabase.auth.signInWithPassword(
       email: email,
       password: password,
     );
@@ -42,20 +47,21 @@ class AuthServicesImpl implements AuthServices {
     required String password,
     required String name,
   }) async {
-    final res = await supabase.auth.signUp(email: email, password: password);
+    final res = await _supabase.auth.signUp(email: email, password: password);
     if (res.user == null) {
       return false;
     }
-    await supabase.from('users').insert({
-      'name': name,
-      'email': email,
-      'id': res.user!.id,
-    });
+    final newUser = UserModel(id: res.user!.id, name: name, email: email);
+    await _supabaseDatabaseServices.insertRow(
+      table: SupabaseTablesNames.users,
+      values: newUser.toMap(),
+    );
+
     return true;
   }
 
   @override
-  Future<void> signOut() async => await supabase.auth.signOut();
+  Future<void> signOut() async => await _supabase.auth.signOut();
 
   @override
   Future<void> nativeGoogleSignIn(bool isSignUp) async {
@@ -64,9 +70,9 @@ class AuthServicesImpl implements AuthServices {
 
     final scopes = ['email', 'profile'];
 
-    await googleSignIn.initialize(serverClientId: webClientId);
+    await _googleSignIn.initialize(serverClientId: webClientId);
 
-    final googleUser = await googleSignIn.authenticate();
+    final googleUser = await _googleSignIn.authenticate();
 
     final authorization =
         await googleUser.authorizationClient.authorizationForScopes(scopes) ??
@@ -78,31 +84,37 @@ class AuthServicesImpl implements AuthServices {
       throw AuthException('No ID Token found.');
     }
 
-    await supabase.auth.signInWithIdToken(
+    await _supabase.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: authorization.accessToken,
     );
     if (isSignUp) {
-      if (supabase.auth.currentUser != null) {
+      if (_supabase.auth.currentUser != null) {
         throw AuthException('User already exists.');
       }
-      await supabase.from('users').insert({
-        'name': googleUser.displayName,
-        'email': googleUser.email,
-        'id': supabase.auth.currentUser!.id,
-      });
+
+      final newUser = UserModel(
+        id: _supabase.auth.currentUser!.id,
+        name: googleUser.displayName,
+        email: googleUser.email,
+      );
+
+      await _supabaseDatabaseServices.insertRow(
+        table: SupabaseTablesNames.users,
+        values: newUser.toMap(),
+      );
     }
   }
 
   @override
   User? checkAuthStatus() {
-    return supabase.auth.currentUser;
+    return _supabase.auth.currentUser;
   }
 
   @override
   Future<void> logOut() async {
-    await supabase.auth.signOut();
-    await googleSignIn.signOut();
+    await _supabase.auth.signOut();
+    await _googleSignIn.signOut();
   }
 }
