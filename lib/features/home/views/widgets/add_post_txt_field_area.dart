@@ -1,0 +1,187 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
+import 'package:social_mate/core/utils/theme/app_colors.dart';
+import 'package:social_mate/core/utils/theme/app_text_styles.dart';
+import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
+import 'package:social_mate/features/home/cubit/home_cubit.dart';
+
+class AddPostTxtFieldArea extends StatefulWidget with SU {
+  const AddPostTxtFieldArea({super.key});
+
+  @override
+  State<AddPostTxtFieldArea> createState() => _AddPostTxtFieldAreaState();
+}
+
+class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
+  late TextEditingController _textController;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => Navigator.of(context).pop(),
+              child: Icon(Icons.close),
+            ),
+            Text(
+              "Create a Post",
+              style: AppTextStyles.headingH5.copyWith(color: AppColors.black45),
+            ),
+            BlocConsumer<HomeCubit, HomeState>(
+              bloc: homeCubit,
+              listenWhen: (previous, current) =>
+                  current is AddPostSuccess || current is AddPostError,
+              listener: (context, state) {
+                if (state is AddPostSuccess) {
+                  Navigator.of(context).pop();
+                } else if (state is AddPostError) {
+                  showCustomSnackBar(context, state.message, isError: true);
+                }
+              },
+              buildWhen: (previous, current) =>
+                  current is EmptyCheckState ||
+                  current is AddPostLoading ||
+                  current is AddPostSuccess ||
+                  current is AddPostError,
+              builder: (context, state) {
+                if (state is EmptyCheckState) {
+                  return InkWell(
+                    onTap: state.isEmpty
+                        ? null
+                        : () async {
+                            await homeCubit.addPost(_textController.text);
+                          },
+                    child: Text(
+                      "Post",
+                      style: AppTextStyles.headingH6.copyWith(
+                        color: state.isEmpty
+                            ? AppColors.black45
+                            : AppColors.primary,
+                      ),
+                    ),
+                  );
+                }
+                if (state is AddPostLoading) {
+                  return SizedBox(
+                    width: 20.r,
+                    height: 20.r,
+                    child: CircularProgressIndicator.adaptive(
+                      strokeWidth: 2.r,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.primary,
+                      ),
+                    ),
+                  );
+                }
+
+                return Text(
+                  "Post",
+                  style: AppTextStyles.headingH6.copyWith(
+                    color: AppColors.black45,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        20.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 30.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<HomeCubit, HomeState>(
+                bloc: homeCubit,
+                buildWhen: (previous, current) =>
+                    current is CurrentUserLoaded ||
+                    current is CurrentUserLoading ||
+                    current is CurrentUserError,
+                builder: (context, state) {
+                  if (state is CurrentUserLoading) {
+                    return Center(
+                      child: Transform.scale(
+                        scale: 0.5,
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  } else if (state is CurrentUserError) {
+                    return Text(
+                      "Error: ${state.message}",
+                      style: AppTextStyles.headingH6,
+                    );
+                  } else if (state is CurrentUserLoaded) {
+                    final user = state.currentUser;
+                    return Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundImage: CachedNetworkImageProvider(
+                            AppConstants.userIMagePLaceholder,
+                          ),
+                        ),
+                        14.horizontalSpace,
+                        Text(
+                          user.name ?? "username",
+                          style: AppTextStyles.headingH6,
+                        ),
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    children: [
+                      CircleAvatar(radius: 25.r),
+                      14.horizontalSpace,
+                      Text("username", style: AppTextStyles.headingH6),
+                    ],
+                  );
+                },
+              ),
+              5.verticalSpace,
+              TextField(
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                controller: _textController,
+                minLines: 1,
+                maxLines: 5,
+                onChanged: (value) => homeCubit.checkIsEmpty(value),
+
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: "What's on your mind?",
+                  hintStyle: AppTextStyles.headingH5.copyWith(
+                    color: AppColors.black45,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

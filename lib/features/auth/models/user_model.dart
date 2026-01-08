@@ -2,11 +2,22 @@ class UserModel {
   final String? id;
   final String? name;
   final String? email;
+  final String? profileImageUrl;
 
-  const UserModel({required this.id, required this.name, required this.email});
+  const UserModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    this.profileImageUrl,
+  });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'id': id, 'name': name, 'email': email};
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'image_url': profileImageUrl,
+    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -14,6 +25,9 @@ class UserModel {
       id: map['id'] != null ? map['id'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
+      profileImageUrl: map['image_url'] != null
+          ? map['image_url'] as String
+          : null,
     );
   }
 }

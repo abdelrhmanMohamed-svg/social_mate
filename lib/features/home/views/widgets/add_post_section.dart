@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_gradiant.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
+import 'package:social_mate/features/home/cubit/home_cubit.dart';
 
 class AddPostSection extends StatelessWidget {
   const AddPostSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
     return Container(
       padding: EdgeInsets.all(25.sp),
       decoration: BoxDecoration(
@@ -17,15 +21,22 @@ class AddPostSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              CircleAvatar(radius: 20.r),
-              SizedBox(width: 10.w),
-              Text(
-                "What's on your mind?",
-                style: AppTextStyles.headingH6.copyWith(color: AppColors.gray),
-              ),
-            ],
+          InkWell(
+            onTap: () => Navigator.of(context, rootNavigator: true)
+                .pushNamed(AppRoutes.addPostPage, arguments: homeCubit)
+                .then((_) => homeCubit.refresh()),
+            child: Row(
+              children: [
+                CircleAvatar(radius: 20.r),
+                SizedBox(width: 10.w),
+                Text(
+                  "What's on your mind?",
+                  style: AppTextStyles.headingH6.copyWith(
+                    color: AppColors.gray,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 25.h),
           Row(
