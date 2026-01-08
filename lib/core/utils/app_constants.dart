@@ -13,4 +13,6 @@ class AppConstants {
   static const String logoPath = "assets/images/Logo.png";
   static const String microsoftPath = "assets/images/microsoft_logo.png";
   static const String googlePath = "assets/images/google_logo.png";
+  static const String userIMagePLaceholder =
+      "https://i.pinimg.com/1200x/6e/59/95/6e599501252c23bcf02658617b29c894.jpg";
 }

@@ -9,6 +9,8 @@ class AppColors {
   static const Color inactiveColor = Color(0xff45556C);
   static Color gray = Color(0xff000000).withValues(alpha: 0.4);
   static Color red = Color(0xffFF0000);
+  static  Color black45 = Colors.black45;
+  static const Color black12 = Colors.black12;
 
   static const Color logoShadow = Color(0xffD8F1FE);
   static const Color black = Color(0xff000000);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_fonts.dart';
+import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 
 class AppTheme {
   AppTheme._();
@@ -14,8 +16,21 @@ class AppTheme {
       bodyColor: AppColors.black,
       displayColor: AppColors.black,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.white,
+      iconSize: 30.r,
 
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+    ),
     appBarTheme: AppBarTheme(
+      centerTitle: true,
+      titleTextStyle: AppTextStyles.headingH5.copyWith(
+        color: AppColors.black45,
+      ),
+      iconTheme: IconThemeData(color: AppColors.black45),
+      actionsIconTheme: IconThemeData(color: AppColors.black45),
+
       backgroundColor: AppColors.lightBackground,
       elevation: 0,
     ),
@@ -62,7 +77,7 @@ class AppTheme {
   );
 
   static ThemeData get darkTheme => ThemeData(
-     fontFamily: AppFonts.manrope,
+    fontFamily: AppFonts.manrope,
     useMaterial3: true,
     brightness: Brightness.dark,
     primaryColor: AppColors.primaryButton,
@@ -71,7 +86,19 @@ class AppTheme {
       seedColor: AppColors.primaryButton,
       brightness: Brightness.dark,
     ),
+     floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.socialButtonBackground,
+      foregroundColor: AppColors.white,
+      iconSize: 30.r,
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
+    ),
     appBarTheme: AppBarTheme(
+      centerTitle: true,
+
+      titleTextStyle: AppTextStyles.headingH5.copyWith(color: AppColors.white),
+      iconTheme: IconThemeData(color: AppColors.white),
+      actionsIconTheme: IconThemeData(color: AppColors.white),
       backgroundColor: AppColors.darkBackgroundColor,
       elevation: 0,
     ),

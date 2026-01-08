@@ -1,4 +1,3 @@
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_mate/core/services/supabase_database_services.dart';
 import 'package:social_mate/core/utils/supabase_tables_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
