@@ -12,27 +12,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final cubit = HomeCubit();
-        cubit.fetchStories();
-        cubit.fetchPosts();
-        return cubit;
-      },
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.w),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                HomeHeader(),
-                20.verticalSpace,
-                AddPostSection(),
-                20.verticalSpace,
-                StoriesSection(),
-                20.verticalSpace,
-                PostsSection(),
-              ],
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) {
+          final cubit = HomeCubit();
+          cubit.fetchStories();
+          cubit.fetchPosts();
+          return cubit;
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  HomeHeader(),
+                  20.verticalSpace,
+                  AddPostSection(),
+                  20.verticalSpace,
+                  StoriesSection(),
+                  20.verticalSpace,
+                  PostsSection(),
+                ],
+              ),
             ),
           ),
         ),

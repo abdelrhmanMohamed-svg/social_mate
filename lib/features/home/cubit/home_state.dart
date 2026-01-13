@@ -37,9 +37,12 @@ final class PostsError extends HomeState {
 
   const PostsError(this.message);
 }
+
 // Add Post States
 final class AddPostLoading extends HomeState {}
+
 final class AddPostSuccess extends HomeState {}
+
 final class AddPostError extends HomeState {
   final String message;
 
@@ -66,4 +69,34 @@ final class EmptyCheckState extends HomeState {
   final bool isEmpty;
 
   const EmptyCheckState(this.isEmpty);
+}
+
+// native states
+final class ImagePickedSuccess extends HomeState {}
+
+final class VideoPickedSuccess extends HomeState {}
+
+final class FilePickedSuccess extends HomeState {}
+
+final class MediaPickError extends HomeState {
+  final String message;
+
+  const MediaPickError(this.message);
+}
+
+final class OpenFileLoading extends HomeState {}
+
+final class OpenFileSuccess extends HomeState {}
+
+final class OpenFileError extends HomeState {
+  final String message;
+
+  const OpenFileError(this.message);
+}
+final class DownloadFileLoading extends HomeState {}
+final class DownloadFileSuccess extends HomeState {}
+final class DownloadFileError extends HomeState {
+  final String message;
+
+  const DownloadFileError(this.message);
 }

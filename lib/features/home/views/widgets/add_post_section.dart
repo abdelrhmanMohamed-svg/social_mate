@@ -21,21 +21,24 @@ class AddPostSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          InkWell(
-            onTap: () => Navigator.of(context, rootNavigator: true)
-                .pushNamed(AppRoutes.addPostPage, arguments: homeCubit)
-                .then((_) => homeCubit.refresh()),
-            child: Row(
-              children: [
-                CircleAvatar(radius: 20.r),
-                SizedBox(width: 10.w),
-                Text(
-                  "What's on your mind?",
-                  style: AppTextStyles.headingH6.copyWith(
-                    color: AppColors.gray,
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => Navigator.of(context, rootNavigator: true)
+                  .pushNamed(AppRoutes.addPostPage, arguments: homeCubit)
+                  .then((_) => homeCubit.refresh()),
+              child: Row(
+                children: [
+                  CircleAvatar(radius: 20.r),
+                  SizedBox(width: 10.w),
+                  Text(
+                    "What's on your mind?",
+                    style: AppTextStyles.headingH6.copyWith(
+                      color: AppColors.gray,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SizedBox(height: 25.h),

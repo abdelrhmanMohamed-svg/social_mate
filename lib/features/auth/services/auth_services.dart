@@ -1,6 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_mate/core/services/supabase_database_services.dart';
-import 'package:social_mate/core/utils/supabase_tables_names.dart';
+import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,7 +15,7 @@ abstract class AuthServices {
     required String password,
   });
   Future<void> signOut();
-  Future<void> nativeGoogleSignIn(bool isSignUp);
+  Future<void> nativeGoogleSignIn();
   User? checkAuthStatus();
   Future<void> logOut();
 }
@@ -53,7 +53,7 @@ class AuthServicesImpl implements AuthServices {
     }
     final newUser = UserModel(id: res.user!.id, name: name, email: email);
     await _supabaseDatabaseServices.insertRow(
-      table: SupabaseTablesNames.users,
+      table: SupabaseTablesAndBucketsNames.users,
       values: newUser.toMap(),
     );
 
@@ -64,7 +64,7 @@ class AuthServicesImpl implements AuthServices {
   Future<void> signOut() async => await _supabase.auth.signOut();
 
   @override
-  Future<void> nativeGoogleSignIn(bool isSignUp) async {
+  Future<void> nativeGoogleSignIn() async {
     const webClientId =
         '74758644962-2e3t5uet7en7sjpn4k6b0elcu8g3f3mn.apps.googleusercontent.com';
 
@@ -89,19 +89,25 @@ class AuthServicesImpl implements AuthServices {
       idToken: idToken,
       accessToken: authorization.accessToken,
     );
-    if (isSignUp) {
-      if (_supabase.auth.currentUser != null) {
-        throw AuthException('User already exists.');
-      }
 
+    final user = _supabase.auth.currentUser;
+    if (user == null) return;
+
+    final existingUser = await _supabase
+        .from(SupabaseTablesAndBucketsNames.users)
+        .select()
+        .eq('id', user.id)
+        .maybeSingle();
+
+    if (existingUser == null) {
       final newUser = UserModel(
-        id: _supabase.auth.currentUser!.id,
+        id: user.id,
         name: googleUser.displayName,
         email: googleUser.email,
       );
 
       await _supabaseDatabaseServices.insertRow(
-        table: SupabaseTablesNames.users,
+        table: SupabaseTablesAndBucketsNames.users,
         values: newUser.toMap(),
       );
     }

@@ -150,7 +150,7 @@ class _SignInViewState extends State<SignInView> {
           CustomContainer(
             imgPath: AppConstants.googlePath,
             title: "Google",
-            onTap: () async => await authCubit.nativeGoogleSignIn(),
+            onTap: () async => await authCubit.nativeGoogleAuth(),
           ),
           30.verticalSpace,
           InkWell(

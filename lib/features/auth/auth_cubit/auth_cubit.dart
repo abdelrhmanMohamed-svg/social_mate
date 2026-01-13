@@ -54,25 +54,17 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthSignOut());
   }
 
-  Future<void> nativeGoogleSignIn() async {
+  Future<void> nativeGoogleAuth() async {
     emit(AuthLoading());
     try {
-      await authServices.nativeGoogleSignIn(false);
+      await authServices.nativeGoogleSignIn();
       emit(AuthSuccess());
     } catch (e) {
       emit(AuthFailure(e.toString()));
     }
   }
 
-  Future<void> nativeGoogleSignUp() async {
-    emit(AuthLoading());
-    try {
-      await authServices.nativeGoogleSignIn(true);
-      emit(AuthSuccess());
-    } catch (e) {
-      emit(AuthFailure(e.toString()));
-    }
-  }
+ 
 
   void checkAuthStatus() {
     final user = authServices.checkAuthStatus();

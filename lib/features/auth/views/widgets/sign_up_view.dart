@@ -154,7 +154,7 @@ class _SignUpViewState extends State<SignUpView> {
           CustomContainer(
             imgPath: AppConstants.googlePath,
             title: "Google",
-            onTap: () async => await authCubit.nativeGoogleSignUp(),
+            onTap: () async => await authCubit.nativeGoogleAuth(),
           ),
           SizedBox(height: size.height * 0.04),
           Stack(

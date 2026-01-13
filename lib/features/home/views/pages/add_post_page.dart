@@ -19,6 +19,7 @@ class _AddPostPageState extends State<AddPostPage> {
   void initState() {
     super.initState();
     homeCubit = context.read<HomeCubit>()..fetchCurrentUser();
+    homeCubit.setToInitial();
     WidgetsBinding.instance.addPostFrameCallback((_) => openBottomSheet());
   }
 
@@ -70,7 +71,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
                 title: Text("Add A Photo", style: AppTextStyles.headingH6),
                 onTap: () {
-                  // homeCubit.pickImage();
+                  homeCubit.pickImageFromGallery();
                 },
               ),
               ListTile(
@@ -81,7 +82,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
                 title: Text("Take A Photo", style: AppTextStyles.headingH6),
                 onTap: () {
-                  // homeCubit.pickImage();
+                  homeCubit.pickImageFromCamera();
                 },
               ),
               ListTile(
@@ -92,7 +93,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
                 title: Text("Add A Video", style: AppTextStyles.headingH6),
                 onTap: () {
-                  // homeCubit.pickImage();
+                  homeCubit.pickVideoFromGallery();
                 },
               ),
               ListTile(
@@ -103,7 +104,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
                 title: Text("Attach A File", style: AppTextStyles.headingH6),
                 onTap: () {
-                  // homeCubit.pickImage();
+                  homeCubit.pickFile();
                 },
               ),
             ],

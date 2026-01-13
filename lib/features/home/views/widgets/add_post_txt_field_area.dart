@@ -178,6 +178,42 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                   ),
                 ),
               ),
+              BlocConsumer<HomeCubit, HomeState>(
+                bloc: homeCubit,
+                listenWhen: (previous, current) => current is MediaPickError,
+                listener: (context, state) {
+                  if (state is MediaPickError) {
+                    showCustomSnackBar(context, state.message, isError: true);
+                  }
+                },
+                buildWhen: (previous, current) =>
+                    current is ImagePickedSuccess ||
+                    current is VideoPickedSuccess ||
+                    current is FilePickedSuccess,
+
+                builder: (context, state) {
+                  if (state is ImagePickedSuccess) {
+                    return Image.file(
+                      height: 150.h,
+                      width: 150.w,
+                      fit: BoxFit.contain,
+                      homeCubit.imagePicked!);
+                  }
+                  if (state is VideoPickedSuccess) {
+                    return Image.file(
+                      height: 150.h,
+                      width: 150.w,
+                      fit: BoxFit.contain,
+                      homeCubit.videoPicked!);
+                  }
+                  if (state is FilePickedSuccess) {
+                    return Text(
+                      "File Selected: ${homeCubit.filePicked!.fileName}",
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
             ],
           ),
         ),

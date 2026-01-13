@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
+import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
+import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
+import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
 
 class PostItem extends StatelessWidget with SU {
   const PostItem({super.key, required this.post});
@@ -12,6 +16,7 @@ class PostItem extends StatelessWidget with SU {
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
     return Card(
       color: AppColors.white,
       shape: OutlineInputBorder(
@@ -37,8 +42,9 @@ class PostItem extends StatelessWidget with SU {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                     post.authorName != null
-                        ?post.authorName!.split(" ").first.toString():"Username",
+                      post.authorName != null
+                          ? post.authorName!.split(" ").first.toString()
+                          : "Username",
                       style: AppTextStyles.headingH4,
                     ),
                     1.verticalSpace,
@@ -56,10 +62,46 @@ class PostItem extends StatelessWidget with SU {
 
             10.verticalSpace,
             Text(post.content, style: AppTextStyles.lRegular),
-            15.verticalSpace,
-            if (post.imageUrl != null)
+            if (post.imageUrl != null) ...[
+              20.verticalSpace,
               CachedNetworkImage(imageUrl: post.imageUrl!, fit: BoxFit.cover),
-            15.verticalSpace,
+              20.verticalSpace,
+            ],
+
+            if (post.fileUrl != null && post.fileName != null) ...[
+              15.verticalSpace,
+              BlocConsumer<HomeCubit, HomeState>(
+                bloc: homeCubit,
+                listenWhen: (previous, current) => current is OpenFileError,
+                listener: (context, state) {
+                  if (state is OpenFileError) {
+                    showCustomSnackBar(context, state.message, isError: true);
+                  }
+                },
+                buildWhen: (previous, current) =>
+                    current is DownloadFileLoading ||
+                    current is DownloadFileError ||
+                    current is DownloadFileSuccess,
+                builder: (context, state) {
+                  if (state is DownloadFileLoading) {
+                    return FileDownloadTile(
+                    fileName: post.fileName!,
+                    fileUrl: post.fileUrl!,
+                   isloading: true,
+                  );
+                  }
+
+                  return FileDownloadTile(
+                    fileName: post.fileName!,
+                    fileUrl: post.fileUrl!,
+                    onDownload: () async =>
+                        await homeCubit.downloadFile(post.fileUrl!,post.fileName!),
+                  );
+                },
+              ),
+              10.verticalSpace,
+            ],
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
