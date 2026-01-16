@@ -8,7 +8,9 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
+import 'package:social_mate/features/home/views/widgets/bottom_sheet_section.dart';
 import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
+import 'package:social_mate/features/home/views/widgets/post_comment_section.dart';
 import 'package:social_mate/features/home/views/widgets/post_like_section.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -202,15 +204,8 @@ class _PostItemState extends State<PostItem> {
                   children: [
                     PostLikeSection(post: widget.post),
                     12.horizontalSpace,
-                    Icon(Icons.mode_comment_outlined, color: AppColors.black),
-                    12.horizontalSpace,
 
-                    Text(
-                      widget.post.comments != null
-                          ? widget.post.comments!.length.toStringAsFixed(3)
-                          : '1',
-                      style: AppTextStyles.lMedium,
-                    ),
+                    PostCommentSection(post: widget.post),
                     12.horizontalSpace,
                     Icon(Icons.share_outlined, color: AppColors.black),
                   ],

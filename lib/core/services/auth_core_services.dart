@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class AuthCoreServices {
   Future<UserModel> fetchCurrentUser();
   Future<List<UserModel>> fetchUsers();
+  Future<UserModel> fetchUserById(String userId);
 }
 
 class AuthCoreServicesImpl implements AuthCoreServices {
@@ -36,4 +37,20 @@ class AuthCoreServicesImpl implements AuthCoreServices {
       rethrow;
     }
   }
+  
+  @override
+  Future<UserModel> fetchUserById(String userId)async {
+     try {
+      return await _supabaseDatabaseServices.fetchRow(
+        table: SupabaseTablesAndBucketsNames.users,
+        primaryKey: "id",
+        id: userId,
+        builder: (data, id) => UserModel.fromMap(data),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+   
+  
 }

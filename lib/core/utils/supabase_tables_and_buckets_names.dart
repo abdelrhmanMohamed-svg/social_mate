@@ -4,4 +4,5 @@ class SupabaseTablesAndBucketsNames {
   static const String stories = "stories";
   static const String posts = "posts";
   static const String supabasePostsBucket = "posts";
+  static const String comments = "comments";
 }

@@ -7,17 +7,19 @@ class MainButton extends StatelessWidget {
     this.child,
     this.onTap,
     this.height = 50,
+    this.width=double.infinity,
     this.isLoading = false,
   }) : assert(child == null || isLoading == false);
   final Widget? child;
   final VoidCallback? onTap;
   final double height;
   final bool isLoading;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: width,
       height: height,
       child: ElevatedButton(
         // style: ElevatedButton.styleFrom(
@@ -28,7 +30,6 @@ class MainButton extends StatelessWidget {
         //     borderRadius: BorderRadius.circular(10),
         //   ),
         // ),
-
         onPressed: onTap,
         child: isLoading
             ? Transform.scale(

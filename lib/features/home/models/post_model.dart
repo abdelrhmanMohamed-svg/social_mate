@@ -12,7 +12,7 @@ class PostModel {
   final List<String>? comments;
   final String? fileName;
   final bool isLiked;
-
+  final int commentsCount;
 
   const PostModel({
     required this.id,
@@ -28,6 +28,7 @@ class PostModel {
     this.likes,
     this.comments,
     this.isLiked = false,
+    this.commentsCount = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -63,9 +64,7 @@ class PostModel {
       authorImageUrl: map['author_image_url'] != null
           ? map['author_image_url'] as String
           : null,
-      likes: map['likes'] != null
-          ? List<String>.from((map['likes']))
-          : null,
+      likes: map['likes'] != null ? List<String>.from((map['likes'])) : null,
       comments: map['comments'] != null
           ? List<String>.from((map['comments'] as List<String>))
           : null,
@@ -86,6 +85,7 @@ class PostModel {
     List<String>? comments,
     String? fileName,
     bool? isLiked,
+    int? commentsCount,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -101,6 +101,7 @@ class PostModel {
       comments: comments ?? this.comments,
       fileName: fileName ?? this.fileName,
       isLiked: isLiked ?? this.isLiked,
+      commentsCount: commentsCount ?? this.commentsCount,
     );
   }
 }

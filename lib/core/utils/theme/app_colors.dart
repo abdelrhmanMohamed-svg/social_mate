@@ -8,8 +8,12 @@ class AppColors {
   static const Color darkBackgroundColor = Color(0xFF0B1020);
   static const Color inactiveColor = Color(0xff45556C);
   static Color gray = Color(0xff000000).withValues(alpha: 0.4);
+  static Color gray100 = Colors.grey.shade100;
+  
   static Color red = Color(0xffFF0000);
   static  Color black45 = Colors.black45;
+  static  Color black54 = Colors.black54;
+  static  Color black87 = Colors.black87;
   static const Color black12 = Colors.black12;
 
   static const Color logoShadow = Color(0xffD8F1FE);

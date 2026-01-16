@@ -52,7 +52,7 @@ class AppTheme {
       indicatorSize: TabBarIndicatorSize.tab,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      hintStyle: TextStyle(color: AppColors.gray200),
+      hintStyle: TextStyle(color: AppColors.black45),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(color: AppColors.gray200),
@@ -86,7 +86,7 @@ class AppTheme {
       seedColor: AppColors.primaryButton,
       brightness: Brightness.dark,
     ),
-     floatingActionButtonTheme: FloatingActionButtonThemeData(
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: AppColors.socialButtonBackground,
       foregroundColor: AppColors.white,
       iconSize: 30.r,
