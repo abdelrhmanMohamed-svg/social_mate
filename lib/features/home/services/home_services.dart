@@ -8,6 +8,7 @@ abstract class HomeServices {
   Future<List<StoryModel>> fetchStories();
   Future<List<PostModel>> fetchPosts();
   Future<void> addPost(PostRequestModel post);
+  Future<PostModel> toggleLikePost(String postId, String userId);
 }
 
 class HomeServicesImpl implements HomeServices {
@@ -47,6 +48,40 @@ class HomeServicesImpl implements HomeServices {
         table: SupabaseTablesAndBucketsNames.posts,
         values: post.toMap(),
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PostModel> toggleLikePost(String postId, String userId) async {
+    bool isLiked = false;
+    try {
+      var post = await _supabaseDatabaseServices.fetchRow(
+        table: SupabaseTablesAndBucketsNames.posts,
+        primaryKey: ' id ',
+        id: postId,
+        builder: (data, id) => PostModel.fromMap(data),
+      );
+
+      final likes = List<String>.from(post.likes ?? []);
+      if (likes.contains(userId)) {
+        likes.remove(userId);
+        isLiked = false;
+      } else {
+        likes.add(userId);
+        isLiked = true;
+      }
+      post = post.copyWith(likes: likes);
+
+      await _supabaseDatabaseServices.updateRow(
+        table: SupabaseTablesAndBucketsNames.posts,
+        column: 'id',
+        value: postId,
+        values: post.toMap(),
+      );
+     
+      return post.copyWith(isLiked: isLiked);
     } catch (e) {
       rethrow;
     }

@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +11,7 @@ abstract class NativeServices {
 
   Future<FileArgsModel?> pickFile();
   Future<File?> pickVideo(ImageSource source);
-  Future<void> downloadFile(String fileUrl,String fileName);
+  Future<void> downloadFile(String fileUrl, String fileName);
 }
 
 class NativeServicesImpl implements NativeServices {
@@ -48,16 +46,12 @@ class NativeServicesImpl implements NativeServices {
   }
 
   @override
-  Future<void> downloadFile(String fileUrl,String fileName) async {
+  Future<void> downloadFile(String fileUrl, String fileName) async {
     try {
       final dir = await getApplicationDocumentsDirectory();
       final filePath = '${dir.path}/$fileName';
 
-      await Dio().download(
-        fileUrl,
-        filePath,
-        
-      );
+      await Dio().download(fileUrl, filePath);
       await OpenFilex.open(filePath);
     } catch (e) {
       rethrow;

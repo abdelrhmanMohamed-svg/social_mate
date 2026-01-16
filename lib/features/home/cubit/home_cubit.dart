@@ -13,6 +13,7 @@ import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/models/post_request_model.dart';
 import 'package:social_mate/features/home/models/story_model.dart';
 import 'package:social_mate/features/home/services/home_services.dart';
+import 'package:video_player/video_player.dart';
 
 part 'home_state.dart';
 
@@ -25,6 +26,7 @@ class HomeCubit extends Cubit<HomeState> {
   File? imagePicked;
   File? videoPicked;
   FileArgsModel? filePicked;
+  VideoPlayerController? _controller;
 
   // Stories Services
   Future<void> fetchStories() async {
@@ -52,8 +54,15 @@ class HomeCubit extends Cubit<HomeState> {
     emit(PostsLoading());
     try {
       final rawPosts = await _homeServices.fetchPosts();
+      List<PostModel> posts = [];
+      for (var post in rawPosts) {
+        final currentUser = await _authcoreServices.fetchCurrentUser(); 
+        final isLiked = post.likes?.contains(currentUser.id) ?? false;
+        post = post.copyWith(isLiked: isLiked);
+        posts.add(post);
+      }
 
-      emit(PostsLoaded(rawPosts.reversed.toList()));
+      emit(PostsLoaded(posts.reversed.toList()));
     } catch (e) {
       emit(PostsError(e.toString()));
     }
@@ -109,6 +118,26 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future<void> toggleLikePost(String postId) async {
+    emit(ToggleLikePostLoading(postId));
+    try {
+      final currentUser = await _authcoreServices.fetchCurrentUser();
+      final updatedPost = await _homeServices.toggleLikePost(
+        postId,
+        currentUser.id!,
+      );
+      emit(
+        ToggleLikePostSuccess(
+          postId: postId,
+          isLiked: updatedPost.isLiked,
+          likeCount: updatedPost.likes?.length ?? 0,
+        ),
+      );
+    } catch (e) {
+      emit(ToggleLikePostError(e.toString(), postId));
+    }
+  }
+
   // Native Services
   Future<void> pickImageFromGallery() async {
     final pickedImage = await _nativeServices.pickImage(ImageSource.gallery);
@@ -130,16 +159,31 @@ class HomeCubit extends Cubit<HomeState> {
     final pickedVideo = await _nativeServices.pickVideo(ImageSource.gallery);
     if (pickedVideo != null) {
       videoPicked = pickedVideo;
-      emit(VideoPickedSuccess());
+      await _controller?.dispose();
+      _controller = VideoPlayerController.file(File(videoPicked!.path));
+      await _controller!.initialize();
+      await _controller!.play();
+      _controller!.setLooping(true);
+
+      emit(VideoPickedSuccess(_controller!));
     }
   }
 
-  Future<void> pickVideoFromCamera() async {
-    final pickedVideo = await _nativeServices.pickVideo(ImageSource.camera);
-    if (pickedVideo != null) {
-      videoPicked = pickedVideo;
-      emit(VideoPickedSuccess());
+  @override
+  Future<void> close() async {
+    await _controller?.dispose();
+    return super.close();
+  }
+
+  void togglePlay([VideoPlayerController? controller]) {
+    if (controller != null) {
+      _controller = controller;
     }
+    if (_controller == null) return;
+
+    _controller!.value.isPlaying ? _controller!.pause() : _controller!.play();
+
+    emit(VideoPickedSuccess(_controller!));
   }
 
   Future<void> pickFile() async {

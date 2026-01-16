@@ -49,6 +49,31 @@ final class AddPostError extends HomeState {
   const AddPostError(this.message);
 }
 
+// Toggle Like Post States
+final class ToggleLikePostLoading extends HomeState {
+  final String postId;
+
+  const ToggleLikePostLoading(this.postId);
+}
+
+final class ToggleLikePostSuccess extends HomeState {
+  final String postId;
+  final bool isLiked;
+  final int likeCount;
+
+  const ToggleLikePostSuccess({
+    required this.postId,
+    required this.isLiked,
+    required this.likeCount,
+  });
+}
+
+final class ToggleLikePostError extends HomeState {
+  final String postId;
+  final String message;
+
+  const ToggleLikePostError(this.message, this.postId);
+}
 // Current User States
 
 final class CurrentUserLoading extends HomeState {}
@@ -74,7 +99,11 @@ final class EmptyCheckState extends HomeState {
 // native states
 final class ImagePickedSuccess extends HomeState {}
 
-final class VideoPickedSuccess extends HomeState {}
+final class VideoPickedSuccess extends HomeState {
+  final VideoPlayerController controller;
+
+  const VideoPickedSuccess(this.controller);
+}
 
 final class FilePickedSuccess extends HomeState {}
 
@@ -83,6 +112,8 @@ final class MediaPickError extends HomeState {
 
   const MediaPickError(this.message);
 }
+
+// file states
 
 final class OpenFileLoading extends HomeState {}
 
@@ -93,8 +124,11 @@ final class OpenFileError extends HomeState {
 
   const OpenFileError(this.message);
 }
+
 final class DownloadFileLoading extends HomeState {}
+
 final class DownloadFileSuccess extends HomeState {}
+
 final class DownloadFileError extends HomeState {
   final String message;
 

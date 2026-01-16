@@ -9,13 +9,47 @@ import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
+import 'package:social_mate/features/home/views/widgets/post_like_section.dart';
+import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class PostItem extends StatelessWidget with SU {
+class PostItem extends StatefulWidget with SU {
   const PostItem({super.key, required this.post});
   final PostModel post;
 
   @override
+  State<PostItem> createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
+  VideoPlayerController? _controller;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.post.videoUrl != null) {
+      _initVideo(widget.post.videoUrl!);
+    }
+  }
+
+  Future<void> _initVideo(String url) async {
+    _controller = VideoPlayerController.networkUrl(Uri.parse(url));
+    await _controller!.initialize();
+    _controller!.setLooping(true);
+
+    if (!mounted) return;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller?.pause();
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    debugPrint(widget.post.isLiked.toString());
     final homeCubit = context.read<HomeCubit>();
     return Card(
       color: AppColors.white,
@@ -32,8 +66,8 @@ class PostItem extends StatelessWidget with SU {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundImage: post.authorImageUrl != null
-                      ? CachedNetworkImageProvider(post.authorImageUrl!)
+                  backgroundImage: widget.post.authorImageUrl != null
+                      ? CachedNetworkImageProvider(widget.post.authorImageUrl!)
                       : null,
                   radius: 28.r,
                 ),
@@ -42,8 +76,8 @@ class PostItem extends StatelessWidget with SU {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      post.authorName != null
-                          ? post.authorName!.split(" ").first.toString()
+                      widget.post.authorName != null
+                          ? widget.post.authorName!.split(" ").first.toString()
                           : "Username",
                       style: AppTextStyles.headingH4,
                     ),
@@ -51,7 +85,7 @@ class PostItem extends StatelessWidget with SU {
                     Text(
                       DateFormat(
                         "h:mm a",
-                      ).format(DateTime.parse(post.createdAt)),
+                      ).format(DateTime.parse(widget.post.createdAt)),
 
                       style: AppTextStyles.sSemiBold,
                     ),
@@ -61,14 +95,18 @@ class PostItem extends StatelessWidget with SU {
             ),
 
             10.verticalSpace,
-            Text(post.content, style: AppTextStyles.lRegular),
-            if (post.imageUrl != null) ...[
+            Text(widget.post.content, style: AppTextStyles.lRegular),
+            if (widget.post.imageUrl != null) ...[
               20.verticalSpace,
-              CachedNetworkImage(imageUrl: post.imageUrl!, fit: BoxFit.cover),
+              CachedNetworkImage(
+                imageUrl: widget.post.imageUrl!,
+                fit: BoxFit.cover,
+              ),
               20.verticalSpace,
             ],
 
-            if (post.fileUrl != null && post.fileName != null) ...[
+            if (widget.post.fileUrl != null &&
+                widget.post.fileName != null) ...[
               15.verticalSpace,
               BlocConsumer<HomeCubit, HomeState>(
                 bloc: homeCubit,
@@ -85,46 +123,95 @@ class PostItem extends StatelessWidget with SU {
                 builder: (context, state) {
                   if (state is DownloadFileLoading) {
                     return FileDownloadTile(
-                    fileName: post.fileName!,
-                    fileUrl: post.fileUrl!,
-                   isloading: true,
-                  );
+                      fileName: widget.post.fileName!,
+                      fileUrl: widget.post.fileUrl!,
+                      isloading: true,
+                    );
                   }
 
                   return FileDownloadTile(
-                    fileName: post.fileName!,
-                    fileUrl: post.fileUrl!,
-                    onDownload: () async =>
-                        await homeCubit.downloadFile(post.fileUrl!,post.fileName!),
+                    fileName: widget.post.fileName!,
+                    fileUrl: widget.post.fileUrl!,
+                    onDownload: () async => await homeCubit.downloadFile(
+                      widget.post.fileUrl!,
+                      widget.post.fileName!,
+                    ),
                   );
                 },
               ),
               10.verticalSpace,
             ],
+            if (widget.post.videoUrl != null) ...[
+              20.verticalSpace,
+              _controller != null && _controller!.value.isInitialized
+                  ? InkWell(
+                      onTap: () => homeCubit.togglePlay(_controller),
+                      child: BlocBuilder<HomeCubit, HomeState>(
+                        bloc: homeCubit,
+                        buildWhen: (previous, current) =>
+                            current is VideoPickedSuccess,
+                        builder: (context, state) {
+                          return Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12.r),
+
+                                child: SizedBox(
+                                  height: 200.h,
+                                  width: double.infinity,
+                                  child: VisibilityDetector(
+                                    key: Key(widget.post.id),
+                                    onVisibilityChanged: (info) {
+                                      if (info.visibleFraction < 0.5) {
+                                        _controller?.pause();
+                                      }
+                                    },
+                                    child: VideoPlayer(_controller!),
+                                  ),
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: state is VideoPickedSuccess
+                                      ? Icon(
+                                          state.controller.value.isPlaying
+                                              ? null
+                                              : Icons.play_circle_outline,
+                                          color: AppColors.white.withValues(
+                                            alpha: 0.7,
+                                          ),
+                                          size: 64.sp,
+                                        )
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ],
+            20.verticalSpace,
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.thumb_up_outlined, color: AppColors.black),
-                    10.horizontalSpace,
-                    Text(
-                      post.likes != null
-                          ? post.likes!.length.toStringAsFixed(3)
-                          : '1',
-                      style: AppTextStyles.lMedium,
-                    ),
-                    20.horizontalSpace,
+                    PostLikeSection(post: widget.post),
+                    12.horizontalSpace,
                     Icon(Icons.mode_comment_outlined, color: AppColors.black),
-                    10.horizontalSpace,
+                    12.horizontalSpace,
+
                     Text(
-                      post.comments != null
-                          ? post.comments!.length.toStringAsFixed(3)
+                      widget.post.comments != null
+                          ? widget.post.comments!.length.toStringAsFixed(3)
                           : '1',
                       style: AppTextStyles.lMedium,
                     ),
-                    20.horizontalSpace,
+                    12.horizontalSpace,
                     Icon(Icons.share_outlined, color: AppColors.black),
                   ],
                 ),

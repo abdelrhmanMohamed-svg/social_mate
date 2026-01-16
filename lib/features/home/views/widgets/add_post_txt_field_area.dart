@@ -7,6 +7,7 @@ import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:video_player/video_player.dart';
 
 class AddPostTxtFieldArea extends StatefulWidget with SU {
   const AddPostTxtFieldArea({super.key});
@@ -17,22 +18,24 @@ class AddPostTxtFieldArea extends StatefulWidget with SU {
 
 class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
   late TextEditingController _textController;
+  late HomeCubit homeCubit;
 
   @override
   void initState() {
     super.initState();
+    homeCubit = context.read<HomeCubit>();
     _textController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _textController.dispose();
     super.dispose();
+    _textController.dispose();
+    homeCubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>();
     return Column(
       children: [
         Row(
@@ -197,14 +200,43 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                       height: 150.h,
                       width: 150.w,
                       fit: BoxFit.contain,
-                      homeCubit.imagePicked!);
+                      homeCubit.imagePicked!,
+                    );
                   }
                   if (state is VideoPickedSuccess) {
-                    return Image.file(
-                      height: 150.h,
-                      width: 150.w,
-                      fit: BoxFit.contain,
-                      homeCubit.videoPicked!);
+                    return state.controller.value.isInitialized
+                        ? InkWell(
+                            onTap: () {
+                              homeCubit.togglePlay();
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: SizedBox(
+                                    height: 200.h,
+                                    width: double.infinity,
+                                    child: VideoPlayer(state.controller),
+                                  ),
+                                ),
+                                Positioned.fill(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      state.controller.value.isPlaying
+                                          ? null
+                                          : Icons.play_circle_outline,
+                                      color: AppColors.white.withValues(
+                                        alpha: 0.7,
+                                      ),
+                                      size: 60.r,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox.shrink();
                   }
                   if (state is FilePickedSuccess) {
                     return Text(

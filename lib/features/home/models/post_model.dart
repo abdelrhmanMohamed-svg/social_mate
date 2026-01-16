@@ -11,6 +11,8 @@ class PostModel {
   final List<String>? likes;
   final List<String>? comments;
   final String? fileName;
+  final bool isLiked;
+
 
   const PostModel({
     required this.id,
@@ -25,6 +27,7 @@ class PostModel {
     this.authorImageUrl,
     this.likes,
     this.comments,
+    this.isLiked = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -61,11 +64,43 @@ class PostModel {
           ? map['author_image_url'] as String
           : null,
       likes: map['likes'] != null
-          ? List<String>.from((map['likes'] as List<String>))
+          ? List<String>.from((map['likes']))
           : null,
       comments: map['comments'] != null
           ? List<String>.from((map['comments'] as List<String>))
           : null,
+    );
+  }
+
+  PostModel copyWith({
+    String? id,
+    String? content,
+    String? createdAt,
+    String? imageUrl,
+    String? videoUrl,
+    String? fileUrl,
+    String? authorId,
+    String? authorName,
+    String? authorImageUrl,
+    List<String>? likes,
+    List<String>? comments,
+    String? fileName,
+    bool? isLiked,
+  }) {
+    return PostModel(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      imageUrl: imageUrl ?? this.imageUrl,
+      videoUrl: videoUrl ?? this.videoUrl,
+      fileUrl: fileUrl ?? this.fileUrl,
+      authorId: authorId ?? this.authorId,
+      authorName: authorName ?? this.authorName,
+      authorImageUrl: authorImageUrl ?? this.authorImageUrl,
+      likes: likes ?? this.likes,
+      comments: comments ?? this.comments,
+      fileName: fileName ?? this.fileName,
+      isLiked: isLiked ?? this.isLiked,
     );
   }
 }
