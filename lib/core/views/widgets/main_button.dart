@@ -7,14 +7,16 @@ class MainButton extends StatelessWidget {
     this.child,
     this.onTap,
     this.height = 50,
-    this.width=double.infinity,
+    this.width = double.infinity,
     this.isLoading = false,
+    this.isTransperent = false,
   }) : assert(child == null || isLoading == false);
   final Widget? child;
   final VoidCallback? onTap;
   final double height;
   final bool isLoading;
   final double width;
+  final bool isTransperent;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,17 @@ class MainButton extends StatelessWidget {
       width: width,
       height: height,
       child: ElevatedButton(
-        // style: ElevatedButton.styleFrom(
-        //   backgroundColor: AppColors.primary,
-        //   foregroundColor: AppColors.white,
-        //   textStyle: Theme.of(context).textTheme.bodyLarge,
-        //   shape: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(10),
-        //   ),
-        // ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isTransperent ? AppColors.white : AppColors.primary,
+          foregroundColor: isTransperent ? AppColors.black : AppColors.white,
+          textStyle: Theme.of(context).textTheme.bodyLarge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: isTransperent
+                ? BorderSide(color: AppColors.black26)
+                : BorderSide.none,
+          ),
+        ),
         onPressed: onTap,
         child: isLoading
             ? Transform.scale(

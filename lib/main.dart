@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/routes/app_router.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
         BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => PostCubit()),
       ],
       child: Builder(
         builder: (context) {

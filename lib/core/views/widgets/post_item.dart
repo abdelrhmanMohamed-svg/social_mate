@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart'as PostCubit;
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
-import 'package:social_mate/features/home/views/widgets/bottom_sheet_section.dart';
 import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
 import 'package:social_mate/features/home/views/widgets/post_comment_section.dart';
 import 'package:social_mate/features/home/views/widgets/post_like_section.dart';
@@ -51,8 +51,7 @@ class _PostItemState extends State<PostItem> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.post.isLiked.toString());
-    final homeCubit = context.read<HomeCubit>();
+    final postCubit = context.read<PostCubit.PostCubit>();
     return Card(
       color: AppColors.white,
       shape: OutlineInputBorder(
@@ -110,20 +109,20 @@ class _PostItemState extends State<PostItem> {
             if (widget.post.fileUrl != null &&
                 widget.post.fileName != null) ...[
               15.verticalSpace,
-              BlocConsumer<HomeCubit, HomeState>(
-                bloc: homeCubit,
-                listenWhen: (previous, current) => current is OpenFileError,
+              BlocConsumer<PostCubit.PostCubit, PostCubit.PostState>(
+                bloc: postCubit,
+                listenWhen: (previous, current) => current is   PostCubit.OpenFileError,
                 listener: (context, state) {
-                  if (state is OpenFileError) {
+                  if (state is  PostCubit.OpenFileError) {
                     showCustomSnackBar(context, state.message, isError: true);
                   }
                 },
                 buildWhen: (previous, current) =>
-                    current is DownloadFileLoading ||
-                    current is DownloadFileError ||
-                    current is DownloadFileSuccess,
+                    current is  PostCubit.DownloadFileLoading ||
+                    current is PostCubit.DownloadFileError ||
+                    current is PostCubit.DownloadFileSuccess,
                 builder: (context, state) {
-                  if (state is DownloadFileLoading) {
+                  if (state is  PostCubit.DownloadFileLoading) {
                     return FileDownloadTile(
                       fileName: widget.post.fileName!,
                       fileUrl: widget.post.fileUrl!,
@@ -134,7 +133,7 @@ class _PostItemState extends State<PostItem> {
                   return FileDownloadTile(
                     fileName: widget.post.fileName!,
                     fileUrl: widget.post.fileUrl!,
-                    onDownload: () async => await homeCubit.downloadFile(
+                    onDownload: () async => await postCubit.downloadFile(
                       widget.post.fileUrl!,
                       widget.post.fileName!,
                     ),
@@ -147,9 +146,9 @@ class _PostItemState extends State<PostItem> {
               20.verticalSpace,
               _controller != null && _controller!.value.isInitialized
                   ? InkWell(
-                      onTap: () => homeCubit.togglePlay(_controller),
-                      child: BlocBuilder<HomeCubit, HomeState>(
-                        bloc: homeCubit,
+                      onTap: () => postCubit.togglePlay(_controller),
+                      child: BlocBuilder< PostCubit.PostCubit,  PostCubit.PostState>(
+                        bloc: postCubit,
                         buildWhen: (previous, current) =>
                             current is VideoPickedSuccess,
                         builder: (context, state) {
@@ -175,7 +174,7 @@ class _PostItemState extends State<PostItem> {
                               Positioned.fill(
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: state is VideoPickedSuccess
+                                  child: state is  PostCubit.VideoPickedSuccess
                                       ? Icon(
                                           state.controller.value.isPlaying
                                               ? null

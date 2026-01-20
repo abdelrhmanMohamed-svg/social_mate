@@ -8,6 +8,7 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData get lightTheme => ThemeData(
+    
     fontFamily: AppFonts.manrope,
     useMaterial3: true,
     brightness: Brightness.light,
@@ -23,11 +24,13 @@ class AppTheme {
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.r)),
     ),
+    
     appBarTheme: AppBarTheme(
       centerTitle: true,
       titleTextStyle: AppTextStyles.headingH5.copyWith(
         color: AppColors.black45,
       ),
+      
       iconTheme: IconThemeData(color: AppColors.black45),
       actionsIconTheme: IconThemeData(color: AppColors.black45),
 
@@ -68,6 +71,7 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        elevation: 0,
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         textStyle: TextStyle(color: AppColors.white),
@@ -137,11 +141,13 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        elevation: 0,
         backgroundColor: AppColors.primaryButton,
         foregroundColor: AppColors.primaryButtonText,
         textStyle: TextStyle(color: AppColors.primaryButtonText),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     ),
+    
   );
 }

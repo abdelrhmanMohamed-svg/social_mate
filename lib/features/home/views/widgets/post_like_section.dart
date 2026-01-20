@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 
 class PostLikeSection extends StatelessWidget with SU {
@@ -13,10 +13,10 @@ class PostLikeSection extends StatelessWidget with SU {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>();
+    final  postCubit= context.read<PostCubit>();
 
-    return BlocConsumer<HomeCubit, HomeState>(
-      bloc: homeCubit,
+    return BlocConsumer<PostCubit, PostState>(
+      bloc: postCubit,
       listenWhen: (previous, current) => current is ToggleLikePostError,
       listener: (context, state) {
         if (state is ToggleLikePostError) {
@@ -40,7 +40,7 @@ class PostLikeSection extends StatelessWidget with SU {
         return Row(
           children: [
             InkWell(
-              onTap: () async => homeCubit.toggleLikePost(post.id),
+              onTap: () async => postCubit.toggleLikePost(post.id),
               child: Icon(
                 (state is ToggleLikePostSuccess
                         ? state.isLiked

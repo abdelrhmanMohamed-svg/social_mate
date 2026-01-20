@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_mate/core/services/auth_core_services.dart';
 import 'package:social_mate/core/services/native_services.dart';
+import 'package:social_mate/core/services/post_services.dart';
 import 'package:social_mate/core/services/supabase_storage_services.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/args_models/file_args_model.dart';
@@ -11,7 +12,6 @@ import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/models/post_request_model.dart';
-import 'package:social_mate/features/home/models/response_comment_model.dart';
 import 'package:social_mate/features/home/models/story_model.dart';
 import 'package:social_mate/features/home/services/home_services.dart';
 import 'package:video_player/video_player.dart';
@@ -24,6 +24,8 @@ class HomeCubit extends Cubit<HomeState> {
   final _authcoreServices = AuthCoreServicesImpl();
   final _nativeServices = NativeServicesImpl();
   final _supabaseStorageServices = SupabaseStorageServicesImpl();
+  final _postServices = PostServicesImpl();
+
   File? imagePicked;
   File? videoPicked;
   FileArgsModel? filePicked;
@@ -50,15 +52,15 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  // Posts Services
-  Future<void> fetchPosts() async {
+// Posts Services
+Future<void> fetchPosts() async {
     emit(PostsLoading());
     try {
-      final rawPosts = await _homeServices.fetchPosts();
+      final rawPosts = await _postServices.fetchPosts();
       List<PostModel> posts = [];
       for (var post in rawPosts) {
         final currentUser = await _authcoreServices.fetchCurrentUser();
-        final postComments =await _homeServices.fetchCommentsForPost(post.id);
+        final postComments =await _postServices.fetchCommentsForPost(post.id);
 
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
         post = post.copyWith(isLiked: isLiked, commentsCount: postComments.length);
@@ -70,12 +72,7 @@ class HomeCubit extends Cubit<HomeState> {
       emit(PostsError(e.toString()));
     }
   }
-
-  void checkIsEmpty(String value) {
-    emit(EmptyCheckState(value.isEmpty));
-  }
-
-  Future<void> addPost(String content) async {
+ Future<void> addPost(String content) async {
     emit(AddPostLoading());
     try {
       final currentUser = await _authcoreServices.fetchCurrentUser();
@@ -114,88 +111,13 @@ class HomeCubit extends Cubit<HomeState> {
         authorImage:
             currentUser.profileImageUrl ?? AppConstants.userIMagePLaceholder,
       );
-      await _homeServices.addPost(newPost);
+      await _postServices.addPost(newPost);
       emit(AddPostSuccess());
     } catch (e) {
       emit(AddPostError(e.toString()));
     }
   }
-
-  Future<void> toggleLikePost(String postId) async {
-    emit(ToggleLikePostLoading(postId));
-    try {
-      final currentUser = await _authcoreServices.fetchCurrentUser();
-      final updatedPost = await _homeServices.toggleLikePost(
-        postId,
-        currentUser.id!,
-      );
-      emit(
-        ToggleLikePostSuccess(
-          postId: postId,
-          isLiked: updatedPost.isLiked,
-          likeCount: updatedPost.likes?.length ?? 0,
-        ),
-      );
-    } catch (e) {
-      emit(ToggleLikePostError(e.toString(), postId));
-    }
-  }
-
-  // Comments Services
-  Future<void> addComment(String text, String postId) async {
-    emit(AddCommentLoading());
-    try {
-      final currentUser = await _authcoreServices.fetchCurrentUser();
-
-      await _homeServices.addCommentToPost(
-        postId: postId,
-        text: text,
-        authorId: currentUser.id!,
-      );
-      emit(AddCommentSuccess());
-    } catch (e) {
-      emit(AddCommentError(e.toString()));
-    }
-  }
-
-  Future<void> fetchCommentsForPost(String postId) async {
-    emit(FetchCommentsLoading());
-    try {
-      final comments = await _homeServices.fetchCommentsForPost(postId);
-      List<ResponseCommentModel> editComments = [];
-      for (var comment in comments) {
-        final author = await _authcoreServices.fetchUserById(comment.authorId);
-        comment = comment.copyWith(
-          authorName: author.name,
-          authorImage: author.profileImageUrl,
-        );
-        editComments.add(comment);
-      }
-      emit(FetchCommentsSuccess(editComments));
-    } catch (e) {
-      emit(FetchCommentsError(e.toString()));
-    }
-  }
-
-  Future<void> fetchLikesForPost(String postId) async {
-    emit(FetchLikesLoading());
-    try {
-      final post = await _homeServices.fetchPostById(postId);
-      if (post == null) {
-        emit(FetchLikesError("Post not found"));
-        return;
-      }
-      List<UserModel> likedUsers = [];
-      for (var userId in post.likes ?? []) {
-        final user = await _authcoreServices.fetchUserById(userId);
-        likedUsers.add(user);
-      }
-      emit(FetchLikesSuccess(likedUsers));
-    } catch (e) {
-      emit(FetchLikesError(e.toString()));
-    }
-  }
-
+ 
   // Native Services
   Future<void> pickImageFromGallery() async {
     final pickedImage = await _nativeServices.pickImage(ImageSource.gallery);
@@ -227,12 +149,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  @override
-  Future<void> close() async {
-    await _controller?.dispose();
-    return super.close();
-  }
-
   void togglePlay([VideoPlayerController? controller]) {
     if (controller != null) {
       _controller = controller;
@@ -243,6 +159,13 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(VideoPickedSuccess(_controller!));
   }
+  @override
+  Future<void> close() async {
+    await _controller?.dispose();
+    return super.close();
+  }
+
+  
 
   Future<void> pickFile() async {
     final pickedFile = await _nativeServices.pickFile();
@@ -252,15 +175,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> downloadFile(String fileUrl, String fileName) async {
-    emit(DownloadFileLoading());
-    try {
-      await _nativeServices.downloadFile(fileUrl, fileName);
-      emit(DownloadFileSuccess());
-    } catch (e) {
-      emit(DownloadFileError(e.toString()));
-    }
-  }
+
 
   // Current User Services
   Future<void> fetchCurrentUser() async {
@@ -274,12 +189,15 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> refresh() async {
-    Future.wait([fetchStories(), fetchPosts()]);
+    Future.wait([fetchStories(),  fetchPosts()]);
   }
 
   void setToInitial() {
     imagePicked = null;
     videoPicked = null;
     filePicked = null;
+  }
+  void checkIsEmpty(String value) {
+    emit(EmptyCheckState(value.isEmpty));
   }
 }

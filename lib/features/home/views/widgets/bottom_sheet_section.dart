@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/views/widgets/add_comment_section.dart';
 import 'package:social_mate/features/home/views/widgets/comment_section.dart';
@@ -17,13 +17,13 @@ class BottomSheetSection extends StatefulWidget with SU {
 }
 
 class _BottomSheetSectionState extends State<BottomSheetSection> {
-  late HomeCubit homeCubit;
+  late PostCubit postCubit;
   @override
   void initState() {
     super.initState();
-    homeCubit = context.read<HomeCubit>();
-    homeCubit.fetchLikesForPost(widget.post.id);
-    homeCubit.fetchCommentsForPost(widget.post.id);
+    postCubit = context.read<PostCubit>();
+    postCubit.fetchLikesForPost(widget.post.id);
+    postCubit.fetchCommentsForPost(widget.post.id);
   }
 
   @override

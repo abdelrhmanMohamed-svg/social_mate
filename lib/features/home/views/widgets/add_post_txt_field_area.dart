@@ -20,6 +20,8 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
   late TextEditingController _textController;
   late HomeCubit homeCubit;
 
+
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Row(

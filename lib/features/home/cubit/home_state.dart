@@ -49,70 +49,7 @@ final class AddPostError extends HomeState {
   const AddPostError(this.message);
 }
 
-// Fetch Comments States
-final class FetchCommentsLoading extends HomeState {}
 
-final class FetchCommentsSuccess extends HomeState {
-  final List<ResponseCommentModel> comments;
-
-  const FetchCommentsSuccess(this.comments);
-}
-// fetch post likes
-final class FetchLikesLoading extends HomeState {}
-final class FetchLikesSuccess extends HomeState {
-  final List<UserModel> likedUsers;
-
-  const FetchLikesSuccess(this.likedUsers);
-}
-final class FetchLikesError extends HomeState {
-  final String message;
-
-  const FetchLikesError(this.message);
-}
-
-
-final class FetchCommentsError extends HomeState {
-  final String message;
-
-  const FetchCommentsError(this.message);
-}
-
-// Toggle Like Post States
-final class ToggleLikePostLoading extends HomeState {
-  final String postId;
-
-  const ToggleLikePostLoading(this.postId);
-}
-
-final class ToggleLikePostSuccess extends HomeState {
-  final String postId;
-  final bool isLiked;
-  final int likeCount;
-
-  const ToggleLikePostSuccess({
-    required this.postId,
-    required this.isLiked,
-    required this.likeCount,
-  });
-}
-
-final class ToggleLikePostError extends HomeState {
-  final String postId;
-  final String message;
-
-  const ToggleLikePostError(this.message, this.postId);
-}
-
-// Add Comment States
-final class AddCommentLoading extends HomeState {}
-
-final class AddCommentSuccess extends HomeState {}
-
-final class AddCommentError extends HomeState {
-  final String message;
-
-  const AddCommentError(this.message);
-}
 
 // Current User States
 
@@ -153,24 +90,3 @@ final class MediaPickError extends HomeState {
   const MediaPickError(this.message);
 }
 
-// file states
-
-final class OpenFileLoading extends HomeState {}
-
-final class OpenFileSuccess extends HomeState {}
-
-final class OpenFileError extends HomeState {
-  final String message;
-
-  const OpenFileError(this.message);
-}
-
-final class DownloadFileLoading extends HomeState {}
-
-final class DownloadFileSuccess extends HomeState {}
-
-final class DownloadFileError extends HomeState {
-  final String message;
-
-  const DownloadFileError(this.message);
-}

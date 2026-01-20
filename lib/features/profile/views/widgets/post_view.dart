@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/views/widgets/post_item.dart';
 
-class PostsSection extends StatelessWidget {
-  const PostsSection({super.key});
+class PostView extends StatelessWidget {
+  const PostView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>();
-    return BlocBuilder<HomeCubit, HomeState>(
-      bloc: homeCubit,
+    final postCubit = context.read<PostCubit>();
+    return BlocBuilder<PostCubit, PostState>(
+      bloc: postCubit,
       buildWhen: (previous, current) =>
-          current is PostsLoaded ||
-          current is PostsLoading ||
-          current is PostsError,
-
+          current is FetchedUserPosts ||
+          current is FetchingUserPostsError ||
+          current is FetchingUserPosts,
       builder: (context, state) {
-        if (state is PostsLoading) {
+        if (state is FetchingUserPosts) {
           return const Center(child: CircularProgressIndicator.adaptive());
-        }
-        if (state is PostsError) {
+        } else if (state is FetchingUserPostsError) {
           return Center(child: Text(state.message));
-        }
-        if (state is PostsLoaded) {
+        } else if (state is FetchedUserPosts) {
           final posts = state.posts;
-          if (posts.isEmpty) return Text("There are no posts");
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: posts.length,
-
             itemBuilder: (context, index) => PostItem(post: posts[index]),
           );
         }

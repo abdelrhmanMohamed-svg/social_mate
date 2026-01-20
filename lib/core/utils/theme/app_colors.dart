@@ -15,6 +15,7 @@ class AppColors {
   static  Color black54 = Colors.black54;
   static  Color black87 = Colors.black87;
   static const Color black12 = Colors.black12;
+  static const Color black26 = Colors.black26;
 
   static const Color logoShadow = Color(0xffD8F1FE);
   static const Color black = Color(0xff000000);

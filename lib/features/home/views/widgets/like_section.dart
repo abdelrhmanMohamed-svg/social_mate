@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 
 class LikeSection extends StatelessWidget {
@@ -11,9 +11,9 @@ class LikeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = context.read<HomeCubit>();
-    return BlocBuilder<HomeCubit, HomeState>(
-      bloc: homeCubit,
+    final postCubit = context.read<PostCubit>();
+    return BlocBuilder<PostCubit, PostState>(
+      bloc: postCubit,
       buildWhen: (previous, current) =>
           current is FetchLikesError ||
           current is FetchLikesSuccess ||
