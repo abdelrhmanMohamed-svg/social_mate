@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_mate/core/utils/args_models/file_args_model.dart';
 import 'package:social_mate/features/auth/services/auth_services.dart';
 
 part 'auth_state.dart';
@@ -50,8 +51,13 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signOut() async {
-    await authServices.signOut();
-    emit(AuthSignOut());
+    emit(AuthSignOutLoading());
+    try {
+      await authServices.signOut();
+      emit(AuthSignOutSuccess());
+    } catch (e) {
+      emit(AuthSignOutFailure(e.toString()));
+    }
   }
 
   Future<void> nativeGoogleAuth() async {
@@ -64,8 +70,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
- 
-
   void checkAuthStatus() {
     final user = authServices.checkAuthStatus();
     if (user != null) {
@@ -73,8 +77,5 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> logOut() async {
-    await authServices.logOut();
-    emit(AuthSignOut());
-  }
+ 
 }

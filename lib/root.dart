@@ -10,8 +10,8 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PersistentTabView(
+    return 
+       PersistentTabView(
         tabs: [
           PersistentTabConfig(
             screen: HomePage(),
@@ -40,7 +40,7 @@ class Root extends StatelessWidget {
         ],
         navBarBuilder: (navBarConfig) =>
             NeumorphicBottomNavBar(navBarConfig: navBarConfig),
-      ),
+      
     );
   }
 }

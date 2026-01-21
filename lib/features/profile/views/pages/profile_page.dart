@@ -4,6 +4,7 @@ import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
+import 'package:social_mate/features/profile/views/widgets/custom_drawer.dart';
 import 'package:social_mate/features/profile/views/widgets/deatils_view.dart';
 import 'package:social_mate/features/profile/views/widgets/header_section.dart';
 import 'package:social_mate/features/profile/views/widgets/post_view.dart';
@@ -56,45 +57,48 @@ class _ProfilePageState extends State<ProfilePage>
               }
               if (state is FetchedUserData) {
                 final userData = state.userData;
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverToBoxAdapter(
-                        child: HeaderSection(userData: userData),
-                      ),
+                return Scaffold(
+                  drawer: CustomDrawer(),
+                  body: NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverToBoxAdapter(
+                          child: HeaderSection(userData: userData),
+                        ),
 
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: _TabBarDelegate(
-                          SafeArea(
-                            bottom: false,
-                            child: TabBar(
-                              controller: _tabController,
-                              isScrollable: true,
-                              labelStyle: AppTextStyles.headingH6,
-                              unselectedLabelColor: AppColors.black45,
-                              indicatorSize: TabBarIndicatorSize.label,
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: _TabBarDelegate(
+                            SafeArea(
+                              bottom: false,
+                              child: TabBar(
+                                controller: _tabController,
+                                isScrollable: true,
+                                labelStyle: AppTextStyles.headingH6,
+                                unselectedLabelColor: AppColors.black45,
+                                indicatorSize: TabBarIndicatorSize.label,
 
-                              tabAlignment: TabAlignment.center,
-                              labelColor: AppColors.black,
-                              indicatorColor: AppColors.primary,
-                              tabs: const [
-                                Tab(text: 'Details'),
-                                Tab(text: 'Posts'),
-                              ],
+                                tabAlignment: TabAlignment.center,
+                                labelColor: AppColors.black,
+                                indicatorColor: AppColors.primary,
+                                tabs: const [
+                                  Tab(text: 'Details'),
+                                  Tab(text: 'Posts'),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ];
-                  },
+                      ];
+                    },
 
-                  body: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      DeatilsView(),
-                      BlocProvider.value(value: postCubit, child: PostView()),
-                    ],
+                    body: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        DeatilsView(),
+                        BlocProvider.value(value: postCubit, child: PostView()),
+                      ],
+                    ),
                   ),
                 );
               }
@@ -107,22 +111,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 }
 
-// BlocConsumer<AuthCubit, AuthState>(
-//   bloc: authCubit,
-//   listenWhen: (previous, current) => current is AuthSignOut,
-//   listener: (context, state) {
-//     Navigator.of(context).pushNamedAndRemoveUntil(
-//       AppRoutes.auhtPageRoute,
-//       (route) => false,
-//     );
-//   },
-//   builder: (context, state) {
-//     return MainButton(
-//       child: Text("log out"),
-//       onTap: () async => authCubit.logOut(),
-//     );
-//   },
-// ),
+
 class _TabBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 

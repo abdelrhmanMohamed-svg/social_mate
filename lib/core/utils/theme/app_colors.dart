@@ -9,11 +9,11 @@ class AppColors {
   static const Color inactiveColor = Color(0xff45556C);
   static Color gray = Color(0xff000000).withValues(alpha: 0.4);
   static Color gray100 = Colors.grey.shade100;
-  
+
   static Color red = Color(0xffFF0000);
-  static  Color black45 = Colors.black45;
-  static  Color black54 = Colors.black54;
-  static  Color black87 = Colors.black87;
+  static Color black45 = Colors.black45;
+  static Color black54 = Colors.black54;
+  static Color black87 = Colors.black87;
   static const Color black12 = Colors.black12;
   static const Color black26 = Colors.black26;
 
@@ -22,6 +22,7 @@ class AppColors {
   static Color blackwith60Opacity = Color(0xff000000).withValues(alpha: 0.6);
   static Color gray200 = Colors.grey.shade300;
   static const Color white = Color(0xffffffff);
+  static Color whiteA9 = Colors.white.withValues(alpha: 0.92);
 
   static const Color primaryText = Color(
     0xFFFFFFFF,

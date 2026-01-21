@@ -17,7 +17,6 @@ abstract class AuthServices {
   Future<void> signOut();
   Future<void> nativeGoogleSignIn();
   User? checkAuthStatus();
-  Future<void> logOut();
 }
 
 class AuthServicesImpl implements AuthServices {
@@ -61,7 +60,10 @@ class AuthServicesImpl implements AuthServices {
   }
 
   @override
-  Future<void> signOut() async => await _supabase.auth.signOut();
+  Future<void> signOut() async {
+    await _supabase.auth.signOut();
+    await _googleSignIn.signOut();
+  }
 
   @override
   Future<void> nativeGoogleSignIn() async {
@@ -118,9 +120,5 @@ class AuthServicesImpl implements AuthServices {
     return _supabase.auth.currentUser;
   }
 
-  @override
-  Future<void> logOut() async {
-    await _supabase.auth.signOut();
-    await _googleSignIn.signOut();
-  }
+
 }

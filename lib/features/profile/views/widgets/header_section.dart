@@ -35,6 +35,7 @@ class HeaderSection extends StatelessWidget with SU {
                 ),
               ),
             ),
+
             Positioned(
               bottom: -45.h,
               right: 0,
@@ -55,6 +56,16 @@ class HeaderSection extends StatelessWidget with SU {
                       fit: BoxFit.contain,
                     ),
                   ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: InkWell(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Icon(Icons.menu, size: 28.h),
                 ),
               ),
             ),

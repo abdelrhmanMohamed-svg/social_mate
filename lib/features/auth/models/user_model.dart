@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class UserModel {
   final String? id;
   final String? name;
@@ -30,38 +28,6 @@ class UserModel {
     this.aboutMe,
     this.workExperience,
   });
-
-  UserModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? profileImageUrl,
-    String? bio,
-    String? aboutMe,
-    String? workExperience,
-    String? coverImageUrl,
-    int? followersCount,
-    int? followingCount,
-    List<String>? followers,
-    List<String>? following,
-    int? postsCount,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-      bio: bio ?? this.bio,
-      aboutMe: aboutMe ?? this.aboutMe,
-      workExperience: workExperience ?? this.workExperience,
-      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
-      followersCount: followersCount ?? this.followersCount,
-      followingCount: followingCount ?? this.followingCount,
-      followers: followers ?? this.followers,
-      following: following ?? this.following,
-      postsCount: postsCount ?? this.postsCount,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -111,62 +77,6 @@ class UserModel {
       workExperience: map['work_experience'] != null
           ? map['work_experience'] as String
           : null,
-
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, profileImageUrl: $profileImageUrl, bio: $bio, aboutMe: $aboutMe, workExperience: $workExperience, coverImageUrl: $coverImageUrl, followersCount: $followersCount, followingCount: $followingCount, followers: $followers, following: $following, postsCount: $postsCount)';
-  }
-
-  @override
-  bool operator ==(covariant UserModel other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.name == name &&
-        other.email == email &&
-        other.profileImageUrl == profileImageUrl &&
-        other.bio == bio &&
-        other.aboutMe == aboutMe &&
-        other.workExperience == workExperience &&
-        other.coverImageUrl == coverImageUrl &&
-        other.followersCount == followersCount &&
-        other.followingCount == followingCount &&
-        // List equality check
-        (other.followers == followers ||
-            (other.followers != null &&
-                followers != null &&
-                other.followers!.length == followers!.length &&
-                other.followers!.every((element) => followers!.contains(element)))) &&
-        (other.following == following ||
-            (other.following != null &&
-                following != null &&
-                other.following!.length == following!.length &&
-                other.following!.every((element) => following!.contains(element)))) &&
-        other.postsCount == postsCount;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        email.hashCode ^
-        profileImageUrl.hashCode ^
-        bio.hashCode ^
-        aboutMe.hashCode ^
-        workExperience.hashCode ^
-        coverImageUrl.hashCode ^
-        followersCount.hashCode ^
-        followingCount.hashCode ^
-        followers.hashCode ^
-        following.hashCode ^
-        postsCount.hashCode;
   }
 }

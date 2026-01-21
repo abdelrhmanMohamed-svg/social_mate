@@ -10,14 +10,15 @@ class HomeHeader extends StatelessWidget with SU {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+       
         Image.asset(AppConstants.logoPath, width: 200.w, height: 80.h),
         Row(
           children: [
-            Icon(Icons.search, size: 28.sp),
+            Icon(Icons.search, size: 28.h),
             15.horizontalSpace,
-            Icon(Icons.notifications_none_outlined, size: 28.sp),
+            Icon(Icons.notifications_none_outlined, size: 28.h),
             15.horizontalSpace,
-            Icon(Icons.message_outlined, size: 28.sp),
+            Icon(Icons.message_outlined, size: 28.h),
           ],
         ),
       ],
