@@ -3,4 +3,5 @@ class AppRoutes {
   static const String auhtPageRoute = "/";
   static const String homePageRoute = "/home";
   static const String addPostPage = "/add-post";
+  static const String editProfilePage = "/edit-profile";
 }

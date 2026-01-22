@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
+import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
+import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
+import 'package:social_mate/features/profile/models/edit_profile_args.dart';
 import 'package:social_mate/features/profile/views/widgets/profile_stats.dart';
 
 class HeaderSection extends StatelessWidget with SU {
@@ -14,6 +18,7 @@ class HeaderSection extends StatelessWidget with SU {
 
   @override
   Widget build(BuildContext context) {
+    final profileCubit = context.read<ProfileCubit>();
     return Column(
       children: [
         Stack(
@@ -81,7 +86,19 @@ class HeaderSection extends StatelessWidget with SU {
         SizedBox(height: 20.h),
         MainButton(
           width: 250.h,
-          onTap: () {},
+          onTap: () async {
+            final updatedUser = await Navigator.of(context, rootNavigator: true)
+                .pushNamed(
+                  AppRoutes.editProfilePage,
+                  arguments: EditProfileArgs(
+                    userData: userData,
+                    profileCubit: profileCubit,
+                  ),
+                );
+            if (updatedUser is UserModel) {
+              profileCubit.setUser(updatedUser);
+            }
+          },
           isTransperent: true,
           child: Text("EDIT PROFILE"),
         ),

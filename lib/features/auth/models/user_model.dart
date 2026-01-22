@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
   final String? id;
   final String? name;
@@ -77,6 +78,38 @@ class UserModel {
       workExperience: map['work_experience'] != null
           ? map['work_experience'] as String
           : null,
+    );
+  }
+
+  UserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? profileImageUrl,
+    String? bio,
+    String? aboutMe,
+    String? workExperience,
+    String? coverImageUrl,
+    int? followersCount,
+    int? followingCount,
+    List<String>? followers,
+    List<String>? following,
+    int? postsCount,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      bio: bio ?? this.bio,
+      aboutMe: aboutMe ?? this.aboutMe,
+      workExperience: workExperience ?? this.workExperience,
+      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
+      followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount ?? this.followingCount,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+      postsCount: postsCount ?? this.postsCount,
     );
   }
 }

@@ -6,11 +6,22 @@ import 'package:social_mate/features/auth/views/pages/auth_page.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/views/pages/add_post_page.dart';
 import 'package:social_mate/features/home/views/pages/home_page.dart';
+import 'package:social_mate/features/profile/models/edit_profile_args.dart';
+import 'package:social_mate/features/profile/views/pages/edit_profile.dart';
 
 class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.editProfilePage:
+        final args = settings.arguments as EditProfileArgs;
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => BlocProvider.value(
+            value: args.profileCubit,
+            child:  EditProfile(userData:args.userData),
+          ),
+        );
       case AppRoutes.auhtPageRoute:
         return MaterialPageRoute(
           settings: settings,

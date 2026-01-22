@@ -22,3 +22,31 @@ final class FetchingUserDataError extends ProfileState {
   const FetchingUserDataError(this.message);
 }
 
+//edit user data stats
+final class EditingUserData extends ProfileState {}
+
+final class EditedUserData extends ProfileState {
+  final Map<String, dynamic> values;
+
+  const EditedUserData(this.values);
+
+}
+
+final class EditUserDataError extends ProfileState {
+  final String message;
+
+  const EditUserDataError(this.message);
+}
+// cover image and profile image stats
+final class UpdatedProfileImage extends ProfileState {
+  final File profileImage;
+
+  const UpdatedProfileImage(this.profileImage);
+}
+
+final class UpdatedCoverImage extends ProfileState {
+
+final File coverImage;
+
+  const UpdatedCoverImage(this.coverImage);
+}

@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_mate/core/utils/args_models/file_args_model.dart';
 import 'package:social_mate/features/auth/services/auth_services.dart';
 
 part 'auth_state.dart';
