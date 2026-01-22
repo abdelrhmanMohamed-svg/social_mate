@@ -13,8 +13,13 @@ import 'package:social_mate/features/profile/models/edit_profile_args.dart';
 import 'package:social_mate/features/profile/views/widgets/profile_stats.dart';
 
 class HeaderSection extends StatelessWidget with SU {
-  const HeaderSection({super.key, required this.userData});
+  const HeaderSection({
+    super.key,
+    required this.userData,
+    this.isPublic = false,
+  });
   final UserModel userData;
+  final bool isPublic;
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +74,17 @@ class HeaderSection extends StatelessWidget with SU {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: InkWell(
-                  onTap: () => Scaffold.of(context).openDrawer(),
-                  child: Icon(Icons.menu, size: 28.h),
+                  onTap: () {
+                    if (isPublic) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    } else {
+                      Scaffold.of(context).openDrawer();
+                    }
+                  },
+                  child: Icon(
+                    isPublic ? Icons.chevron_left : Icons.menu,
+                    size: 28.h,
+                  ),
                 ),
               ),
             ),
@@ -84,24 +98,29 @@ class HeaderSection extends StatelessWidget with SU {
           style: AppTextStyles.mMedium,
         ),
         SizedBox(height: 20.h),
-        MainButton(
-          width: 250.h,
-          onTap: () async {
-            final updatedUser = await Navigator.of(context, rootNavigator: true)
-                .pushNamed(
-                  AppRoutes.editProfilePage,
-                  arguments: EditProfileArgs(
-                    userData: userData,
-                    profileCubit: profileCubit,
-                  ),
-                );
-            if (updatedUser is UserModel) {
-              profileCubit.setUser(updatedUser);
-            }
-          },
-          isTransperent: true,
-          child: Text("EDIT PROFILE"),
-        ),
+        isPublic
+            ? MainButton(width: 250.h, onTap: () {}, child: Text("FOLLOW"))
+            : MainButton(
+                width: 250.h,
+                onTap: () async {
+                  final updatedUser =
+                      await Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pushNamed(
+                        AppRoutes.editProfilePage,
+                        arguments: EditProfileArgs(
+                          userData: userData,
+                          profileCubit: profileCubit,
+                        ),
+                      );
+                  if (updatedUser is UserModel) {
+                    profileCubit.setUser(updatedUser);
+                  }
+                },
+                isTransperent: true,
+                child: Text("EDIT PROFILE"),
+              ),
         SizedBox(height: 25.h),
         ProfileStats(userData: userData),
       ],

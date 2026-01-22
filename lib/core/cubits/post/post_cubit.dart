@@ -114,22 +114,26 @@ class PostCubit extends Cubit<PostState> {
     emit(VideoPickedSuccess(_controller!));
   }
 
-    Future<void> fetchUserPosts() async {
+  Future<void> fetchUserPosts([String? userId]) async {
     emit(FetchingUserPosts());
     try {
-      final userData = await _authcoreServices.fetchCurrentUser();
+      final userData = userId != null
+          ? await _authcoreServices.fetchUserById(userId)
+          : await _authcoreServices.fetchCurrentUser();
 
       final rawposts = await _postServices.fetchPosts(userData.id);
-       List<PostModel> posts = [];
+      List<PostModel> posts = [];
       for (var post in rawposts) {
         final currentUser = await _authcoreServices.fetchCurrentUser();
-        final postComments =await _postServices.fetchCommentsForPost(post.id);
+        final postComments = await _postServices.fetchCommentsForPost(post.id);
 
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
-        post = post.copyWith(isLiked: isLiked, commentsCount: postComments.length);
+        post = post.copyWith(
+          isLiked: isLiked,
+          commentsCount: postComments.length,
+        );
         posts.add(post);
       }
-
 
       emit(FetchedUserPosts(posts));
     } catch (e) {

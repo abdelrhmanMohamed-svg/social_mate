@@ -22,6 +22,9 @@ class PostView extends StatelessWidget {
           return Center(child: Text(state.message));
         } else if (state is FetchedUserPosts) {
           final posts = state.posts;
+          if (posts.isEmpty) {
+            return const Center(child: Text("No Posts Found"));
+          }
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
