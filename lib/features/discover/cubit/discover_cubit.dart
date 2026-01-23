@@ -13,15 +13,41 @@ class DiscoverCubit extends Cubit<DiscoverState> {
   Future<void> fetchUsers() async {
     emit(FetchUsersLoading());
     try {
-      final user = await _authCoreServices.fetchCurrentUser();
-      if (user.id == null) {
+      final currentUser = await _authCoreServices.fetchCurrentUser();
+      if (currentUser.id == null) {
         emit(FetchUsersFailure('User not found'));
         return;
       }
-      final users = await _discoverServices.fetchUsers(user.id!);
-      emit(FetchUsersSuccess(users));
+      final users = await _discoverServices.fetchUsers(currentUser.id!);
+      final List<UserModel> updatedUsers = [];
+      for (var user in users) {
+        currentUser.followWating?.contains(user.id) ?? false
+            ? updatedUsers.add(user.copyWith(isFollow: true))
+            : updatedUsers.add(user);
+       
+        
+      }
+      emit(FetchUsersSuccess(updatedUsers));
     } catch (e) {
       emit(FetchUsersFailure(e.toString()));
+    }
+  }
+
+  Future<void> followUser(String userId) async {
+    emit(FollowUserLoading(userId));
+    try {
+      final user = await _authCoreServices.fetchCurrentUser();
+      if (user.id == null) {
+        emit(FollowUserFailure('User not found', userId));
+        return;
+      }
+      final isUserToFollow = await _discoverServices.followUser(
+        userId,
+        user.id!,
+      );
+      emit(FollowUserSuccess(userId, isUserToFollow));
+    } catch (e) {
+      emit(FollowUserFailure(e.toString(), userId));
     }
   }
 }
