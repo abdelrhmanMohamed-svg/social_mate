@@ -28,12 +28,22 @@ class ProfileStats extends StatelessWidget with SU {
                 child: VerticalDivider(color: AppColors.black26, width: 3.w),
               ),
 
-              StatsItem(title: 'Followers', value: userData.followersCount),
+              StatsItem(
+                title: 'Followers',
+                value: userData.followers != null
+                    ? userData.followers!.length
+                    : 0,
+              ),
               SizedBox(
                 height: 50.h,
                 child: VerticalDivider(color: AppColors.black26, width: 3.w),
               ),
-              StatsItem(title: 'Following', value: userData.followingCount),
+              StatsItem(
+                title: 'Following',
+                value: userData.following != null
+                    ? userData.following!.length
+                    : 0,
+              ),
             ],
           ),
         ),

@@ -4,16 +4,7 @@ import 'package:social_mate/features/home/models/story_model.dart';
 
 abstract class HomeServices {
   Future<List<StoryModel>> fetchStories();
- // Future<List<PostModel>> fetchPosts();
-  // Future<void> addPost(PostRequestModel post);
-  // Future<PostModel?> fetchPostById(String postId);
-  // Future<PostModel> toggleLikePost(String postId, String userId);
-  // Future<List<ResponseCommentModel>> fetchCommentsForPost(String postId);
-  // Future<void> addCommentToPost({
-  //   required String postId,
-  //   required String text,
-  //   required String authorId,
-  // });
+
 }
 
 class HomeServicesImpl implements HomeServices {
@@ -32,5 +23,5 @@ class HomeServicesImpl implements HomeServices {
     }
   }
 
- 
+  
 }

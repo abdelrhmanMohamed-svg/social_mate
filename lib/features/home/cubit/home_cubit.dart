@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,18 +53,21 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-// Posts Services
-Future<void> fetchPosts() async {
+  // Posts Services
+  Future<void> fetchPosts() async {
     emit(PostsLoading());
     try {
       final rawPosts = await _postServices.fetchPosts();
       List<PostModel> posts = [];
       for (var post in rawPosts) {
         final currentUser = await _authcoreServices.fetchCurrentUser();
-        final postComments =await _postServices.fetchCommentsForPost(post.id);
+        final postComments = await _postServices.fetchCommentsForPost(post.id);
 
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
-        post = post.copyWith(isLiked: isLiked, commentsCount: postComments.length);
+        post = post.copyWith(
+          isLiked: isLiked,
+          commentsCount: postComments.length,
+        );
         posts.add(post);
       }
 
@@ -72,7 +76,8 @@ Future<void> fetchPosts() async {
       emit(PostsError(e.toString()));
     }
   }
- Future<void> addPost(String content) async {
+
+  Future<void> addPost(String content) async {
     emit(AddPostLoading());
     try {
       final currentUser = await _authcoreServices.fetchCurrentUser();
@@ -117,7 +122,7 @@ Future<void> fetchPosts() async {
       emit(AddPostError(e.toString()));
     }
   }
- 
+
   // Native Services
   Future<void> pickImageFromGallery() async {
     final pickedImage = await _nativeServices.pickImage(ImageSource.gallery);
@@ -159,13 +164,12 @@ Future<void> fetchPosts() async {
 
     emit(VideoPickedSuccess(_controller!));
   }
+
   @override
   Future<void> close() async {
     await _controller?.dispose();
     return super.close();
   }
-
-  
 
   Future<void> pickFile() async {
     final pickedFile = await _nativeServices.pickFile();
@@ -174,8 +178,6 @@ Future<void> fetchPosts() async {
       emit(FilePickedSuccess());
     }
   }
-
-
 
   // Current User Services
   Future<void> fetchCurrentUser() async {
@@ -189,7 +191,7 @@ Future<void> fetchPosts() async {
   }
 
   Future<void> refresh() async {
-    Future.wait([fetchStories(),  fetchPosts()]);
+    Future.wait([fetchStories(), fetchPosts()]);
   }
 
   void setToInitial() {
@@ -197,7 +199,10 @@ Future<void> fetchPosts() async {
     videoPicked = null;
     filePicked = null;
   }
+
   void checkIsEmpty(String value) {
     emit(EmptyCheckState(value.isEmpty));
   }
+
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_mate/core/services/auth_core_services.dart';
 import 'package:social_mate/core/services/native_services.dart';
+import 'package:social_mate/core/services/post_services.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/services/profile_services.dart';
 
@@ -14,6 +15,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   final _authCoreServices = AuthCoreServicesImpl();
   final _profileServices = ProfileServicesImpl();
   final _nativeServices = NativeServicesImpl();
+  final _postServices = PostServicesImpl();
+
 
   File? pickedNewProfileImage;
   File? pickeNewCoverImage;
@@ -22,7 +25,14 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchUserData() async {
     emit(FetchingUserData());
     try {
-      final userData = await _authCoreServices.fetchCurrentUser();
+      var userData = await _authCoreServices.fetchCurrentUser();
+      if (userData.id == null) {
+        throw FetchingUserDataError("User not found");
+      }
+      final userPosts=await _postServices.fetchUserPosts(userData.id!);
+      userData = userData.copyWith(postsCount: userPosts.length);
+
+
       currentUser = userData;
 
       emit(FetchedUserData(currentUser));

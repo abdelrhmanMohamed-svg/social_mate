@@ -50,4 +50,5 @@ class DiscoverCubit extends Cubit<DiscoverState> {
       emit(FollowUserFailure(e.toString(), userId));
     }
   }
+  
 }

@@ -1,4 +1,5 @@
 import 'package:social_mate/core/services/supabase_database_services.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,7 +18,7 @@ class AuthCoreServicesImpl implements AuthCoreServices {
     try {
       return await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.users,
-        primaryKey: "id",
+        primaryKey: AppConstants.primaryKey,
         id: _supabase.auth.currentUser!.id,
         builder: (data, id) => UserModel.fromMap(data),
       );
@@ -43,7 +44,7 @@ class AuthCoreServicesImpl implements AuthCoreServices {
      try {
       return await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.users,
-        primaryKey: "id",
+        primaryKey:  AppConstants.primaryKey,
         id: userId,
         builder: (data, id) => UserModel.fromMap(data),
       );

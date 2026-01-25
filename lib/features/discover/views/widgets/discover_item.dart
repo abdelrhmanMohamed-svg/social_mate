@@ -40,7 +40,7 @@ class DiscoverItem extends StatelessWidget with SU {
           style: AppTextStyles.lMedium,
         ),
         subtitle: Text(
-          " ${user.followersCount.toString()} followers",
+          " ${user.followers?.length ?? 0} followers",
           style: AppTextStyles.mMedium.copyWith(color: AppColors.gray),
         ),
         trailing: BlocBuilder<DiscoverCubit, DiscoverState>(

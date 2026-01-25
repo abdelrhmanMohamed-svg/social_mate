@@ -5,4 +5,5 @@ class AppRoutes {
   static const String addPostPage = "/add-post";
   static const String profilePage = "/profile";
   static const String editProfilePage = "/edit-profile";
+  static const String followRequests = "/follow-requests";
 }

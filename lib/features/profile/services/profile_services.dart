@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:social_mate/core/services/supabase_database_services.dart';
 import 'package:social_mate/core/services/supabase_storage_services.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 
 abstract class ProfileServices {
@@ -73,7 +74,7 @@ class ProfileServicesImpl implements ProfileServices {
       await _supabaseDatabaseServices.updateRow(
         table: SupabaseTablesAndBucketsNames.users,
         values: values,
-        column: "id",
+        column: AppConstants.primaryKey,
         value: id,
       );
       return values;

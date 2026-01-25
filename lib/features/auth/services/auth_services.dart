@@ -1,5 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_mate/core/services/supabase_database_services.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -98,7 +99,7 @@ class AuthServicesImpl implements AuthServices {
     final existingUser = await _supabase
         .from(SupabaseTablesAndBucketsNames.users)
         .select()
-        .eq('id', user.id)
+        .eq(AppConstants.primaryKey, user.id)
         .maybeSingle();
 
     if (existingUser == null) {
@@ -119,6 +120,4 @@ class AuthServicesImpl implements AuthServices {
   User? checkAuthStatus() {
     return _supabase.auth.currentUser;
   }
-
-
 }

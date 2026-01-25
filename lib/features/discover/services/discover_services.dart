@@ -1,4 +1,5 @@
 import 'package:social_mate/core/services/supabase_database_services.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 
@@ -12,11 +13,27 @@ class DiscoverServicesImpl implements DiscoverServices {
   @override
   Future<List<UserModel>> fetchUsers(String id) async {
     try {
-      return await _supabaseDatabaseServices.fetchRows(
+      // Fetch the current user to get their following list
+      final currentUser = await _supabaseDatabaseServices.fetchRow(
+        table: SupabaseTablesAndBucketsNames.users,
+        primaryKey: AppConstants.primaryKey,
+        id: id,
+        builder: (data, id) => UserModel.fromMap(data),
+      );
+
+      final followingList = currentUser.following ?? [];
+
+      // Fetch all users except the current user
+      final allUsers = await _supabaseDatabaseServices.fetchRows(
         table: SupabaseTablesAndBucketsNames.users,
         builder: (data, id) => UserModel.fromMap(data),
-        filter: (query) => query.neq('id', id),
+        filter: (query) => query.neq(AppConstants.primaryKey, id),
       );
+
+      // Filter out users that are already in the following list
+      return allUsers
+          .where((user) => !followingList.contains(user.id))
+          .toList();
     } catch (e) {
       rethrow;
     }
@@ -29,13 +46,13 @@ class DiscoverServicesImpl implements DiscoverServices {
     try {
       final currentUser = await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.users,
-        primaryKey: 'id',
+        primaryKey: AppConstants.primaryKey,
         id: currentUserId,
         builder: (data, id) => UserModel.fromMap(data),
       );
       final user = await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.users,
-        primaryKey: 'id',
+        primaryKey: AppConstants.primaryKey,
         id: userId,
         builder: (data, id) => UserModel.fromMap(data),
       );
@@ -56,15 +73,15 @@ class DiscoverServicesImpl implements DiscoverServices {
       }
       await _supabaseDatabaseServices.updateRow(
         table: SupabaseTablesAndBucketsNames.users,
-        column: 'id',
+        column: AppConstants.primaryKey,
         value: currentUserId,
-        values: {'follow_wating': userToFollowList},
+        values: {AppConstants.followWatingColumn: userToFollowList},
       );
       await _supabaseDatabaseServices.updateRow(
         table: SupabaseTablesAndBucketsNames.users,
         column: 'id',
         value: userId,
-        values: {'follow_requets': userRequestsList},
+        values: {AppConstants.followRequestsColumn: userRequestsList},
       );
       return isUserToFollow;
     } catch (e) {

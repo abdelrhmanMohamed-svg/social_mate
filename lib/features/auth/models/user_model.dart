@@ -8,8 +8,7 @@ class UserModel {
   final String? aboutMe;
   final String? workExperience;
   final String? coverImageUrl;
-  final int followersCount;
-  final int followingCount;
+
   final List<String>? followers;
   final List<String>? following;
   final int postsCount;
@@ -24,8 +23,7 @@ class UserModel {
     this.profileImageUrl,
     this.bio,
     this.coverImageUrl,
-    this.followersCount = 0,
-    this.followingCount = 0,
+
     this.followers,
     this.following,
     this.postsCount = 0,
@@ -44,15 +42,14 @@ class UserModel {
       'image_url': profileImageUrl,
       'bio': bio,
       'cover_image_url': coverImageUrl,
-      'followers_count': followersCount,
-      'following_count': followingCount,
+
       'followers': followers,
       'following': following,
       'posts_count': postsCount,
       'about_me': aboutMe,
       'work_experience': workExperience,
-      'follow_wating': followWating,
-      'follow_requets': followRequests,
+      'follow_waiting': followWating,
+      'follow_requests': followRequests,
     };
   }
 
@@ -68,12 +65,7 @@ class UserModel {
       coverImageUrl: map['cover_image_url'] != null
           ? map['cover_image_url'] as String
           : null,
-      followersCount: map['followers_count'] != null
-          ? map['followers_count'] as int
-          : 0,
-      followingCount: map['following_count'] != null
-          ? map['following_count'] as int
-          : 0,
+
       postsCount: map['posts_count'] != null ? map['posts_count'] as int : 0,
       followers: map['followers'] != null
           ? (map['followers'] is List
@@ -98,22 +90,22 @@ class UserModel {
       workExperience: map['work_experience'] != null
           ? map['work_experience'] as String
           : null,
-      followWating: map['follow_wating'] != null
-          ? (map['follow_wating'] is List
-                ? List<String>.from(map['follow_wating'] as List<dynamic>)
-                : (map['follow_wating'] is String
-                      ? (map['follow_wating'] as String).isEmpty
+      followWating: map['follow_waiting'] != null
+          ? (map['follow_waiting'] is List
+                ? List<String>.from(map['follow_waiting'] as List<dynamic>)
+                : (map['follow_waiting'] is String
+                      ? (map['follow_waiting'] as String).isEmpty
                             ? null
-                            : [map['follow_wating'] as String]
+                            : [map['follow_waiting'] as String]
                       : null))
           : null,
-      followRequests: map['follow_requets'] != null
-          ? (map['follow_requets'] is List
-                ? List<String>.from(map['follow_requets'] as List<dynamic>)
-                : (map['follow_requets'] is String
-                      ? (map['follow_requets'] as String).isEmpty
+      followRequests: map['follow_requests'] != null
+          ? (map['follow_requests'] is List
+                ? List<String>.from(map['follow_requests'] as List<dynamic>)
+                : (map['follow_requests'] is String
+                      ? (map['follow_requests'] as String).isEmpty
                             ? null
-                            : [map['follow_requets'] as String]
+                            : [map['follow_requests'] as String]
                       : null))
           : null,
     );
@@ -146,8 +138,7 @@ class UserModel {
       aboutMe: aboutMe ?? this.aboutMe,
       workExperience: workExperience ?? this.workExperience,
       coverImageUrl: coverImageUrl ?? this.coverImageUrl,
-      followersCount: followersCount ?? this.followersCount,
-      followingCount: followingCount ?? this.followingCount,
+
       followers: followers ?? this.followers,
       following: following ?? this.following,
       postsCount: postsCount ?? this.postsCount,

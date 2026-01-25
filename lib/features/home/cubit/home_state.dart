@@ -49,8 +49,6 @@ final class AddPostError extends HomeState {
   const AddPostError(this.message);
 }
 
-
-
 // Current User States
 
 final class CurrentUserLoading extends HomeState {}

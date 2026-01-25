@@ -4,6 +4,8 @@ import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/views/pages/error_page.dart';
 import 'package:social_mate/features/auth/views/pages/auth_page.dart';
 import 'package:social_mate/features/discover/models/public_profile_args.dart';
+import 'package:social_mate/features/followRequest/models/follow_request_args.dart';
+import 'package:social_mate/features/followRequest/views/pages/follow_request_page.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/views/pages/add_post_page.dart';
 import 'package:social_mate/features/home/views/pages/home_page.dart';
@@ -15,6 +17,15 @@ class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.followRequests:
+        final args = settings.arguments as FollowRequestArgs;
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => BlocProvider.value(
+            value: args.cubit,
+            child: FollowRequestPage( users: args.users),
+          ),
+        );
       case AppRoutes.profilePage:
         final args = settings.arguments as PublicProfileArgs;
         return MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/features/followRequest/cubit/follow_request_cubit.dart';
 import 'package:social_mate/features/home/cubit/home_cubit.dart';
 import 'package:social_mate/features/home/views/widgets/add_post_section.dart';
 import 'package:social_mate/features/home/views/widgets/home_header.dart';
@@ -13,29 +14,46 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) {
-          final cubit = HomeCubit();
-          cubit.fetchStories();
-          cubit.fetchPosts();
-          return cubit;
-        },
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  HomeHeader(),
-                  20.verticalSpace,
-                  AddPostSection(),
-                  20.verticalSpace,
-                  StoriesSection(),
-                  20.verticalSpace,
-                  PostsSection(),
-                ],
-              ),
-            ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              final cubit = HomeCubit();
+              cubit.fetchStories();
+              cubit.fetchPosts();
+              return cubit;
+            },
+          ),
+          BlocProvider(
+            create: (context) => FollowRequestCubit()..startListening(),
+          ),
+        ],
+
+        child: HomeBody(),
+      ),
+    );
+  }
+}
+
+class HomeBody extends StatelessWidget {
+  const HomeBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              HomeHeader(),
+              20.verticalSpace,
+              AddPostSection(),
+              20.verticalSpace,
+              StoriesSection(),
+              20.verticalSpace,
+              PostsSection(),
+            ],
           ),
         ),
       ),

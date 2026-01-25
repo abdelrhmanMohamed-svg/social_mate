@@ -1,4 +1,5 @@
 import 'package:social_mate/core/services/supabase_database_services.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/models/post_request_model.dart';
@@ -16,6 +17,7 @@ abstract class PostServices {
     required String text,
     required String authorId,
   });
+  Future<List<PostModel>> fetchUserPosts(String userId);
   
 }
 
@@ -28,7 +30,7 @@ class PostServicesImpl implements PostServices {
       final response = await _supabaseDatabaseServices.fetchRows(
         table: SupabaseTablesAndBucketsNames.posts,
         builder: (data, id) => PostModel.fromMap(data),
-        filter:  userId == null ? null :(query) => query.eq('author_id', userId),
+        filter:  userId == null ? null :(query) => query.eq(AppConstants.authorIdColumn, userId),
       );
 
       return response;
@@ -55,7 +57,7 @@ class PostServicesImpl implements PostServices {
     try {
       var post = await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.posts,
-        primaryKey: ' id ',
+        primaryKey: AppConstants.primaryKey,
         id: postId,
         builder: (data, id) => PostModel.fromMap(data),
       );
@@ -72,7 +74,7 @@ class PostServicesImpl implements PostServices {
 
       await _supabaseDatabaseServices.updateRow(
         table: SupabaseTablesAndBucketsNames.posts,
-        column: 'id',
+        column:  AppConstants.primaryKey,
         value: postId,
         values: post.toMap(),
       );
@@ -109,7 +111,7 @@ class PostServicesImpl implements PostServices {
     try {
       return await _supabaseDatabaseServices.fetchRows(
         table: SupabaseTablesAndBucketsNames.comments,
-        filter: (query) => query.eq('post_id', postId),
+        filter: (query) => query.eq(AppConstants.postIdColumn, postId),
         builder: (data, id) => ResponseCommentModel.fromMap(data),
       );
     } catch (e) {
@@ -122,12 +124,28 @@ class PostServicesImpl implements PostServices {
     try {
       return await _supabaseDatabaseServices.fetchRow(
         table: SupabaseTablesAndBucketsNames.posts,
-        primaryKey: ' id ',
+        primaryKey: AppConstants.primaryKey,
         id: postId,
         builder: (data, id) => PostModel.fromMap(data),
       );
     } catch (e) {
       rethrow;
     }
+  }
+  
+  @override
+  Future<List<PostModel>> fetchUserPosts(String userId)async {
+    try {
+      return await _supabaseDatabaseServices.fetchRows(
+        table: SupabaseTablesAndBucketsNames.posts, 
+        filter: (query) => query.eq(AppConstants.authorIdColumn, userId),
+        builder: (data, id) => PostModel.fromMap(data),
+      );
+      
+    } catch (e) {
+      rethrow;
+      
+    }
+  
   }
 }
