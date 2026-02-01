@@ -15,12 +15,26 @@ import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/pages/edit_profile.dart';
 import 'package:social_mate/features/profile/views/pages/followers_page.dart';
 import 'package:social_mate/features/profile/views/pages/following_page.dart';
+import 'package:social_mate/features/profile/views/pages/posts_page.dart';
 import 'package:social_mate/features/profile/views/pages/profile_page.dart';
+import 'package:social_mate/features/profile/views/pages/saved_posts_page.dart';
 
 class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    
     switch (settings.name) {
+      case AppRoutes.postsPage:
+      return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const PostsPage(),
+        );
+      case AppRoutes.savedPostsPageRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const SavedPostsPage(),
+        );
+
       case AppRoutes.viewStoryPage:
         final userID = settings.arguments as String;
         return MaterialPageRoute(

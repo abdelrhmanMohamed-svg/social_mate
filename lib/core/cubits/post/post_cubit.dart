@@ -54,6 +54,27 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
+  Future<void> fetchSavedPosts() async {
+    emit(FetchSavedPostsLoading());
+    try {
+      final currentUser = await _authcoreServices.fetchCurrentUser();
+      if (currentUser.id == null) {
+        emit(FetchSavedPostsError("User not found"));
+        return;
+      }
+      final rowPosts = await _postServices.fetchSavedPosts(currentUser.id!);
+      List<PostModel> savedPosts = [];
+      for (var post in rowPosts) {
+        post = post.copyWith(isSaved: true);
+        savedPosts.add(post);
+      }
+
+      emit(FetchSavedPostsSuccess(savedPosts));
+    } catch (e) {
+      emit(FetchSavedPostsError(e.toString()));
+    }
+  }
+
   // Comments Services
   Future<void> addComment(String text, String postId) async {
     emit(AddCommentLoading());
@@ -144,9 +165,11 @@ class PostCubit extends Cubit<PostState> {
         final postComments = await _postServices.fetchCommentsForPost(post.id);
 
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
+        final isSaved = post.saves?.contains(currentUser.id) ?? false;
         post = post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
+          isSaved: isSaved,
         );
         posts.add(post);
       }

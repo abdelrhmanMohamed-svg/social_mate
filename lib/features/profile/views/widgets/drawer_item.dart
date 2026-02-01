@@ -9,9 +9,12 @@ class DrawerItem extends StatelessWidget with SU {
     required this.title,
     required this.leadingIcon,
     this.trailingIcon,
-     this.onTap,
+    this.onTap,
     this.isSignout = false,
-  }) : assert(isSignout == false || trailingIcon == null, "signout  must be true or trailingIcon must be set");
+  }) : assert(
+         isSignout == false || trailingIcon == null,
+         "signout  must be true or trailingIcon must be set",
+       );
   final String title;
   final IconData leadingIcon;
   final IconData? trailingIcon;

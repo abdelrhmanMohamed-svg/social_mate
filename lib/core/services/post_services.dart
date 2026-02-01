@@ -10,6 +10,7 @@ abstract class PostServices {
   Future<List<PostModel>> fetchPosts([String? userId]);
   Future<void> addPost(PostRequestModel post);
   Future<PostModel?> fetchPostById(String postId);
+  Future<List<PostModel>> fetchSavedPosts(String userId);
   Future<PostModel> toggleLikePost(String postId, String userId);
   Future<PostModel> toggleSavedPost(String postId, String userId);
 
@@ -178,6 +179,21 @@ class PostServicesImpl implements PostServices {
       );
 
       return post.copyWith(isSaved: isSaved);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<PostModel>> fetchSavedPosts(String userId) async {
+    try {
+      final posts = await _supabaseDatabaseServices.fetchRows(
+        table: SupabaseTablesAndBucketsNames.posts,
+        builder: (data, id) => PostModel.fromMap(data),
+      );
+      return posts
+          .where((post) => post.saves?.contains(userId) ?? false)
+          .toList();
     } catch (e) {
       rethrow;
     }

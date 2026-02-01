@@ -52,10 +52,12 @@ class CustomDrawer extends StatelessWidget with SU {
           ),
           12.verticalSpace,
           DrawerItem(
-            leadingIcon: Icons.group_add_outlined,
-            title: "Network",
+            leadingIcon: Icons.bookmark,
+            title: "Saved Posts",
             trailingIcon: Icons.chevron_right_outlined,
-            onTap: () {},
+            onTap: () => Navigator.of(context,rootNavigator: true).pushNamed(
+              AppRoutes.savedPostsPageRoute,
+            ),
           ),
           12.verticalSpace,
           DrawerItem(

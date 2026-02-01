@@ -89,17 +89,28 @@ final class ToggleSavedPostSuccess extends PostState {
   final String postId;
   final bool isSaved;
 
-  const ToggleSavedPostSuccess({
-    required this.postId,
-    required this.isSaved,
-  });
+  const ToggleSavedPostSuccess({required this.postId, required this.isSaved});
 }
 
-  final class ToggleSavedPostError extends PostState {
+final class ToggleSavedPostError extends PostState {
   final String postId;
   final String message;
 
   const ToggleSavedPostError(this.message, this.postId);
+}
+
+// fetch post states
+final class FetchSavedPostsLoading extends PostState {}
+
+final class FetchSavedPostsSuccess extends PostState {
+  final List<PostModel> posts;
+
+  const FetchSavedPostsSuccess(this.posts);
+}
+
+final class FetchSavedPostsError extends PostState {
+  final String message;
+  const FetchSavedPostsError(this.message);
 }
 
 // Add Comment States
