@@ -15,6 +15,7 @@ class UserModel {
   final List<String>? followWating;
   final List<String>? followRequests;
   final bool isFollowWaiting;
+  final bool isFollow;
 
   const UserModel({
     required this.id,
@@ -32,6 +33,7 @@ class UserModel {
     this.followWating,
     this.followRequests,
     this.isFollowWaiting = false,
+    this.isFollow = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -128,6 +130,7 @@ class UserModel {
     List<String>? followWating,
     List<String>? followRequests,
     bool? isFollow,
+    bool? isFollowWaiting,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -144,7 +147,8 @@ class UserModel {
       postsCount: postsCount ?? this.postsCount,
       followWating: followWating ?? this.followWating,
       followRequests: followRequests ?? this.followRequests,
-      isFollowWaiting: isFollow ?? this.isFollowWaiting,
+      isFollowWaiting: isFollowWaiting ?? this.isFollowWaiting,
+      isFollow: isFollow ?? this.isFollow,
     );
   }
 }

@@ -32,27 +32,6 @@ class HomeCubit extends Cubit<HomeState> {
   FileArgsModel? filePicked;
   VideoPlayerController? _controller;
 
-  // Stories Services
-  Future<void> fetchStories() async {
-    emit(StoriesLoading());
-    try {
-      final rawStories = await _homeServices.fetchStories();
-      final users = await _authcoreServices.fetchUsers();
-      final List<StoryModel> updatedStoreis = [];
-      for (var story in rawStories) {
-        final authorName = users
-            .firstWhere((user) => user.id == story.authorId)
-            .name;
-        story = story.copyWith(authorName: authorName);
-        updatedStoreis.add(story);
-      }
-
-      emit(StoriesLoaded(updatedStoreis));
-    } catch (e) {
-      emit(StoriesError(e.toString()));
-    }
-  }
-
   // Posts Services
   Future<void> fetchPosts() async {
     emit(PostsLoading());
@@ -191,7 +170,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> refresh() async {
-    Future.wait([fetchStories(), fetchPosts()]);
+    Future.wait([fetchHomeStories(), fetchPosts()]);
   }
 
   void setToInitial() {
@@ -204,5 +183,44 @@ class HomeCubit extends Cubit<HomeState> {
     emit(EmptyCheckState(value.isEmpty));
   }
 
+  // Stories Services
+  Future<void> fetchHomeStories() async {
+    emit(StoriesLoading());
+    try {
+      final currentUser = await _authcoreServices.fetchCurrentUser();
+      if (currentUser.id == null) {
+        emit(StoriesError("user id is null"));
+        return;
+      }
+      final rawStories = await _homeServices.fetchStories();
+      final currentUserStories = await _homeServices.fetchUserStories(
+        currentUser.id!,
+      );
 
+      final users = await _authcoreServices.fetchUsers();
+      final List<StoryModel> updatedStoreis = [];
+      final List<StoryModel> currentUserStoriesUpdated = [];
+      for (var story in rawStories) {
+        final authorName = users
+            .firstWhere((user) => user.id == story.authorId)
+            .name;
+        story = story.copyWith(authorName: authorName);
+        updatedStoreis.add(story);
+      }
+      for (var story in currentUserStories) {
+        story = story.copyWith(authorName: currentUser.name);
+        currentUserStoriesUpdated.add(story);
+      }
+
+      emit(
+        StoriesLoaded(
+          currentUserStories: currentUserStoriesUpdated,
+          stories: updatedStoreis,
+          userID: currentUser.id!,
+        ),
+      );
+    } catch (e) {
+      emit(StoriesError(e.toString()));
+    }
+  }
 }

@@ -9,7 +9,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
-import 'package:social_mate/features/profile/models/edit_profile_args.dart';
+import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/widgets/profile_stats.dart';
 
 class HeaderSection extends StatelessWidget with SU {
@@ -109,7 +109,7 @@ class HeaderSection extends StatelessWidget with SU {
                         rootNavigator: true,
                       ).pushNamed(
                         AppRoutes.editProfilePage,
-                        arguments: EditProfileArgs(
+                        arguments: ProfileArgs(
                           userData: userData,
                           profileCubit: profileCubit,
                         ),

@@ -47,4 +47,11 @@ class AppColors {
   static const Color linkColor = Color(0xFF6FA1FF);
   static const Color socialButtonBackground = Color(0xFF1B2138);
   static const Color socialButtonBorder = Color(0xFF2E3555);
+
+  //story colors
+  static const Color redStory = Color(0xffFF0000);
+  static const Color yellowStory = Color(0xffFFC107);
+  static const Color greenStory = Color(0xff00C853);
+  static const Color blueStory = Color(0xff007AFF);
+  static const Color purpleStory = Color(0xff9C27B0);
 }

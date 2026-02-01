@@ -6,7 +6,7 @@ import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:video_player/video_player.dart';
 
 class AddPostTxtFieldArea extends StatefulWidget with SU {

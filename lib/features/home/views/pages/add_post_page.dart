@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/features/home/views/widgets/add_post_txt_field_area.dart';
 
 class AddPostPage extends StatefulWidget {

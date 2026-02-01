@@ -1,30 +1,56 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
+import 'package:social_mate/features/home/models/add_story_model_args.dart';
 import 'package:social_mate/features/home/models/story_model.dart';
 
 class StoryItem extends StatelessWidget with SU {
-  const StoryItem({super.key, this.story});
+  const StoryItem({super.key, this.story, this.onLongPress});
   final StoryModel? story;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
+
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primary, width: 2.0.w),
-          ),
-          child: CircleAvatar(
-            radius: 40.r,
-            backgroundImage: story == null
-                ? null
-                : NetworkImage(story!.imageUrl),
-            child: story == null
-                ? Icon(Icons.add, color: AppColors.primary, size: 30.sp)
-                : null,
+        InkWell(
+          onLongPress: onLongPress,
+          onTap: () {
+            if (story == null) {
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                AppRoutes.addStoryPage,
+                arguments: AddStoryModelArgs(cubit: homeCubit),
+              );
+            } else {
+              Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pushNamed(AppRoutes.viewStoryPage, arguments: story!.authorId);
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.primary, width: 2.0.w),
+            ),
+            child: CircleAvatar(
+              radius: 40.r,
+              backgroundImage: story == null
+                  ? null
+                  : story!.imageUrl == null
+                  ? null
+                  : CachedNetworkImageProvider(story!.imageUrl!),
+              child: story == null
+                  ? Icon(Icons.add, color: AppColors.primary, size: 30.sp)
+                  : null,
+            ),
           ),
         ),
         5.verticalSpace,

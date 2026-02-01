@@ -7,7 +7,7 @@ import 'package:social_mate/core/cubits/post/post_cubit.dart'as PostCubit;
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
 import 'package:social_mate/features/home/views/widgets/post_comment_section.dart';

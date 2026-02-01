@@ -12,8 +12,15 @@ final class StoriesLoading extends HomeState {}
 
 final class StoriesLoaded extends HomeState {
   final List<StoryModel> stories;
+  final List<StoryModel> currentUserStories;
+  final String userID;
 
-  const StoriesLoaded(this.stories);
+
+  const StoriesLoaded({
+    required this.currentUserStories,
+    required this.stories,
+    required this.userID,
+  });
 }
 
 final class StoriesError extends HomeState {

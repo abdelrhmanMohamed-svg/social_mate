@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/features/followRequest/cubit/follow_request_cubit.dart';
-import 'package:social_mate/features/home/cubit/home_cubit.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/features/home/views/widgets/add_post_section.dart';
 import 'package:social_mate/features/home/views/widgets/home_header.dart';
 import 'package:social_mate/features/home/views/widgets/posts_section.dart';
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
           BlocProvider(
             create: (context) {
               final cubit = HomeCubit();
-              cubit.fetchStories();
+              cubit.fetchHomeStories();
               cubit.fetchPosts();
               return cubit;
             },
