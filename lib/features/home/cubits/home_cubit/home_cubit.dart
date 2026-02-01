@@ -43,10 +43,14 @@ class HomeCubit extends Cubit<HomeState> {
         final postComments = await _postServices.fetchCommentsForPost(post.id);
 
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
+        final isSaved = post.saves?.contains(currentUser.id) ?? false;
+
         post = post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
+          isSaved: isSaved,
         );
+
         posts.add(post);
       }
 

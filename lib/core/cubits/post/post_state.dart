@@ -22,7 +22,6 @@ final class PostsError extends PostState {
   const PostsError(this.message);
 }
 
-
 // Fetch Comments States
 final class FetchCommentsLoading extends PostState {}
 
@@ -31,19 +30,21 @@ final class FetchCommentsSuccess extends PostState {
 
   const FetchCommentsSuccess(this.comments);
 }
+
 // fetch post likes
 final class FetchLikesLoading extends PostState {}
+
 final class FetchLikesSuccess extends PostState {
   final List<UserModel> likedUsers;
 
   const FetchLikesSuccess(this.likedUsers);
 }
+
 final class FetchLikesError extends PostState {
   final String message;
 
   const FetchLikesError(this.message);
 }
-
 
 final class FetchCommentsError extends PostState {
   final String message;
@@ -77,6 +78,30 @@ final class ToggleLikePostError extends PostState {
   const ToggleLikePostError(this.message, this.postId);
 }
 
+// Toggle Saved Post States
+final class ToggleSavedPostLoading extends PostState {
+  final String postId;
+
+  const ToggleSavedPostLoading(this.postId);
+}
+
+final class ToggleSavedPostSuccess extends PostState {
+  final String postId;
+  final bool isSaved;
+
+  const ToggleSavedPostSuccess({
+    required this.postId,
+    required this.isSaved,
+  });
+}
+
+  final class ToggleSavedPostError extends PostState {
+  final String postId;
+  final String message;
+
+  const ToggleSavedPostError(this.message, this.postId);
+}
+
 // Add Comment States
 final class AddCommentLoading extends PostState {}
 
@@ -87,7 +112,6 @@ final class AddCommentError extends PostState {
 
   const AddCommentError(this.message);
 }
-
 
 // file states
 

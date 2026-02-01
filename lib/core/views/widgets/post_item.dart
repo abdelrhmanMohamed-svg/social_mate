@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:social_mate/core/cubits/post/post_cubit.dart'as PostCubit;
+import 'package:social_mate/core/cubits/post/post_cubit.dart' as PostCubit;
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
@@ -12,6 +12,7 @@ import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/views/widgets/file_download_tile.dart';
 import 'package:social_mate/features/home/views/widgets/post_comment_section.dart';
 import 'package:social_mate/features/home/views/widgets/post_like_section.dart';
+import 'package:social_mate/features/home/views/widgets/post_saved_section.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -111,18 +112,19 @@ class _PostItemState extends State<PostItem> {
               15.verticalSpace,
               BlocConsumer<PostCubit.PostCubit, PostCubit.PostState>(
                 bloc: postCubit,
-                listenWhen: (previous, current) => current is   PostCubit.OpenFileError,
+                listenWhen: (previous, current) =>
+                    current is PostCubit.OpenFileError,
                 listener: (context, state) {
-                  if (state is  PostCubit.OpenFileError) {
+                  if (state is PostCubit.OpenFileError) {
                     showCustomSnackBar(context, state.message, isError: true);
                   }
                 },
                 buildWhen: (previous, current) =>
-                    current is  PostCubit.DownloadFileLoading ||
+                    current is PostCubit.DownloadFileLoading ||
                     current is PostCubit.DownloadFileError ||
                     current is PostCubit.DownloadFileSuccess,
                 builder: (context, state) {
-                  if (state is  PostCubit.DownloadFileLoading) {
+                  if (state is PostCubit.DownloadFileLoading) {
                     return FileDownloadTile(
                       fileName: widget.post.fileName!,
                       fileUrl: widget.post.fileUrl!,
@@ -147,50 +149,52 @@ class _PostItemState extends State<PostItem> {
               _controller != null && _controller!.value.isInitialized
                   ? InkWell(
                       onTap: () => postCubit.togglePlay(_controller),
-                      child: BlocBuilder< PostCubit.PostCubit,  PostCubit.PostState>(
-                        bloc: postCubit,
-                        buildWhen: (previous, current) =>
-                            current is VideoPickedSuccess,
-                        builder: (context, state) {
-                          return Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.r),
+                      child:
+                          BlocBuilder<PostCubit.PostCubit, PostCubit.PostState>(
+                            bloc: postCubit,
+                            buildWhen: (previous, current) =>
+                                current is VideoPickedSuccess,
+                            builder: (context, state) {
+                              return Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.r),
 
-                                child: SizedBox(
-                                  height: 200.h,
-                                  width: double.infinity,
-                                  child: VisibilityDetector(
-                                    key: Key(widget.post.id),
-                                    onVisibilityChanged: (info) {
-                                      if (info.visibleFraction < 0.5) {
-                                        _controller?.pause();
-                                      }
-                                    },
-                                    child: VideoPlayer(_controller!),
+                                    child: SizedBox(
+                                      height: 200.h,
+                                      width: double.infinity,
+                                      child: VisibilityDetector(
+                                        key: Key(widget.post.id),
+                                        onVisibilityChanged: (info) {
+                                          if (info.visibleFraction < 0.5) {
+                                            _controller?.pause();
+                                          }
+                                        },
+                                        child: VideoPlayer(_controller!),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: state is  PostCubit.VideoPickedSuccess
-                                      ? Icon(
-                                          state.controller.value.isPlaying
-                                              ? null
-                                              : Icons.play_circle_outline,
-                                          color: AppColors.white.withValues(
-                                            alpha: 0.7,
-                                          ),
-                                          size: 64.sp,
-                                        )
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                                  Positioned.fill(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child:
+                                          state is PostCubit.VideoPickedSuccess
+                                          ? Icon(
+                                              state.controller.value.isPlaying
+                                                  ? null
+                                                  : Icons.play_circle_outline,
+                                              color: AppColors.white.withValues(
+                                                alpha: 0.7,
+                                              ),
+                                              size: 64.sp,
+                                            )
+                                          : null,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                     )
                   : SizedBox.shrink(),
             ],
@@ -210,7 +214,7 @@ class _PostItemState extends State<PostItem> {
                   ],
                 ),
 
-                Icon(Icons.bookmark_outline, color: AppColors.black),
+                PostSavedSection(post: widget.post),
               ],
             ),
           ],

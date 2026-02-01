@@ -7,10 +7,12 @@ import 'package:social_mate/features/home/models/request_comment_model.dart';
 import 'package:social_mate/features/home/models/response_comment_model.dart';
 
 abstract class PostServices {
-  Future<List<PostModel>> fetchPosts([String?userId]);
+  Future<List<PostModel>> fetchPosts([String? userId]);
   Future<void> addPost(PostRequestModel post);
   Future<PostModel?> fetchPostById(String postId);
   Future<PostModel> toggleLikePost(String postId, String userId);
+  Future<PostModel> toggleSavedPost(String postId, String userId);
+
   Future<List<ResponseCommentModel>> fetchCommentsForPost(String postId);
   Future<void> addCommentToPost({
     required String postId,
@@ -18,19 +20,20 @@ abstract class PostServices {
     required String authorId,
   });
   Future<List<PostModel>> fetchUserPosts(String userId);
-  
 }
 
 class PostServicesImpl implements PostServices {
-    final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
+  final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
 
-   @override
-  Future<List<PostModel>> fetchPosts([String?userId]) async {
+  @override
+  Future<List<PostModel>> fetchPosts([String? userId]) async {
     try {
       final response = await _supabaseDatabaseServices.fetchRows(
         table: SupabaseTablesAndBucketsNames.posts,
         builder: (data, id) => PostModel.fromMap(data),
-        filter:  userId == null ? null :(query) => query.eq(AppConstants.authorIdColumn, userId),
+        filter: userId == null
+            ? null
+            : (query) => query.eq(AppConstants.authorIdColumn, userId),
       );
 
       return response;
@@ -74,7 +77,7 @@ class PostServicesImpl implements PostServices {
 
       await _supabaseDatabaseServices.updateRow(
         table: SupabaseTablesAndBucketsNames.posts,
-        column:  AppConstants.primaryKey,
+        column: AppConstants.primaryKey,
         value: postId,
         values: post.toMap(),
       );
@@ -118,7 +121,7 @@ class PostServicesImpl implements PostServices {
       rethrow;
     }
   }
- 
+
   @override
   Future<PostModel?> fetchPostById(String postId) async {
     try {
@@ -132,20 +135,51 @@ class PostServicesImpl implements PostServices {
       rethrow;
     }
   }
-  
+
   @override
-  Future<List<PostModel>> fetchUserPosts(String userId)async {
+  Future<List<PostModel>> fetchUserPosts(String userId) async {
     try {
       return await _supabaseDatabaseServices.fetchRows(
-        table: SupabaseTablesAndBucketsNames.posts, 
+        table: SupabaseTablesAndBucketsNames.posts,
         filter: (query) => query.eq(AppConstants.authorIdColumn, userId),
         builder: (data, id) => PostModel.fromMap(data),
       );
-      
     } catch (e) {
       rethrow;
-      
     }
-  
+  }
+
+  @override
+  Future<PostModel> toggleSavedPost(String postId, String userId) async {
+    bool isSaved = false;
+    try {
+      var post = await _supabaseDatabaseServices.fetchRow(
+        table: SupabaseTablesAndBucketsNames.posts,
+        primaryKey: AppConstants.primaryKey,
+        id: postId,
+        builder: (data, id) => PostModel.fromMap(data),
+      );
+
+      final saves = List<String>.from(post.saves ?? []);
+      if (saves.contains(userId)) {
+        saves.remove(userId);
+        isSaved = false;
+      } else {
+        saves.add(userId);
+        isSaved = true;
+      }
+      post = post.copyWith(saves: saves);
+
+      await _supabaseDatabaseServices.updateRow(
+        table: SupabaseTablesAndBucketsNames.posts,
+        column: AppConstants.primaryKey,
+        value: postId,
+        values: post.toMap(),
+      );
+
+      return post.copyWith(isSaved: isSaved);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

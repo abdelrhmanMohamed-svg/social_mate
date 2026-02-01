@@ -38,6 +38,22 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
+  Future<void> toggleSavedPost(String postId) async {
+    emit(ToggleSavedPostLoading(postId));
+    try {
+      final currentUser = await _authcoreServices.fetchCurrentUser();
+      final updatedPost = await _postServices.toggleSavedPost(
+        postId,
+        currentUser.id!,
+      );
+      emit(
+        ToggleSavedPostSuccess(postId: postId, isSaved: updatedPost.isSaved),
+      );
+    } catch (e) {
+      emit(ToggleSavedPostError(e.toString(), postId));
+    }
+  }
+
   // Comments Services
   Future<void> addComment(String text, String postId) async {
     emit(AddCommentLoading());
