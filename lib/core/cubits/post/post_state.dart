@@ -167,3 +167,5 @@ final class FetchingUserPostsError extends PostState {
 
   const FetchingUserPostsError(this.message);
 }
+
+final class ProfilePostsPaginationLoading extends PostState {}

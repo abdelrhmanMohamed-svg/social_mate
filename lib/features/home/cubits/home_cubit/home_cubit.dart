@@ -31,33 +31,59 @@ class HomeCubit extends Cubit<HomeState> {
   File? videoPicked;
   FileArgsModel? filePicked;
   VideoPlayerController? _controller;
+  int page = 0;
+  int limit = 3;
+  bool hasReachedMax = false;
+  bool isFetching = false;
+  List<PostModel> paginationPosts = [];
 
   // Posts Services
-  Future<void> fetchPosts() async {
-    emit(PostsLoading());
-    try {
-      final rawPosts = await _postServices.fetchPosts();
-      List<PostModel> posts = [];
-      for (var post in rawPosts) {
-        final currentUser = await _authcoreServices.fetchCurrentUser();
-        final postComments = await _postServices.fetchCommentsForPost(post.id);
+  Future<void> fetchPosts({bool isPagination = false}) async {
+    if (hasReachedMax||isFetching) return;
 
+    emit(!isPagination ? PostsLoading() : PostsPaginationLoading());
+
+    try {
+      isFetching = true;
+      final currentUser = await getCurrentUser();
+
+      final rawPosts = await _postServices.fetchPosts(page: page, limit: limit);
+
+      if (rawPosts.isEmpty) {
+        emit(PostsLoaded(paginationPosts));
+        return;
+      }
+
+      hasReachedMax = rawPosts.length < limit;
+      paginationPosts.addAll(rawPosts);
+      page++;
+
+      final postIds = paginationPosts.map((post) => post.id).toList();
+
+      final commentsMap = await _postServices.fetchCommentsForPosts(postIds);
+
+      final posts = paginationPosts.map((post) {
+        final postComments = commentsMap[post.id] ?? [];
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
         final isSaved = post.saves?.contains(currentUser.id) ?? false;
 
-        post = post.copyWith(
+        return post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
           isSaved: isSaved,
         );
+      }).toList();
 
-        posts.add(post);
-      }
-
-      emit(PostsLoaded(posts.reversed.toList()));
+      emit(PostsLoaded(posts));
     } catch (e) {
       emit(PostsError(e.toString()));
     }
+    isFetching = false;
+  }
+
+  Future<UserModel> getCurrentUser() async {
+    final currentUser = await _authcoreServices.fetchCurrentUser();
+    return currentUser;
   }
 
   Future<void> addPost(String content) async {

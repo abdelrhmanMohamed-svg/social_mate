@@ -230,4 +230,55 @@ class SupabaseDatabaseServices {
       rethrow;
     }
   }
+
+
+  Future<List<T>> fetchRowsWithTransform<T>({
+  required String table,
+  required T Function(Map<String, dynamic> data, String id) builder,
+  String? primaryKey,
+
+  // WHERE
+  PostgrestFilterBuilder Function(
+    PostgrestFilterBuilder query,
+  )? filter,
+
+  // ORDER / RANGE / LIMIT
+  PostgrestTransformBuilder Function(
+    PostgrestFilterBuilder query,
+  )? transform,
+
+  // Client-side sort (optional)
+  int Function(T a, T b)? sort,
+}) async {
+  try {
+    // base query
+    var query = _db.from(table).select() as PostgrestFilterBuilder;
+
+    // 1️⃣ apply filters
+    if (filter != null) {
+      query = filter(query);
+    }
+
+    // 2️⃣ apply transforms
+    final finalQuery =
+        transform != null ? transform(query) : query;
+
+    // execute
+    final rows = await finalQuery as List<dynamic>;
+
+    final list = rows.map((e) {
+      final row = e as Map<String, dynamic>;
+      final id = primaryKey != null
+          ? row[primaryKey]?.toString() ?? ''
+          : '';
+      return builder(row, id);
+    }).toList();
+
+    if (sort != null) list.sort(sort);
+    return list;
+  } on PostgrestException catch (e) {
+    debugPrint('Fetch rows error on $table: ${e.message}');
+    rethrow;
+  }
+}
 }

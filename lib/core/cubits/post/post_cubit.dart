@@ -15,6 +15,11 @@ class PostCubit extends Cubit<PostState> {
   final _authcoreServices = AuthCoreServicesImpl();
   final _nativeServices = NativeServicesImpl();
   VideoPlayerController? _controller;
+  List<PostModel> paginationPosts = [];
+  int page = 1;
+  int limit = 3;
+  bool isFetching = false;
+  bool hasReachedMax = false;
 
   // Posts Services
 
@@ -151,32 +156,58 @@ class PostCubit extends Cubit<PostState> {
     emit(VideoPickedSuccess(_controller!));
   }
 
-  Future<void> fetchUserPosts([String? userId]) async {
-    emit(FetchingUserPosts());
+  Future<UserModel> getCurrentUser() async {
+    final currentUser = await _authcoreServices.fetchCurrentUser();
+    return currentUser;
+  }
+
+  Future<void> fetchUserPosts({
+    bool isPagination = false,
+    String? userId,
+  }) async {
+    if (hasReachedMax || isFetching) return;
+
+    emit(!isPagination ? FetchingUserPosts() : ProfilePostsPaginationLoading());
+
     try {
-      final userData = userId != null
-          ? await _authcoreServices.fetchUserById(userId)
-          : await _authcoreServices.fetchCurrentUser();
+      isFetching = true;
+      final currentUser = await getCurrentUser();
 
-      final rawposts = await _postServices.fetchPosts(userData.id);
-      List<PostModel> posts = [];
-      for (var post in rawposts) {
-        final currentUser = await _authcoreServices.fetchCurrentUser();
-        final postComments = await _postServices.fetchCommentsForPost(post.id);
+      final rawPosts = await _postServices.fetchPosts(
+        page: page,
+        limit: limit,
+        userId: userId,
+      );
 
+      if (rawPosts.isEmpty) {
+        emit(FetchedUserPosts(paginationPosts));
+        return;
+      }
+
+      hasReachedMax = rawPosts.length < limit;
+      paginationPosts.addAll(rawPosts);
+      page++;
+
+      final postIds = paginationPosts.map((post) => post.id).toList();
+
+      final commentsMap = await _postServices.fetchCommentsForPosts(postIds);
+
+      final posts = paginationPosts.map((post) {
+        final postComments = commentsMap[post.id] ?? [];
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
         final isSaved = post.saves?.contains(currentUser.id) ?? false;
-        post = post.copyWith(
+
+        return post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
           isSaved: isSaved,
         );
-        posts.add(post);
-      }
+      }).toList();
 
       emit(FetchedUserPosts(posts));
     } catch (e) {
       emit(FetchingUserPostsError(e.toString()));
     }
+    isFetching = false;
   }
 }

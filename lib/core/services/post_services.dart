@@ -5,9 +5,14 @@ import 'package:social_mate/features/home/models/post_model.dart';
 import 'package:social_mate/features/home/models/post_request_model.dart';
 import 'package:social_mate/features/home/models/request_comment_model.dart';
 import 'package:social_mate/features/home/models/response_comment_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class PostServices {
-  Future<List<PostModel>> fetchPosts([String? userId]);
+  Future<List<PostModel>> fetchPosts({
+    required int page,
+    int limit = 3,
+    String? userId,
+  });
   Future<void> addPost(PostRequestModel post);
   Future<PostModel?> fetchPostById(String postId);
   Future<List<PostModel>> fetchSavedPosts(String userId);
@@ -21,26 +26,48 @@ abstract class PostServices {
     required String authorId,
   });
   Future<List<PostModel>> fetchUserPosts(String userId);
+  Future<Map<String, List<ResponseCommentModel>>> fetchCommentsForPosts(
+    List<String> postIds,
+  );
 }
 
 class PostServicesImpl implements PostServices {
   final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
+  PostgrestFilterBuilder<dynamic>? filter(
+    PostgrestFilterBuilder<dynamic> query,
+  ) {
+    return query;
+  }
 
   @override
-  Future<List<PostModel>> fetchPosts([String? userId]) async {
-    try {
-      final response = await _supabaseDatabaseServices.fetchRows(
-        table: SupabaseTablesAndBucketsNames.posts,
-        builder: (data, id) => PostModel.fromMap(data),
-        filter: userId == null
-            ? null
-            : (query) => query.eq(AppConstants.authorIdColumn, userId),
-      );
+  Future<List<PostModel>> fetchPosts({
+    required int page,
+    int limit = 3,
+    String? userId,
+  }) {
+    final from = page * limit;
+    final to = from + limit - 1;
 
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    return _supabaseDatabaseServices.fetchRowsWithTransform(
+      table: SupabaseTablesAndBucketsNames.posts,
+      primaryKey: AppConstants.primaryKey,
+      builder: (data, id) => PostModel.fromMap(data),
+
+      // WHERE
+      filter: (query) {
+        if (userId != null) {
+          return query.eq(AppConstants.authorIdColumn, userId);
+        }
+        return query;
+      },
+
+      // ORDER + PAGINATION
+      transform: (query) {
+        return query
+            .order(AppConstants.createdAtColumn, ascending: false)
+            .range(from, to);
+      },
+    );
   }
 
   @override
@@ -194,6 +221,37 @@ class PostServicesImpl implements PostServices {
       return posts
           .where((post) => post.saves?.contains(userId) ?? false)
           .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  @override
+  Future<Map<String, List<ResponseCommentModel>>> fetchCommentsForPosts(
+    List<String> postIds,
+  ) async {
+    try {
+      final filterString = postIds.map((id) => 'post_id.eq.$id').join(',');
+
+      final comments = await _supabaseDatabaseServices.fetchRows(
+        table: SupabaseTablesAndBucketsNames.comments,
+        filter: (query) => query.or(filterString),
+        builder: (data, id) => ResponseCommentModel.fromMap(data),
+      );
+
+      final Map<String, List<ResponseCommentModel>> commentsMap = {};
+
+      for (var comment in comments) {
+        final postId = comment.postId;
+        if (commentsMap.containsKey(postId)) {
+          commentsMap[postId]!.add(comment);
+        } else {
+          commentsMap[postId] = [comment];
+        }
+      }
+
+      return commentsMap;
     } catch (e) {
       rethrow;
     }

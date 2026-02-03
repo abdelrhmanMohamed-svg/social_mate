@@ -23,7 +23,7 @@ class AuthCoreServicesImpl implements AuthCoreServices {
         builder: (data, id) => UserModel.fromMap(data),
       );
     } catch (e) {
-      rethrow;
+        rethrow;
     }
   }
 

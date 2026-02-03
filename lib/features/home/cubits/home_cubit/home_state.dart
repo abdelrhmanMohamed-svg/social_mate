@@ -95,3 +95,6 @@ final class MediaPickError extends HomeState {
   const MediaPickError(this.message);
 }
 
+// pagination states
+final class PostsPaginationLoading extends HomeState {}
+
