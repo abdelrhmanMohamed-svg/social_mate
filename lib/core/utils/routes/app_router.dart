@@ -6,7 +6,7 @@ import 'package:social_mate/features/auth/views/pages/auth_page.dart';
 import 'package:social_mate/features/discover/models/public_profile_args.dart';
 import 'package:social_mate/features/followRequest/models/follow_request_args.dart';
 import 'package:social_mate/features/followRequest/views/pages/follow_request_page.dart';
-import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
+import 'package:social_mate/features/home/models/add_post_args.dart';
 import 'package:social_mate/features/home/views/pages/add_post_page.dart';
 import 'package:social_mate/features/home/views/pages/add_story_page.dart';
 import 'package:social_mate/features/home/views/pages/home_page.dart';
@@ -15,20 +15,14 @@ import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/pages/edit_profile.dart';
 import 'package:social_mate/features/profile/views/pages/followers_page.dart';
 import 'package:social_mate/features/profile/views/pages/following_page.dart';
-import 'package:social_mate/features/profile/views/pages/posts_page.dart';
 import 'package:social_mate/features/profile/views/pages/profile_page.dart';
 import 'package:social_mate/features/profile/views/pages/saved_posts_page.dart';
 
 class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    
     switch (settings.name) {
-      case AppRoutes.postsPage:
-      return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => const PostsPage(),
-        );
+      
       case AppRoutes.savedPostsPageRoute:
         return MaterialPageRoute(
           settings: settings,
@@ -102,12 +96,14 @@ class AppRouter {
           builder: (context) => const HomePage(),
         );
       case AppRoutes.addPostPage:
-        final homeCubit = settings.arguments as HomeCubit;
+        final args = settings.arguments as AddPostArgs;
 
         return MaterialPageRoute(
           settings: settings,
-          builder: (context) =>
-              BlocProvider.value(value: homeCubit, child: const AddPostPage()),
+          builder: (context) => BlocProvider.value(
+            value: args.homeCubit,
+            child: AddPostPage(args: args),
+          ),
         );
 
       default:

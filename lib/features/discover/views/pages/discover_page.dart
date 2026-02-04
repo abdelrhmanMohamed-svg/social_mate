@@ -24,45 +24,48 @@ class DicoverBody extends StatelessWidget with SU {
   Widget build(BuildContext context) {
     final dicoverCubit = context.read<DiscoverCubit>();
 
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Discover people', style: AppTextStyles.headingH4),
-            20.verticalSpace,
-            Expanded(
-              child: BlocBuilder<DiscoverCubit, DiscoverState>(
-                bloc: dicoverCubit,
-                buildWhen: (previous, current) =>
-                    current is FetchUsersSuccess ||
-                    current is FetchUsersFailure ||
-                    current is FetchUsersLoading,
-                builder: (context, state) {
-                  if (state is FetchUsersLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  } else if (state is FetchUsersFailure) {
-                    return Center(child: Text(state.error));
-                  } else if (state is FetchUsersSuccess) {
-                    final users = state.users;
-                    return ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) => 10.verticalSpace,
-
-                      itemCount: users.length,
-
-                      itemBuilder: (context, index) =>
-                          DiscoverItem(user: users[index]),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
+    return RefreshIndicator(
+      onRefresh: () async => await dicoverCubit.fetchUsers(),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Discover people', style: AppTextStyles.headingH4),
+              20.verticalSpace,
+              Expanded(
+                child: BlocBuilder<DiscoverCubit, DiscoverState>(
+                  bloc: dicoverCubit,
+                  buildWhen: (previous, current) =>
+                      current is FetchUsersSuccess ||
+                      current is FetchUsersFailure ||
+                      current is FetchUsersLoading,
+                  builder: (context, state) {
+                    if (state is FetchUsersLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (state is FetchUsersFailure) {
+                      return Center(child: Text(state.error));
+                    } else if (state is FetchUsersSuccess) {
+                      final users = state.users;
+                      return ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        separatorBuilder: (context, index) => 10.verticalSpace,
+      
+                        itemCount: users.length,
+      
+                        itemBuilder: (context, index) =>
+                            DiscoverItem(user: users[index]),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

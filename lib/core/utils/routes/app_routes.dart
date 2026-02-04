@@ -11,8 +11,4 @@ class AppRoutes {
   static const String followersPage = "/followers";
   static const String followingPage = "/following";
   static const String savedPostsPageRoute = "/saved-posts";
-  static const String postsPage = "/posts";
-
-
-
 }

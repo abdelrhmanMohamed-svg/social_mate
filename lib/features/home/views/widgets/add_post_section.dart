@@ -6,6 +6,7 @@ import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_gradiant.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
+import 'package:social_mate/features/home/models/add_post_args.dart';
 
 class AddPostSection extends StatelessWidget {
   const AddPostSection({super.key});
@@ -25,8 +26,11 @@ class AddPostSection extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () => Navigator.of(context, rootNavigator: true)
-                  .pushNamed(AppRoutes.addPostPage, arguments: homeCubit)
-                  .then((_) => homeCubit.refresh()),
+                  .pushNamed(
+                    AppRoutes.addPostPage,
+                    arguments: AddPostArgs(homeCubit: homeCubit),
+                  )
+                  .then((_) => homeCubit.fetchPosts(isReset: true)),
               child: Row(
                 children: [
                   CircleAvatar(radius: 20.r),
@@ -45,34 +49,75 @@ class AddPostSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.image, color: AppColors.primary, size: 20.sp),
-                  SizedBox(width: 6.w),
-                  Text("Image", style: AppTextStyles.mSemiBold),
-                ],
+              InkWell(
+                onTap: () => Navigator.of(context, rootNavigator: true)
+                    .pushNamed(
+                      AppRoutes.addPostPage,
+                      arguments: AddPostArgs(
+                        homeCubit: homeCubit,
+                        openCameraDirectly: true,
+                      ),
+                    )
+                    .then((_) => homeCubit.fetchPosts(isReset: true)),
+                child: Row(
+                  children: [
+                    Icon(Icons.image, color: AppColors.primary, size: 20.sp),
+                    SizedBox(width: 6.w),
+                    Text("Camera", style: AppTextStyles.mSemiBold),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 15.h,
                 child: VerticalDivider(color: AppColors.black),
               ),
-              Row(
-                children: [
-                  Icon(Icons.video_file, color: AppColors.primary, size: 20.sp),
-                  SizedBox(width: 6.w),
-                  Text("Videos", style: AppTextStyles.mSemiBold),
-                ],
+              InkWell(
+                onTap: () => Navigator.of(context, rootNavigator: true)
+                    .pushNamed(
+                      AppRoutes.addPostPage,
+                      arguments: AddPostArgs(
+                        homeCubit: homeCubit,
+                        openVideoDirectly: true,
+                      ),
+                    )
+                    .then((_) => homeCubit.fetchPosts(isReset: true)),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.video_file,
+                      color: AppColors.primary,
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 6.w),
+                    Text("Videos", style: AppTextStyles.mSemiBold),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 15.h,
                 child: VerticalDivider(color: AppColors.black),
               ),
-              Row(
-                children: [
-                  Icon(Icons.file_open, color: AppColors.primary, size: 20.sp),
-                  SizedBox(width: 6.w),
-                  Text("Image", style: AppTextStyles.mSemiBold),
-                ],
+              InkWell(
+                onTap: () => Navigator.of(context, rootNavigator: true)
+                    .pushNamed(
+                      AppRoutes.addPostPage,
+                      arguments: AddPostArgs(
+                        homeCubit: homeCubit,
+                        openGalleryDirectly: true,
+                      ),
+                    )
+                    .then((_) => homeCubit.fetchPosts(isReset: true)),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.file_open,
+                      color: AppColors.primary,
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 6.w),
+                    Text("Gallery", style: AppTextStyles.mSemiBold),
+                  ],
+                ),
               ),
             ],
           ),

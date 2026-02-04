@@ -38,7 +38,11 @@ class HomeCubit extends Cubit<HomeState> {
   List<PostModel> paginationPosts = [];
 
   // Posts Services
-  Future<void> fetchPosts({bool isPagination = false}) async {
+  Future<void> fetchPosts({bool isPagination = false ,bool isReset=false}) async {
+    if(isReset){
+      page=0;
+      paginationPosts.clear();
+    }
     if (hasReachedMax||isFetching) return;
 
     emit(!isPagination ? PostsLoading() : PostsPaginationLoading());
@@ -200,7 +204,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> refresh() async {
-    Future.wait([fetchHomeStories(), fetchPosts()]);
+    Future.wait([fetchHomeStories(), fetchPosts(isReset: true)]);
   }
 
   void setToInitial() {

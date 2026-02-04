@@ -69,32 +69,38 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              HomeHeader(),
-              20.verticalSpace,
-              AddPostSection(),
-              20.verticalSpace,
-              StoriesSection(),
-              20.verticalSpace,
-              PostsSection(),
-              BlocBuilder<HomeCubit, HomeState>(
-                bloc: homeCubit,
-                buildWhen: (previous, current) =>
-                    current is PostsPaginationLoading || current is PostsLoaded,
-                builder: (context, state) {
-                  if (state is PostsPaginationLoading) {
-                    return CustomLoading();
-                  }
-                  return SizedBox.shrink();
-                },
-              ),
-            ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        await homeCubit.refresh();
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.w),
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                HomeHeader(),
+                20.verticalSpace,
+                AddPostSection(),
+                20.verticalSpace,
+                StoriesSection(),
+                20.verticalSpace,
+                PostsSection(),
+                BlocBuilder<HomeCubit, HomeState>(
+                  bloc: homeCubit,
+                  buildWhen: (previous, current) =>
+                      current is PostsPaginationLoading ||
+                      current is PostsLoaded,
+                  builder: (context, state) {
+                    if (state is PostsPaginationLoading) {
+                      return CustomLoading();
+                    }
+                    return SizedBox.shrink();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

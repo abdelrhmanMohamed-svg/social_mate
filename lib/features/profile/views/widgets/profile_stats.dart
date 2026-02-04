@@ -28,8 +28,7 @@ class ProfileStats extends StatelessWidget with SU {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               StatsItem(
-                onTap: () => Navigator.of(context, rootNavigator: true)
-                    .pushNamed(AppRoutes.postsPage),
+                
                 title: 'Posts', value: userData.postsCount),
               SizedBox(
                 height: 50.h,

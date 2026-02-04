@@ -33,7 +33,6 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
   void dispose() {
     super.dispose();
     _textController.dispose();
-    homeCubit.close();
   }
 
   @override
