@@ -29,6 +29,7 @@ abstract class PostServices {
   Future<Map<String, List<ResponseCommentModel>>> fetchCommentsForPosts(
     List<String> postIds,
   );
+  Future<void> deletePost(String postId);
 }
 
 class PostServicesImpl implements PostServices {
@@ -252,6 +253,19 @@ class PostServicesImpl implements PostServices {
       }
 
       return commentsMap;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deletePost(String postId) async {
+    try {
+      await _supabaseDatabaseServices.deleteRow(
+        table: SupabaseTablesAndBucketsNames.posts,
+        column: AppConstants.primaryKey,
+        value: postId,
+      );
     } catch (e) {
       rethrow;
     }

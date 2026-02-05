@@ -11,11 +11,14 @@ class PostModel {
   final List<String>? likes;
   final List<String>? saves;
 
+
   final List<String>? comments;
   final String? fileName;
   final bool isLiked;
   final bool isSaved;
   final int commentsCount;
+  final bool isMyPost;
+
 
   const PostModel({
     required this.id,
@@ -34,6 +37,7 @@ class PostModel {
     this.isSaved = false,
     this.commentsCount = 0,
     this.saves,
+    this.isMyPost = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -96,6 +100,7 @@ class PostModel {
     int? commentsCount,
     List<String>? saves,
     bool? isSaved,
+    bool? isMyPost,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -114,6 +119,7 @@ class PostModel {
       commentsCount: commentsCount ?? this.commentsCount,
       saves: saves ?? this.saves,
       isSaved: isSaved ?? this.isSaved,
+      isMyPost: isMyPost ?? this.isMyPost,
     );
   }
 }

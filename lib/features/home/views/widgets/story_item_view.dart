@@ -78,7 +78,7 @@ class StoryItemView extends StatelessWidget with SU {
             },
             onSelected: (value) {
               if (value == 'delete') {
-                showCustomDialog(context, storyCubit);
+                showCustomDialogForStory(context, storyCubit);
               }
             },
 
@@ -94,7 +94,7 @@ class StoryItemView extends StatelessWidget with SU {
     );
   }
 
-  Future<dynamic> showCustomDialog(
+  Future<dynamic> showCustomDialogForStory(
     BuildContext context,
     StoryCubit storyCubit,
   ) {

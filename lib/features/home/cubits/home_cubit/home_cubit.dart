@@ -38,12 +38,17 @@ class HomeCubit extends Cubit<HomeState> {
   List<PostModel> paginationPosts = [];
 
   // Posts Services
-  Future<void> fetchPosts({bool isPagination = false ,bool isReset=false}) async {
-    if(isReset){
-      page=0;
+  Future<void> fetchPosts({
+    bool isPagination = false,
+    bool isReset = false,
+  }) async {
+    if (isReset) {
+      page = 0;
       paginationPosts.clear();
+      hasReachedMax = false;
+      isFetching = false;
     }
-    if (hasReachedMax||isFetching) return;
+    if (hasReachedMax || isFetching) return;
 
     emit(!isPagination ? PostsLoading() : PostsPaginationLoading());
 
@@ -70,11 +75,13 @@ class HomeCubit extends Cubit<HomeState> {
         final postComments = commentsMap[post.id] ?? [];
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
         final isSaved = post.saves?.contains(currentUser.id) ?? false;
+        final isMyPost = post.authorId == currentUser.id;
 
         return post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
           isSaved: isSaved,
+          isMyPost: isMyPost,
         );
       }).toList();
 

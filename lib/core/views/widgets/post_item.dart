@@ -93,6 +93,27 @@ class _PostItemState extends State<PostItem> {
                     ),
                   ],
                 ),
+                if (widget.post.isMyPost) ...[
+                  const Spacer(),
+                  PopupMenuButton(
+                    padding: EdgeInsetsGeometry.zero,
+                    color: AppColors.white,
+                    onSelected: (value) {
+                      if (value == 'delete') {
+                        showCustomDialogForPost(
+                          context,
+                          postCubit: postCubit,
+                          post: widget.post,
+                        );
+                      }
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(value: 'delete', child: Text("Delete")),
+                      ];
+                    },
+                  ),
+                ],
               ],
             ),
 
@@ -222,4 +243,69 @@ class _PostItemState extends State<PostItem> {
       ),
     );
   }
+}
+
+Future<dynamic> showCustomDialogForPost(
+  BuildContext context, {
+  required PostCubit.PostCubit postCubit,
+  required PostModel post,
+}) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: AppColors.white,
+      title: Text("Delete Post", style: AppTextStyles.headingH5),
+      content: Text(
+        "Are you sure you want to delete this Post?",
+        style: AppTextStyles.lMedium,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            "Cancel",
+            style: AppTextStyles.mRegular.copyWith(color: AppColors.black),
+          ),
+        ),
+        BlocConsumer<PostCubit.PostCubit, PostCubit.PostState>(
+          bloc: postCubit,
+          listenWhen: (previous, current) =>
+              (current is PostCubit.DeletePostSuccess &&
+              current.postId == post.id &&
+              previous is! PostCubit.DeletePostSuccess),
+          listener: (context, state) {
+            if (state is PostCubit.DeletePostSuccess &&
+                state.postId == post.id) {
+              Navigator.of(context).pop();
+              showCustomSnackBar(context, "Post deleted successfully");
+            }
+          },
+          buildWhen: (previous, current) =>
+              (current is PostCubit.DeletePostSuccess &&
+                  current.postId == post.id) ||
+              (current is PostCubit.DeletePostError &&
+                  current.postId == post.id) ||
+              (current is PostCubit.DeletePostLoading &&
+                  current.postId == post.id),
+          builder: (context, state) {
+            if (state is PostCubit.DeletePostLoading) {
+              return CircularProgressIndicator.adaptive();
+            }
+            if (state is PostCubit.DeletePostError) {
+              return Text(state.message);
+            }
+            return TextButton(
+              onPressed: () async {
+                await postCubit.deletePost(post.id);
+              },
+              child: Text(
+                "Delete",
+                style: AppTextStyles.mRegular.copyWith(color: AppColors.red),
+              ),
+            );
+          },
+        ),
+      ],
+    ),
+  );
 }

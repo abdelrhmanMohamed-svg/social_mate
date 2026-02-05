@@ -17,7 +17,7 @@ class PostCubit extends Cubit<PostState> {
   VideoPlayerController? _controller;
   List<PostModel> paginationPosts = [];
   int page = 1;
-  int limit = 3;
+  int limit = 1;
   bool isFetching = false;
   bool hasReachedMax = false;
 
@@ -172,6 +172,7 @@ class PostCubit extends Cubit<PostState> {
     try {
       isFetching = true;
       final currentUser = await getCurrentUser();
+      userId ??= currentUser.id;
 
       final rawPosts = await _postServices.fetchPosts(
         page: page,
@@ -196,11 +197,13 @@ class PostCubit extends Cubit<PostState> {
         final postComments = commentsMap[post.id] ?? [];
         final isLiked = post.likes?.contains(currentUser.id) ?? false;
         final isSaved = post.saves?.contains(currentUser.id) ?? false;
+        final isMyPost = post.authorId == currentUser.id;
 
         return post.copyWith(
           isLiked: isLiked,
           commentsCount: postComments.length,
           isSaved: isSaved,
+          isMyPost: isMyPost,
         );
       }).toList();
 
@@ -209,5 +212,15 @@ class PostCubit extends Cubit<PostState> {
       emit(FetchingUserPostsError(e.toString()));
     }
     isFetching = false;
+  }
+
+  Future<void> deletePost(String postId) async {
+    emit(DeletePostLoading(postId));
+    try {
+      await _postServices.deletePost(postId);
+      emit(DeletePostSuccess(postId));
+    } catch (e) {
+      emit(DeletePostError(e.toString(), postId));
+    }
   }
 }

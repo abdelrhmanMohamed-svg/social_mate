@@ -70,9 +70,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {
-        await homeCubit.refresh();
-      },
+      onRefresh: () async => await homeCubit.refresh(),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w),

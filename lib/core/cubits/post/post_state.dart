@@ -169,3 +169,23 @@ final class FetchingUserPostsError extends PostState {
 }
 
 final class ProfilePostsPaginationLoading extends PostState {}
+
+// delete post states
+final class DeletePostLoading extends PostState {
+  final String postId;
+
+  const DeletePostLoading(this.postId);
+}
+
+final class DeletePostSuccess extends PostState {
+  final String postId;
+
+  const DeletePostSuccess(this.postId);
+}
+
+final class DeletePostError extends PostState {
+  final String message;
+  final String postId;
+
+  const DeletePostError(this.message, this.postId);
+}
