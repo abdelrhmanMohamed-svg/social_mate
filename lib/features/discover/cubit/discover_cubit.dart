@@ -13,7 +13,7 @@ class DiscoverCubit extends Cubit<DiscoverState> {
   Future<void> fetchUsers() async {
     emit(FetchUsersLoading());
     try {
-      final currentUser = await _authCoreServices.fetchCurrentUser();
+      UserModel currentUser = await _fetchCurrentUser();
       if (currentUser.id == null) {
         emit(FetchUsersFailure('User not found'));
         return;
@@ -24,8 +24,6 @@ class DiscoverCubit extends Cubit<DiscoverState> {
         currentUser.followWating?.contains(user.id) ?? false
             ? updatedUsers.add(user.copyWith(isFollow: true))
             : updatedUsers.add(user);
-       
-        
       }
       emit(FetchUsersSuccess(updatedUsers));
     } catch (e) {
@@ -36,19 +34,41 @@ class DiscoverCubit extends Cubit<DiscoverState> {
   Future<void> followUser(String userId) async {
     emit(FollowUserLoading(userId));
     try {
-      final user = await _authCoreServices.fetchCurrentUser();
-      if (user.id == null) {
+      UserModel currentUser = await _fetchCurrentUser();
+      if (currentUser.id == null) {
         emit(FollowUserFailure('User not found', userId));
         return;
       }
       final isUserToFollow = await _discoverServices.followUser(
         userId,
-        user.id!,
+        currentUser.id!,
       );
       emit(FollowUserSuccess(userId, isUserToFollow));
     } catch (e) {
       emit(FollowUserFailure(e.toString(), userId));
     }
   }
-  
+
+  Future<void> searchUsersByName(String text) async {
+    emit(FetchUsersLoading());
+    try {
+      UserModel currentUser = await _fetchCurrentUser();
+      if (currentUser.id == null) {
+        emit(FetchUsersFailure('User not found'));
+        return;
+      }
+      final users = await _discoverServices.searchUsersByName(
+        currentUser.id!,
+        text,
+      );
+      emit(FetchUsersSuccess(users));
+    } catch (e) {
+      emit(FetchUsersFailure(e.toString()));
+    }
+  }
+
+  Future<UserModel> _fetchCurrentUser() async {
+    final currentUser = await _authCoreServices.fetchCurrentUser();
+    return currentUser;
+  }
 }

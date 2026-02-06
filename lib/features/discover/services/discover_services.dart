@@ -6,6 +6,7 @@ import 'package:social_mate/features/auth/models/user_model.dart';
 abstract class DiscoverServices {
   Future<List<UserModel>> fetchUsers(String id);
   Future<bool> followUser(String userId, String currentUserId);
+  Future<List<UserModel>> searchUsersByName(String id, String text);
 }
 
 class DiscoverServicesImpl implements DiscoverServices {
@@ -84,6 +85,22 @@ class DiscoverServicesImpl implements DiscoverServices {
         values: {AppConstants.followRequestsColumn: userRequestsList},
       );
       return isUserToFollow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<UserModel>> searchUsersByName(String id, String text) async {
+    try {
+      return await _supabaseDatabaseServices.fetchRows(
+        table: SupabaseTablesAndBucketsNames.users,
+        builder: (data, id) => UserModel.fromMap(data),
+        primaryKey: AppConstants.primaryKey,
+        filter: (query) => query
+            .ilike(AppConstants.userNameColumn, '%$text%')
+            .neq(AppConstants.primaryKey, id),
+      );
     } catch (e) {
       rethrow;
     }

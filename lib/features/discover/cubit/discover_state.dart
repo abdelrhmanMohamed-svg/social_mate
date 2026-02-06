@@ -35,3 +35,4 @@ final class FollowUserFailure extends DiscoverState {
   final String userId;
   const FollowUserFailure(this.error, this.userId);
 }
+

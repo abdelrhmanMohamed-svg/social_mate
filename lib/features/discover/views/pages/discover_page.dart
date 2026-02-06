@@ -17,8 +17,26 @@ class DiscoverPage extends StatelessWidget {
   }
 }
 
-class DicoverBody extends StatelessWidget with SU {
+class DicoverBody extends StatefulWidget with SU {
   const DicoverBody({super.key});
+
+  @override
+  State<DicoverBody> createState() => _DicoverBodyState();
+}
+
+class _DicoverBodyState extends State<DicoverBody> {
+  late TextEditingController _searchController;
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +50,32 @@ class DicoverBody extends StatelessWidget with SU {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Discover people', style: AppTextStyles.headingH4),
+              Row(
+                children: [
+                  Text('Discover people', style: AppTextStyles.headingH4),
+                  20.horizontalSpace,
+
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        suffixIcon: InkWell(
+                          onTap: () async => await dicoverCubit
+                              .searchUsersByName(_searchController.text),
+                          child: Icon(Icons.search),
+                        ),
+                      ),
+                      onChanged: (text) async =>
+                          await dicoverCubit.searchUsersByName(text),
+                    ),
+                  ),
+                ],
+              ),
               20.verticalSpace,
               Expanded(
                 child: BlocBuilder<DiscoverCubit, DiscoverState>(
@@ -50,12 +93,15 @@ class DicoverBody extends StatelessWidget with SU {
                       return Center(child: Text(state.error));
                     } else if (state is FetchUsersSuccess) {
                       final users = state.users;
+                      if (users.isEmpty) {
+                        return const Center(child: Text('No users found'));
+                      }
                       return ListView.separated(
                         physics: const BouncingScrollPhysics(),
                         separatorBuilder: (context, index) => 10.verticalSpace,
-      
+
                         itemCount: users.length,
-      
+
                         itemBuilder: (context, index) =>
                             DiscoverItem(user: users[index]),
                       );

@@ -25,6 +25,8 @@ class AppConstants {
   static const String followersColumn = "followers";
   static const String followingColumn = "following";
   static const String createdAtColumn = "created_at";
+  static const String userNameColumn = "name";
+
 
 
 
