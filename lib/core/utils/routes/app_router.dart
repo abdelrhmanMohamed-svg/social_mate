@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/views/pages/error_page.dart';
 import 'package:social_mate/features/auth/views/pages/auth_page.dart';
+import 'package:social_mate/features/chat/views/pages/chat_list_page.dart';
+import 'package:social_mate/features/chat/views/pages/single_chat_page.dart';
 import 'package:social_mate/features/discover/models/public_profile_args.dart';
 import 'package:social_mate/features/followRequest/models/follow_request_args.dart';
 import 'package:social_mate/features/followRequest/views/pages/follow_request_page.dart';
@@ -22,7 +24,17 @@ class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      
+        case AppRoutes.singleChatPageRoute:
+        final userID = settings.arguments as String;
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => SingleChatPage(otherUserId: userID),
+        );
+      case AppRoutes.inboxPageRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const ChatListPage(),
+        );
       case AppRoutes.savedPostsPageRoute:
         return MaterialPageRoute(
           settings: settings,

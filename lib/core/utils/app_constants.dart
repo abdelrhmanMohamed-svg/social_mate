@@ -16,7 +16,7 @@ class AppConstants {
   static const String userIMagePLaceholder =
       "https://i.pinimg.com/1200x/6e/59/95/6e599501252c23bcf02658617b29c894.jpg";
 
-  //table columns 
+  //table columns
   static const String primaryKey = "id";
   static const String authorIdColumn = "author_id";
   static const String postIdColumn = "post_id";
@@ -26,11 +26,13 @@ class AppConstants {
   static const String followingColumn = "following";
   static const String createdAtColumn = "created_at";
   static const String userNameColumn = "name";
-
-
-
-
+  static const String chatIdColumn = "chat_id";
+  static const String userIdColumn = "user_id";
+  static const String contentColumn = "content";
+  static const String lastMessageContentColumn = "last_message";
+  static const String lastMessageAtColumn = "last_message_at";
+  static const String isReadColumn = "is_read";
+  static const String senderIdColumn = "sender_id";
 
 
 }
-

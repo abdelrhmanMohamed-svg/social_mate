@@ -33,6 +33,42 @@ class SupabaseDatabaseServices {
     }
   }
 
+  // Insert a new row into [table] with the provided [values], returning the inserted row.
+  // في SupabaseDatabaseServices class
+  Future<Map<String, dynamic>> insertRowWithReturn({
+    required String table,
+    required Map<String, dynamic> values,
+  }) async {
+    try {
+      final response = await _db.from(table).insert(values).select().single();
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //count rows in [table] where [column] equals [value].
+  // في SupabaseDatabaseServices class
+Future<int> countRows({
+  required String table,
+  required PostgrestFilterBuilder Function(PostgrestFilterBuilder query) filter,
+}) async {
+  try {
+    PostgrestFilterBuilder query = _db.from(table).select('*');
+    
+    query = filter(query);
+    
+    final countQuery = query.count(CountOption.exact);
+    
+    final response = await countQuery;
+    
+    return response.count;
+  } catch (e) {
+    rethrow;
+  }
+}
+
   /// Updates rows in [table] where [column] equals [value], setting them to [values].
   ///
   /// - [table]: the table to update.
@@ -46,10 +82,15 @@ class SupabaseDatabaseServices {
     required Map<String, dynamic> values,
     required String column,
     required dynamic value,
+     PostgrestFilterBuilder Function(PostgrestFilterBuilder query)? filter,
   }) async {
     try {
       // Perform the update operation with a filter
-      await _db.from(table).update(values).eq(column, value);
+      if (filter != null) {
+        await filter(_db.from(table).update(values)).single();
+      } else {
+        await _db.from(table).update(values).eq(column, value);
+      }
     } on PostgrestException catch (e) {
       debugPrint('Update error on $table where $column==$value: ${e.message}');
       rethrow;
@@ -72,8 +113,13 @@ class SupabaseDatabaseServices {
   }) async {
     try {
       // Perform upsert with conflict resolution
-      await _db.from(table)
-        .upsert(values, onConflict: onConflict, ignoreDuplicates: ignoreDuplicates);
+      await _db
+          .from(table)
+          .upsert(
+            values,
+            onConflict: onConflict,
+            ignoreDuplicates: ignoreDuplicates,
+          );
     } on PostgrestException catch (e) {
       debugPrint('Upsert error on $table: ${e.message}');
       rethrow;
@@ -118,9 +164,8 @@ class SupabaseDatabaseServices {
     required String table,
     required List<String> primaryKey,
     required T Function(Map<String, dynamic> data, String id) builder,
-    SupabaseStreamFilterBuilder Function(
-      SupabaseStreamFilterBuilder query,
-    )? filter,
+    SupabaseStreamFilterBuilder Function(SupabaseStreamFilterBuilder query)?
+    filter,
     int Function(T a, T b)? sort,
   }) {
     // Create the base realtime stream
@@ -154,9 +199,10 @@ class SupabaseDatabaseServices {
     required String id,
     required T Function(Map<String, dynamic> data, String id) builder,
   }) {
-    var streamQuery = _db.from(table)
-      .stream(primaryKey: [primaryKey])
-      .eq(primaryKey, id);
+    var streamQuery = _db
+        .from(table)
+        .stream(primaryKey: [primaryKey])
+        .eq(primaryKey, id);
     return streamQuery.map((rows) {
       final row = rows.first;
       return builder(row, row[primaryKey]?.toString() ?? '');
@@ -186,7 +232,9 @@ class SupabaseDatabaseServices {
       final data = await _db.from(table).select().eq(primaryKey, id).single();
       return builder(data, data[primaryKey]?.toString() ?? '');
     } on PostgrestException catch (e) {
-      debugPrint('Fetch row error on $table where $primaryKey==$id: ${e.message}');
+      debugPrint(
+        'Fetch row error on $table where $primaryKey==$id: ${e.message}',
+      );
       rethrow;
     }
   }
@@ -204,9 +252,7 @@ class SupabaseDatabaseServices {
     required String table,
     required T Function(Map<String, dynamic> data, String id) builder,
     String? primaryKey,
-    PostgrestFilterBuilder Function(
-      PostgrestFilterBuilder query,
-    )? filter,
+    PostgrestFilterBuilder Function(PostgrestFilterBuilder query)? filter,
     int Function(T a, T b)? sort,
   }) async {
     try {
@@ -231,54 +277,46 @@ class SupabaseDatabaseServices {
     }
   }
 
-
   Future<List<T>> fetchRowsWithTransform<T>({
-  required String table,
-  required T Function(Map<String, dynamic> data, String id) builder,
-  String? primaryKey,
+    required String table,
+    required T Function(Map<String, dynamic> data, String id) builder,
+    String? primaryKey,
 
-  // WHERE
-  PostgrestFilterBuilder Function(
-    PostgrestFilterBuilder query,
-  )? filter,
+    // WHERE
+    PostgrestFilterBuilder Function(PostgrestFilterBuilder query)? filter,
 
-  // ORDER / RANGE / LIMIT
-  PostgrestTransformBuilder Function(
-    PostgrestFilterBuilder query,
-  )? transform,
+    // ORDER / RANGE / LIMIT
+    PostgrestTransformBuilder Function(PostgrestFilterBuilder query)? transform,
 
-  // Client-side sort (optional)
-  int Function(T a, T b)? sort,
-}) async {
-  try {
-    // base query
-    var query = _db.from(table).select() as PostgrestFilterBuilder;
+    // Client-side sort (optional)
+    int Function(T a, T b)? sort,
+  }) async {
+    try {
+      // base query
+      var query = _db.from(table).select() as PostgrestFilterBuilder;
 
-    // 1️⃣ apply filters
-    if (filter != null) {
-      query = filter(query);
+      // 1️⃣ apply filters
+      if (filter != null) {
+        query = filter(query);
+      }
+
+      // 2️⃣ apply transforms
+      final finalQuery = transform != null ? transform(query) : query;
+
+      // execute
+      final rows = await finalQuery as List<dynamic>;
+
+      final list = rows.map((e) {
+        final row = e as Map<String, dynamic>;
+        final id = primaryKey != null ? row[primaryKey]?.toString() ?? '' : '';
+        return builder(row, id);
+      }).toList();
+
+      if (sort != null) list.sort(sort);
+      return list;
+    } on PostgrestException catch (e) {
+      debugPrint('Fetch rows error on $table: ${e.message}');
+      rethrow;
     }
-
-    // 2️⃣ apply transforms
-    final finalQuery =
-        transform != null ? transform(query) : query;
-
-    // execute
-    final rows = await finalQuery as List<dynamic>;
-
-    final list = rows.map((e) {
-      final row = e as Map<String, dynamic>;
-      final id = primaryKey != null
-          ? row[primaryKey]?.toString() ?? ''
-          : '';
-      return builder(row, id);
-    }).toList();
-
-    if (sort != null) list.sort(sort);
-    return list;
-  } on PostgrestException catch (e) {
-    debugPrint('Fetch rows error on $table: ${e.message}');
-    rethrow;
   }
-}
 }

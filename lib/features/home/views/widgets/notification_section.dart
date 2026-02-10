@@ -5,8 +5,8 @@ import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/features/followRequest/cubit/follow_request_cubit.dart';
 import 'package:social_mate/features/followRequest/models/follow_request_args.dart';
 
-class CustomNotification extends StatelessWidget with SU {
-  const CustomNotification({super.key});
+class NotificationSection extends StatelessWidget with SU {
+  const NotificationSection({super.key});
 
   @override
   Widget build(BuildContext context) {

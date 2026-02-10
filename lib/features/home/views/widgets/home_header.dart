@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
-import 'package:social_mate/features/home/views/widgets/custom_notification.dart';
+import 'package:social_mate/core/utils/routes/app_routes.dart';
+import 'package:social_mate/features/home/views/widgets/notification_section.dart';
 
 class HomeHeader extends StatelessWidget with SU {
   const HomeHeader({super.key});
@@ -16,9 +17,15 @@ class HomeHeader extends StatelessWidget with SU {
           children: [
             Icon(Icons.search, size: 28.h),
             15.horizontalSpace,
-            CustomNotification(),
+            NotificationSection(),
             15.horizontalSpace,
-            Icon(Icons.message_outlined, size: 28.h),
+            InkWell(
+              onTap: () => Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pushNamed(AppRoutes.inboxPageRoute),
+              child: Icon(Icons.inbox_outlined, size: 28.h),
+            ),
           ],
         ),
       ],

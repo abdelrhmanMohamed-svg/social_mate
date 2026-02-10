@@ -2,6 +2,7 @@ class AppRoutes {
   AppRoutes._();
   static const String auhtPageRoute = "/";
   static const String homePageRoute = "/home";
+  static const String inboxPageRoute = "/home/inbox";
   static const String addStoryPage = "/add-story";
   static const String viewStoryPage = "/view-story";
   static const String addPostPage = "/add-post";
@@ -11,4 +12,6 @@ class AppRoutes {
   static const String followersPage = "/followers";
   static const String followingPage = "/following";
   static const String savedPostsPageRoute = "/saved-posts";
+  static const String singleChatPageRoute = "/chat";
+
 }
