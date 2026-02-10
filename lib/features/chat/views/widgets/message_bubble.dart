@@ -5,8 +5,13 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/chat/models/response_message_model.dart';
 
 class MessageBubble extends StatelessWidget with SU {
-  const MessageBubble({super.key, required this.message});
+  const MessageBubble({
+    super.key,
+    required this.message,
+    required this.isLoading,
+  });
   final ResponseMessageModel message;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,11 @@ class MessageBubble extends StatelessWidget with SU {
         child: Text(
           message.content,
           style: AppTextStyles.mRegular.copyWith(
-            color: isMe ? Colors.white : AppColors.black87,
+            color: isLoading
+                ? AppColors.gray100
+                : isMe
+                ? Colors.white
+                : AppColors.black87,
           ),
         ),
       ),

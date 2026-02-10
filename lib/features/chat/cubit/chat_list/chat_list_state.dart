@@ -4,7 +4,10 @@ sealed class ChatListState {}
 
 final class ChatListInitial extends ChatListState {}
 
-final class ChatListLoading extends ChatListState {}
+final class ChatListLoading extends ChatListState {
+  final List<InboxChatModel> fakeChats;
+  ChatListLoading(this.fakeChats);
+}
 
 final class ChatListLoaded extends ChatListState {
   final List<InboxChatModel> chats;

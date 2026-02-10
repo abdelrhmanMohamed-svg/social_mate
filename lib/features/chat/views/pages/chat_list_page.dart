@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
@@ -43,7 +44,7 @@ class ChatListBody extends StatelessWidget {
             current is ChatListError,
         builder: (context, state) {
           if (state is ChatListLoading) {
-            return Center(child: CircularProgressIndicator.adaptive());
+            return _ListOfChats(chats: state.fakeChats, isLoading: true);
           } else if (state is ChatListEmpty) {
             final suggestedUsers = state.suggestedUsers;
             if (suggestedUsers.isEmpty) {
@@ -64,17 +65,33 @@ class ChatListBody extends StatelessWidget {
           } else if (state is ChatListLoaded) {
             final chats = state.chats;
 
-            return ListView.builder(
-              itemCount: chats.length,
-              itemBuilder: (context, index) {
-                final chat = chats[index];
-                return ChatListItem(chat: chat);
-              },
-            );
+            return _ListOfChats(chats: chats);
           } else if (state is ChatListError) {
             return Center(child: Text('Error: ${state.message}'));
           }
           return SizedBox.shrink();
+        },
+      ),
+    );
+  }
+}
+
+class _ListOfChats extends StatelessWidget {
+  const _ListOfChats({required this.chats, this.isLoading = false});
+
+  final List<InboxChatModel> chats;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: isLoading,
+
+      child: ListView.builder(
+        itemCount: chats.length,
+        itemBuilder: (context, index) {
+          final chat = chats[index];
+          return ChatListItem(chat: chat);
         },
       ),
     );
@@ -103,6 +120,7 @@ class ChatListItem extends StatelessWidget with SU {
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
           child: ListTile(
             leading: CircleAvatar(
+              backgroundColor: AppColors.gray,
               radius: 28.r,
               backgroundImage: NetworkImage(
                 user?.profileImageUrl ?? AppConstants.userIMagePLaceholder,

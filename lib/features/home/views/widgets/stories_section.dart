@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
+import 'package:social_mate/features/home/models/story_model.dart';
 import 'package:social_mate/features/home/views/widgets/story_item.dart';
 
 class StoriesSection extends StatelessWidget with SU {
@@ -31,38 +33,16 @@ class StoriesSection extends StatelessWidget with SU {
             current is StoriesError,
         builder: (context, state) {
           if (state is StoriesLoading) {
-            return Center(child: CircularProgressIndicator.adaptive());
+            return _ListOfStories(stories: state.fakeStories, isLoading: true);
           } else if (state is StoriesLoaded) {
             final stories = state.stories;
             final currentUserStories = state.currentUserStories;
             final userID = state.userID;
 
-            return ListView.separated(
-              separatorBuilder: (context, index) => 13.horizontalSpace,
-              scrollDirection: Axis.horizontal,
-              itemCount: stories.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return currentUserStories.isEmpty
-                      ? StoryItem()
-                      : StoryItem(
-                          story: currentUserStories.first,
-                          onLongPress: () {
-                            showModalBottomSheet(
-                              context: context,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              backgroundColor: AppColors.primary,
-
-                              builder: (context) =>
-                                  LongPressBottomSheetStory(userID: userID),
-                            );
-                          },
-                        );
-                }
-                final story = stories[index - 1];
-                return StoryItem(story: story);
-              },
+            return _ListOfStories(
+              stories: stories,
+              currentUserStories: currentUserStories,
+              userID: userID,
             );
           }
 
@@ -75,6 +55,56 @@ class StoriesSection extends StatelessWidget with SU {
               return StoryItem();
             },
           );
+        },
+      ),
+    );
+  }
+}
+
+class _ListOfStories extends StatelessWidget {
+  const _ListOfStories({
+    required this.stories,
+    this.currentUserStories,
+    this.userID,
+    this.isLoading = false,
+  });
+
+  final List<StoryModel> stories;
+  final List<StoryModel>? currentUserStories;
+  final String? userID;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.separated(
+        separatorBuilder: (context, index) => 13.horizontalSpace,
+        scrollDirection: Axis.horizontal,
+        itemCount: stories.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return currentUserStories == null || currentUserStories!.isEmpty
+                ? StoryItem()
+                : StoryItem(
+                    story: currentUserStories!.first,
+                    onLongPress: () {
+                      isLoading
+                          ? null
+                          : showModalBottomSheet(
+                              context: context,
+                              enableDrag: true,
+                              isScrollControlled: true,
+                              backgroundColor: AppColors.primary,
+
+                              builder: (context) =>
+                                  LongPressBottomSheetStory(userID: userID!),
+                            );
+                    },
+                  );
+          }
+          final story = stories[index - 1];
+          return StoryItem(story: story);
         },
       ),
     );

@@ -16,10 +16,23 @@ class SingleChatCubit extends Cubit<SingleChatState> {
   final _authCore = AuthCoreServicesImpl();
   final String _userId;
   RealtimeChannel? _channel;
+  final List<ResponseMessageModel> _fakeMessages = List.filled(
+    20,
+    ResponseMessageModel(
+      id: "id",
+      content: "This is a fake message for loading",
+      createdAt: DateTime.now(),
+      isMine: true,
+      senderId: "senderId",
+      chatId: "chatId",
+      isRead: false,
+    ),
+    growable: true,
+  );
 
   Future<void> initialize() async {
     try {
-      emit(SingleChatLoading());
+      emit(SingleChatLoading(_fakeMessages));
 
       // 1. Get or create chat ID
       final chatId = await _chatServices.getOrCreateChatId(_userId);

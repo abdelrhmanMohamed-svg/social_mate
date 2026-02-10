@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:social_mate/features/chat/models/response_message_model.dart';
 import 'package:social_mate/features/chat/views/widgets/message_bubble.dart';
 
@@ -9,11 +10,13 @@ class MessageList extends StatelessWidget with SU {
     required this.messages,
     required this.isLoadingMore,
     required this.onLoadMore,
+    this.isLoading = false,
   });
 
   final List<ResponseMessageModel> messages;
   final bool isLoadingMore;
   final VoidCallback onLoadMore;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +30,20 @@ class MessageList extends StatelessWidget with SU {
         }
         return false;
       },
-      child: ListView.builder(
-        reverse: true,
-        padding: EdgeInsets.all(16.w),
-        itemCount: reversedMessages.length + (isLoadingMore ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index == reversedMessages.length) {
-            return const Center(child: CircularProgressIndicator.adaptive());
-          }
-          final message = reversedMessages[index];
-          return MessageBubble(message: message);
-        },
+      child: Skeletonizer(
+        enabled: isLoading,
+        child: ListView.builder(
+          reverse: true,
+          padding: EdgeInsets.all(16.w),
+          itemCount: reversedMessages.length + (isLoadingMore ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == reversedMessages.length) {
+              return const Center(child: CircularProgressIndicator.adaptive());
+            }
+            final message = reversedMessages[index];
+            return MessageBubble(message: message,isLoading: isLoading);
+          },
+        ),
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/core/views/widgets/post_item.dart';
+import 'package:social_mate/features/home/models/post_model.dart';
 
 class PostsSection extends StatelessWidget {
   const PostsSection({super.key});
@@ -18,7 +20,7 @@ class PostsSection extends StatelessWidget {
 
       builder: (context, state) {
         if (state is PostsLoading) {
-          return const Center(child: CircularProgressIndicator.adaptive());
+          return _ListOfPosts(posts: state.fakePosts, isLoading: true);
         }
         if (state is PostsError) {
           return Center(child: Text(state.message));
@@ -26,16 +28,31 @@ class PostsSection extends StatelessWidget {
         if (state is PostsLoaded) {
           final posts = state.posts;
           if (posts.isEmpty) return Text("There are no posts");
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: posts.length,
-
-            itemBuilder: (context, index) => PostItem(post: posts[index]),
-          );
+          return _ListOfPosts(posts: posts);
         }
         return SizedBox.shrink();
       },
+    );
+  }
+}
+
+class _ListOfPosts extends StatelessWidget {
+  const _ListOfPosts({ required this.posts, this.isLoading = false});
+
+  final List<PostModel> posts;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: isLoading,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: posts.length,
+
+        itemBuilder: (context, index) => PostItem(post: posts[index]),
+      ),
     );
   }
 }

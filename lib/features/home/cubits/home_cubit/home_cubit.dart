@@ -36,6 +36,26 @@ class HomeCubit extends Cubit<HomeState> {
   bool hasReachedMax = false;
   bool isFetching = false;
   List<PostModel> paginationPosts = [];
+  List<StoryModel> fakeStories = List.filled(
+    4,
+    StoryModel(
+      id: '1',
+      createdAt: "2026-01-13 23:23:35.758314+00",
+      authorId: "authorId",
+      color: 22,
+      imageUrl: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
+    ),
+  );
+  List<PostModel> fakePosts = List.filled(
+    4,
+    PostModel(
+      id: '1',
+      content: "content",
+      authorId: "authorId",
+      createdAt: "2026-01-13 23:23:35.758314+00",
+      imageUrl: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
+    ),
+  );
 
   // Posts Services
   Future<void> fetchPosts({
@@ -50,7 +70,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
     if (hasReachedMax || isFetching) return;
 
-    emit(!isPagination ? PostsLoading() : PostsPaginationLoading());
+    emit(!isPagination ? PostsLoading(fakePosts) : PostsPaginationLoading());
 
     try {
       isFetching = true;
@@ -226,7 +246,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   // Stories Services
   Future<void> fetchHomeStories() async {
-    emit(StoriesLoading());
+    emit(StoriesLoading(fakeStories));
     try {
       final currentUser = await _authcoreServices.fetchCurrentUser();
       if (currentUser.id == null) {

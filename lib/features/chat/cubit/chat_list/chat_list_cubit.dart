@@ -8,9 +8,23 @@ part 'chat_list_state.dart';
 class ChatListCubit extends Cubit<ChatListState> {
   ChatListCubit() : super(ChatListInitial());
   final ChatServices _chatServices = ChatServicesImpl();
+  final List<InboxChatModel> fakeChats = List.filled(
+    4,
+    InboxChatModel(
+      chatId: 'chatId',
+      lastMessage: 'lastMessage',
+      lastMessageAt: '2026-02-09 23:06:56.41787+00',
+      otherUser: UserModel(
+        id: 'id',
+        name: 'name',
+        email: 'email',
+        profileImageUrl: 'profileImageUrl',
+      ),
+    ),
+  );
   Future<void> loadChats() async {
     try {
-      emit(ChatListLoading());
+      emit(ChatListLoading(fakeChats));
 
       final chats = await _chatServices.getInboxChats();
       if (chats.isEmpty) {

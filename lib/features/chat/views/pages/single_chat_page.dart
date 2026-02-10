@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/chat/cubit/single_chat/single_chat_cubit.dart';
-import 'package:social_mate/features/chat/models/response_message_model.dart';
 import 'package:social_mate/features/chat/views/widgets/message_input.dart';
 import 'package:social_mate/features/chat/views/widgets/message_list.dart';
 import 'package:social_mate/features/chat/views/widgets/other_user_header_section.dart';
@@ -59,7 +58,14 @@ class _SingleChatViewState extends State<_SingleChatView> {
         },
         builder: (context, state) {
           if (state is SingleChatLoading) {
-            return const Center(child: CircularProgressIndicator.adaptive());
+            return Expanded(
+              child: MessageList(
+                messages: state.fakeMessages,
+                isLoadingMore: false,
+                onLoadMore: () {},
+                isLoading: true,
+              ),
+            );
           }
 
           if (state is SingleChatError) {

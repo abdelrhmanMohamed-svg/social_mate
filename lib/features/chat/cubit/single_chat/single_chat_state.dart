@@ -6,7 +6,10 @@ sealed class SingleChatState {
 
 final class SingleChatInitial extends SingleChatState {}
 
-final class SingleChatLoading extends SingleChatState {}
+final class SingleChatLoading extends SingleChatState {
+  final List<ResponseMessageModel> fakeMessages;
+  const SingleChatLoading(this.fakeMessages);
+}
 
 class SingleChatLoaded extends SingleChatState {
   final String chatId;
@@ -52,11 +55,13 @@ final class SingleChatError extends SingleChatState {
 
 // get other user data state
 final class SingleChatOtherUserLoading extends SingleChatState {}
+
 final class SingleChatOtherUserLoaded extends SingleChatState {
   final UserModel otherUser;
 
   const SingleChatOtherUserLoaded({required this.otherUser});
 }
+
 final class SingleChatOtherUserError extends SingleChatState {
   final String message;
 

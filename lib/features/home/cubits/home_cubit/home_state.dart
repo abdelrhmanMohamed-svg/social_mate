@@ -8,7 +8,10 @@ final class HomeInitial extends HomeState {}
 
 // Stories States
 
-final class StoriesLoading extends HomeState {}
+final class StoriesLoading extends HomeState {
+  final List<StoryModel> fakeStories;
+  const StoriesLoading(this.fakeStories);
+}
 
 final class StoriesLoaded extends HomeState {
   final List<StoryModel> stories;
@@ -31,7 +34,10 @@ final class StoriesError extends HomeState {
 
 // posts States
 
-final class PostsLoading extends HomeState {}
+final class PostsLoading extends HomeState {
+  final List<PostModel> fakePosts;
+  const PostsLoading(this.fakePosts);
+}
 
 final class PostsLoaded extends HomeState {
   final List<PostModel> posts;
