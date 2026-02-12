@@ -110,6 +110,8 @@ class ChatListItem extends StatelessWidget with SU {
 
   @override
   Widget build(BuildContext context) {
+    final chatListCubit = context.read<ChatListCubit>();
+
     if (chat == null && user != null) {
       return Card(
         color: AppColors.white,
@@ -139,9 +141,11 @@ class ChatListItem extends StatelessWidget with SU {
               style: AppTextStyles.mMedium.copyWith(color: AppColors.primary),
             ),
             onTap: () {
-              Navigator.of(
-                context,
-              ).pushNamed(AppRoutes.singleChatPageRoute, arguments: user!.id);
+              Navigator.of(context)
+                  .pushNamed(AppRoutes.singleChatPageRoute, arguments: user!.id)
+                  .then((_) async {
+                    await chatListCubit.setReadMessages(user!.id);
+                  });
             },
           ),
         ),
@@ -171,9 +175,30 @@ class ChatListItem extends StatelessWidget with SU {
               chat!.otherUser.name ?? 'Unknown',
               style: AppTextStyles.headingH6.copyWith(color: AppColors.black87),
             ),
-            subtitle: Text(
-              chat!.lastMessage ?? 'No messages yet',
-              style: AppTextStyles.mMedium.copyWith(color: AppColors.gray),
+            subtitle: Row(
+              children: [
+                Text(
+                  chat!.lastMessage ?? 'No messages yet',
+                  style: AppTextStyles.headingH6.copyWith(
+                    color: AppColors.gray,
+                  ),
+                ),
+                10.horizontalSpace,
+                if (chat!.unreadCount > 0)
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      chat!.unreadCount.toString(),
+                      style: AppTextStyles.mMedium.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             trailing: Text(
               chat!.lastMessageAt != null
@@ -183,10 +208,14 @@ class ChatListItem extends StatelessWidget with SU {
             ),
 
             onTap: () {
-              Navigator.of(context).pushNamed(
-                AppRoutes.singleChatPageRoute,
-                arguments: chat!.otherUser.id,
-              );
+              Navigator.of(context)
+                  .pushNamed(
+                    AppRoutes.singleChatPageRoute,
+                    arguments: chat!.otherUser.id,
+                  )
+                  .then((_) async {
+                    await chatListCubit.setReadMessages(chat!.chatId);
+                  });
             },
           ),
         ),

@@ -248,12 +248,15 @@ class ChatServicesImpl implements ChatServices {
         if (otherMemberData == null) continue;
 
         final otherUserData = otherMemberData['users'];
+        final unReadCount = await getUnreadCount(chatData['id']);
+
         inboxChats.add(
           InboxChatModel(
             chatId: chatData['id'],
             otherUser: UserModel.fromMap(otherUserData),
             lastMessage: chatData['last_message'] ?? '',
             lastMessageAt: chatData['last_message_at'],
+            unreadCount: unReadCount,
           ),
         );
       }
@@ -285,10 +288,8 @@ class ChatServicesImpl implements ChatServices {
   Future<void> markMessagesAsRead(String chatId) async {
     try {
       final userId = supabase.auth.currentUser!.id;
-      await _db.updateRow(
+      await _db.updateRows(
         table: SupabaseTablesAndBucketsNames.messages,
-        column: AppConstants.isReadColumn,
-        value: false,
         values: {AppConstants.isReadColumn: true},
         filter: (query) => query
             .eq(AppConstants.chatIdColumn, chatId)

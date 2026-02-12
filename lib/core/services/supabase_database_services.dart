@@ -1,5 +1,5 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseDatabaseServices {
   // Singleton pattern to ensure a single instance
@@ -50,24 +50,25 @@ class SupabaseDatabaseServices {
 
   //count rows in [table] where [column] equals [value].
   // في SupabaseDatabaseServices class
-Future<int> countRows({
-  required String table,
-  required PostgrestFilterBuilder Function(PostgrestFilterBuilder query) filter,
-}) async {
-  try {
-    PostgrestFilterBuilder query = _db.from(table).select('*');
-    
-    query = filter(query);
-    
-    final countQuery = query.count(CountOption.exact);
-    
-    final response = await countQuery;
-    
-    return response.count;
-  } catch (e) {
-    rethrow;
+  Future<int> countRows({
+    required String table,
+    required PostgrestFilterBuilder Function(PostgrestFilterBuilder query)
+    filter,
+  }) async {
+    try {
+      PostgrestFilterBuilder query = _db.from(table).select('*');
+
+      query = filter(query);
+
+      final countQuery = query.count(CountOption.exact);
+
+      final response = await countQuery;
+
+      return response.count;
+    } catch (e) {
+      rethrow;
+    }
   }
-}
 
   /// Updates rows in [table] where [column] equals [value], setting them to [values].
   ///
@@ -82,7 +83,7 @@ Future<int> countRows({
     required Map<String, dynamic> values,
     required String column,
     required dynamic value,
-     PostgrestFilterBuilder Function(PostgrestFilterBuilder query)? filter,
+    PostgrestFilterBuilder Function(PostgrestFilterBuilder query)? filter,
   }) async {
     try {
       // Perform the update operation with a filter
@@ -93,6 +94,23 @@ Future<int> countRows({
       }
     } on PostgrestException catch (e) {
       debugPrint('Update error on $table where $column==$value: ${e.message}');
+      rethrow;
+    }
+  }
+
+  // Update rows in [table] where [column] equals [value], setting them to [values], returning the updated row.
+  Future<void> updateRows({
+    required String table,
+    required Map<String, dynamic> values,
+    required PostgrestFilterBuilder Function(PostgrestFilterBuilder query)
+    filter,
+  }) async {
+    try {
+      var query = _db.from(table).update(values);
+      query = filter(query);
+
+      await query;
+    } catch (e) {
       rethrow;
     }
   }

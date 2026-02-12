@@ -183,10 +183,8 @@ class SingleChatCubit extends Cubit<SingleChatState> {
         );
       }
     } catch (e) {
-      if (state is SingleChatLoaded) {
-        final currentState = state as SingleChatLoaded;
-        emit(currentState.copyWith(isLoadingMore: false));
-      }
+      emit(SingleChatError(message: 'Failed to load more messages: $e'));
+     
     }
   }
 

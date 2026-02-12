@@ -33,6 +33,7 @@ class MessageList extends StatelessWidget with SU {
       child: Skeletonizer(
         enabled: isLoading,
         child: ListView.builder(
+        
           reverse: true,
           padding: EdgeInsets.all(16.w),
           itemCount: reversedMessages.length + (isLoadingMore ? 1 : 0),

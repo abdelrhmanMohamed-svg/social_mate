@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/chat/models/inbox_chat_model.dart';
 import 'package:social_mate/features/chat/services/chat_services.dart';
@@ -18,7 +19,7 @@ class ChatListCubit extends Cubit<ChatListState> {
         id: 'id',
         name: 'name',
         email: 'email',
-        profileImageUrl: 'profileImageUrl',
+        profileImageUrl: AppConstants.userIMagePLaceholder,
       ),
     ),
   );
@@ -35,6 +36,30 @@ class ChatListCubit extends Cubit<ChatListState> {
       }
     } catch (e) {
       emit(ChatListError(message: e.toString()));
+    }
+  }
+
+  Future<void> setReadMessages(String? chatID) async {
+    if (chatID == null) return;
+    try {
+      await _chatServices.markMessagesAsRead(chatID);
+      if (state is ChatListLoaded) {
+        final currentState = state as ChatListLoaded;
+        final updatedChats = currentState.chats.map((chat) {
+          if (chat.chatId == chatID) {
+            return chat.copyWith(unreadCount: 0);
+          }
+          return chat;
+        }).toList();
+        emit(ChatListLoaded(chats: updatedChats));
+      }
+    } catch (e) {
+      if (state is ChatListLoaded) {
+        final currentState = state as ChatListLoaded;
+        emit(ChatListLoaded(chats: currentState.chats));
+      } else {
+        emit(ChatListError(message: e.toString()));
+      }
     }
   }
 

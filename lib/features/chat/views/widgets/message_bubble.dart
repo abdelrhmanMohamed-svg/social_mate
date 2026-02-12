@@ -23,7 +23,7 @@ class MessageBubble extends StatelessWidget with SU {
         margin: EdgeInsets.symmetric(vertical: 4.h),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
         decoration: BoxDecoration(
-          color: isMe ? AppColors.primary : AppColors.gray,
+          color: isMe ? AppColors.primary : AppColors.gray200,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12.r),
             topRight: Radius.circular(12.r),
@@ -38,7 +38,7 @@ class MessageBubble extends StatelessWidget with SU {
                 ? AppColors.gray100
                 : isMe
                 ? Colors.white
-                : AppColors.black87,
+                : AppColors.black,
           ),
         ),
       ),

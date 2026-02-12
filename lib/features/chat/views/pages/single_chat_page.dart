@@ -43,60 +43,69 @@ class _SingleChatViewState extends State<_SingleChatView> {
   Widget build(BuildContext context) {
     final singleChatCubit = context.read<SingleChatCubit>();
     return Scaffold(
-      appBar: AppBar(leadingWidth: 40.w, title: OtherUserHeaderSection()),
-      body: BlocConsumer<SingleChatCubit, SingleChatState>(
-        bloc: singleChatCubit,
-        buildWhen: (previous, current) =>
-            current is SingleChatLoading ||
-            current is SingleChatLoaded ||
-            current is SingleChatError,
-        listenWhen: (previous, current) => current is SingleChatError,
-        listener: (context, state) {
-          if (state is SingleChatError) {
-            showCustomSnackBar(context, state.message, isError: true);
-          }
-        },
-        builder: (context, state) {
-          if (state is SingleChatLoading) {
-            return Expanded(
-              child: MessageList(
-                messages: state.fakeMessages,
-                isLoadingMore: false,
-                onLoadMore: () {},
-                isLoading: true,
-              ),
-            );
-          }
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.chevron_left_outlined, size: 35.sp),
+        ),
+        leadingWidth: 35.w,
+        title: OtherUserHeaderSection(),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 8,
+            child: BlocConsumer<SingleChatCubit, SingleChatState>(
+              bloc: singleChatCubit,
+              buildWhen: (previous, current) =>
+                  current is SingleChatLoading ||
+                  current is SingleChatLoaded ||
+                  current is SingleChatError,
+              listenWhen: (previous, current) => current is SingleChatError,
+              listener: (context, state) {
+                if (state is SingleChatError) {
+                  showCustomSnackBar(context, state.message, isError: true);
+                }
+              },
+              builder: (context, state) {
+                if (state is SingleChatLoading) {
+                  return MessageList(
+                    messages: state.fakeMessages,
+                    isLoadingMore: false,
+                    onLoadMore: () {},
+                    isLoading: true,
+                  );
+                }
 
-          if (state is SingleChatError) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
+                if (state is SingleChatError) {
+                  return Center(child: Text('Error: ${state.message}'));
+                }
 
-          if (state is SingleChatLoaded) {
-            return Column(
-              children: [
-                Expanded(
-                  child: MessageList(
+                if (state is SingleChatLoaded) {
+                  return MessageList(
                     messages: state.messages,
                     isLoadingMore: state.isLoadingMore,
                     onLoadMore: () {
                       singleChatCubit.loadMoreMessages();
                     },
-                  ),
-                ),
+                  );
+                }
 
-                // Message Input
-                MessageInput(
-                  onSend: (message) {
-                    singleChatCubit.sendMessage(message);
-                  },
-                ),
-              ],
-            );
-          }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+          // Message Input
+          Expanded(
+            flex: 1,
 
-          return const SizedBox.shrink();
-        },
+            child: MessageInput(
+              onSend: (message) {
+                singleChatCubit.sendMessage(message);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
