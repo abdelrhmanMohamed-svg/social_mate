@@ -46,3 +46,5 @@ app.*.map.json
 
 # evn secrets
 *.env
+
+/supabase/functions/service-account.json

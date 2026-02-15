@@ -144,6 +144,34 @@ class SupabaseDatabaseServices {
     }
   }
 
+  //update row if exists, otherwise insert new row
+  Future<void> updateRowIfExists({
+    required String table,
+    required String column,
+    required dynamic value,
+    required Map<String, dynamic> values,
+  }) async {
+    try {
+      // 1. Check if the row exists with the given filter
+      final exists = await fetchRows(
+        table: table,
+        builder: (data, id) => data,
+        filter: (query) => query.eq(column, value),
+      );
+
+        // 2. If it exists, perform the update; otherwise, do nothing
+      if (exists.isEmpty) {
+        return;
+      }
+      // Perform the update operation with a filter
+
+      var query = _db.from(table).update(values).eq(column, value);
+      await query;  
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   /// Deletes rows from [table] where [column] equals [value].
   ///
   /// - [table]: the table from which to delete.

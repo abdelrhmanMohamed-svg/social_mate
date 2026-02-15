@@ -8,6 +8,7 @@ class UserModel {
   final String? aboutMe;
   final String? workExperience;
   final String? coverImageUrl;
+  final String? fcmToken;
 
   final List<String>? followers;
   final List<String>? following;
@@ -24,6 +25,7 @@ class UserModel {
     this.profileImageUrl,
     this.bio,
     this.coverImageUrl,
+    this.fcmToken,
 
     this.followers,
     this.following,
@@ -44,6 +46,7 @@ class UserModel {
       'image_url': profileImageUrl,
       'bio': bio,
       'cover_image_url': coverImageUrl,
+      'fcm_token': fcmToken,
 
       'followers': followers,
       'following': following,
@@ -101,6 +104,8 @@ class UserModel {
                             : [map['follow_waiting'] as String]
                       : null))
           : null,
+
+      fcmToken: map['fcm_token'] != null ? map['fcm_token'] as String : null,
       followRequests: map['follow_requests'] != null
           ? (map['follow_requests'] is List
                 ? List<String>.from(map['follow_requests'] as List<dynamic>)

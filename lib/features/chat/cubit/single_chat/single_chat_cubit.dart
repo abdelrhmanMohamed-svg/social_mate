@@ -184,7 +184,6 @@ class SingleChatCubit extends Cubit<SingleChatState> {
       }
     } catch (e) {
       emit(SingleChatError(message: 'Failed to load more messages: $e'));
-     
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,20 +8,33 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
+import 'package:social_mate/core/models/route_observer.dart';
+import 'package:social_mate/core/services/fcm_services.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
+import 'package:social_mate/core/utils/app_keys.dart';
 import 'package:social_mate/core/utils/routes/app_router.dart';
 import 'package:social_mate/core/utils/theme/app_theme.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/auth/views/pages/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'firebase_options.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: AppConstants.envFileName);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Supabase.initialize(
     url: AppConstants.supabaseUrl,
     anonKey: AppConstants.supabaseAnonKey,
   );
+
+  FcmServicesImpl.instance.setNavigatorKey(AppKeys.navigatorKey);
+
+  await FcmServicesImpl.instance.initialize();
+  await FcmServicesImpl.instance.startListeningForTokenChanges();
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
@@ -52,6 +66,8 @@ class MyApp extends StatelessWidget {
                 bloc: BlocProvider.of<ThemeCubit>(context),
                 builder: (context, state) {
                   return MaterialApp(
+                    navigatorKey: AppKeys.navigatorKey,
+                    navigatorObservers: [RouteObserverModel()],
                     themeAnimationCurve: Curves.linear,
                     themeAnimationDuration: const Duration(milliseconds: 300),
                     themeAnimationStyle: AnimationStyle(

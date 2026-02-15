@@ -33,6 +33,18 @@ class AppConstants {
   static const String lastMessageAtColumn = "last_message_at";
   static const String isReadColumn = "is_read";
   static const String senderIdColumn = "sender_id";
+static const String fcmToken="fcm_token";
+  static const String content = "content";
+  static const String receiverIdColumn = "receiver_id";
+
+  //NotificationKeys 
+    static const String notificationKeyChatId = 'chatId';
+  static const String notificationKeySenderId = 'senderId';
+  static const String notificationKeyReceiverId = 'receiverId';
+  static const String notificationKeyMessageId = 'messageId';
+  //static const String content = 'content';
+
+  
 
 
 }

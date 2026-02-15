@@ -26,4 +26,10 @@ final class AuthSignOutFailure extends AuthState {
 
   const AuthSignOutFailure(this.message);
 }
+// New message state
+final class NewMessageReceived extends AuthState {
+  final NotificationModel notification;
+
+  const NewMessageReceived(this.notification);
+} 
 

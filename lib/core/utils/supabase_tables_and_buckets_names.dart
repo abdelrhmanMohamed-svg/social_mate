@@ -9,4 +9,5 @@ class SupabaseTablesAndBucketsNames {
   static const String publicSchema = "public";
   static const String chatMembers = "chat_members";
   static const String chats = "chats";
+  static const String notifications = "notifications";
 }

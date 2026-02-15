@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_mate/core/models/notification_model.dart';
+import 'package:social_mate/core/services/fcm_services.dart';
 import 'package:social_mate/features/auth/services/auth_services.dart';
 
 part 'auth_state.dart';
@@ -7,6 +12,8 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
   final authServices = AuthServicesImpl();
+  final _fcmServices = FcmServicesImpl();
+
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
@@ -53,6 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthSignOutLoading());
     try {
       await authServices.signOut();
+      await _fcmServices.dispose();
       emit(AuthSignOutSuccess());
     } catch (e) {
       emit(AuthSignOutFailure(e.toString()));
@@ -69,12 +77,33 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void checkAuthStatus() {
+  void checkAuthStatus() async {
     final user = authServices.checkAuthStatus();
     if (user != null) {
       emit(AuthSuccess());
+      _handleFCMToken(user.id);
+    } else {
+      emit(AuthInitial());
     }
   }
 
- 
+  Future<void> _handleFCMToken(String userId) async {
+    final fcmToken = await _fcmServices.getFcmToken();
+
+    if (fcmToken == null) {
+      return;
+    }
+
+    final oldToken = await _fcmServices.getSavedFcmToken(userId);
+
+    if (oldToken != fcmToken) {
+      final saved = await _fcmServices.saveFcmTokenToDatabase(fcmToken);
+      if (saved) {
+        debugPrint('✅ FCM token updated successfully');
+      }
+    } else {
+      debugPrint('📱 FCM token unchanged');
+    }
+    _fcmServices.startListeningForTokenChanges();
+  }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040600630823",
+    "project_id": "socail-mate-app",
+    "storage_bucket": "socail-mate-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040600630823:android:acc7c3deba040765b3f002",
+        "android_client_info": {
+          "package_name": "com.example.social_mate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBApXbompWQlgtbT_A0EwpFxjqilWF0ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

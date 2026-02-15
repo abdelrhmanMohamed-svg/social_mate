@@ -68,4 +68,3 @@ final class SingleChatOtherUserError extends SingleChatState {
   const SingleChatOtherUserError({required this.message});
 }
 
-// send message
