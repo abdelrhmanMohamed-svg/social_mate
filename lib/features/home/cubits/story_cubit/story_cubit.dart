@@ -71,8 +71,18 @@ class StoryCubit extends Cubit<StoryState> {
   Future<void> fetchUserStories(String userId) async {
     emit(FetchUserStoriesLoading());
     try {
-      final userStories = await _homeServices.fetchUserStories(userId);
-      storiesLength = userStories.length;
+      final currentUser = await _authcoreServices.fetchCurrentUser();
+      final rawUserStories = await _homeServices.fetchUserStories(userId);
+      if (currentUser.id == null) {
+        emit(FetchUserStoriesError("user id is null"));
+        return;
+      }
+      final List<StoryModel> userStories = rawUserStories
+          .map(
+            (story) => story.copyWith(isMine: story.authorId == currentUser.id),
+          )
+          .toList();
+      storiesLength = rawUserStories.length;
       emit(FetchUserStoriesSuccess(userStories));
     } catch (e) {
       emit(FetchUserStoriesError(e.toString()));

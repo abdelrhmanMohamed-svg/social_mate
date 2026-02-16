@@ -14,6 +14,9 @@ class StoryItemView extends StatelessWidget with SU {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(
+      "Building StoryItemView for story id: ${story.id}, authorId: ${story.authorId}, isMine: ${story.isMine}",
+    );
     final width = MediaQuery.of(context).size.width;
     final storyCubit = context.read<StoryCubit>();
 
@@ -58,38 +61,40 @@ class StoryItemView extends StatelessWidget with SU {
           ),
         ),
         Positioned(top: 40, left: 8, right: 8, child: StoriesProgressBar()),
-        Positioned(
-          top: 50.h,
-          left: 5.w,
-          child: PopupMenuButton(
-            color: AppColors.white,
-            iconColor: AppColors.white,
-            padding: EdgeInsetsGeometry.zero,
-            offset: Offset(20, 37),
-            onCanceled: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                storyCubit.resetAnimation();
-              });
-            },
-            onOpened: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                storyCubit.stopAnimation();
-              });
-            },
-            onSelected: (value) {
-              if (value == 'delete') {
-                showCustomDialogForStory(context, storyCubit);
-              }
-            },
+        story.isMine
+            ? Positioned(
+                top: 50.h,
+                left: 5.w,
+                child: PopupMenuButton(
+                  color: AppColors.white,
+                  iconColor: AppColors.white,
+                  padding: EdgeInsetsGeometry.zero,
+                  offset: Offset(20, 37),
+                  onCanceled: () {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      storyCubit.resetAnimation();
+                    });
+                  },
+                  onOpened: () {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      storyCubit.stopAnimation();
+                    });
+                  },
+                  onSelected: (value) {
+                    if (value == 'delete') {
+                      showCustomDialogForStory(context, storyCubit);
+                    }
+                  },
 
-            itemBuilder: (context) => <PopupMenuEntry>[
-              PopupMenuItem<String>(
-                value: 'delete',
-                child: Text('Delete', style: AppTextStyles.mRegular),
-              ),
-            ],
-          ),
-        ),
+                  itemBuilder: (context) => <PopupMenuEntry>[
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Delete', style: AppTextStyles.mRegular),
+                    ),
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

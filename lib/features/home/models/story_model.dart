@@ -11,6 +11,7 @@ class StoryModel {
   final String authorName;
   final String? text;
   final int color;
+  final bool isMine;
 
 
   const StoryModel({
@@ -21,6 +22,7 @@ class StoryModel {
     required this.authorId,
     this.authorName = 'unknown',
     required this.color,
+    this.isMine = false,
   });
 
   StoryModel copyWith({
@@ -31,6 +33,7 @@ class StoryModel {
     String? authorName,
     String? text,
     int? color,
+    bool? isMine,
   }) {
     return StoryModel(
       id: id ?? this.id,
@@ -40,6 +43,7 @@ class StoryModel {
       authorName: authorName ?? this.authorName,
       text: text ?? this.text,
       color: color ?? this.color,
+      isMine: isMine ?? this.isMine,
     );
   }
 

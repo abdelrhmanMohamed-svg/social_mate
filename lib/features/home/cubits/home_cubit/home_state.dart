@@ -14,16 +14,18 @@ final class StoriesLoading extends HomeState {
 }
 
 final class StoriesLoaded extends HomeState {
-  final List<StoryModel> stories;
-  final List<StoryModel> currentUserStories;
+  final int lengthOfStories;
   final String userID;
-
+  final Map<String, List<StoryModel>> storiesByAuthor;
+  final List<StoryModel> currentUserStories;
 
   const StoriesLoaded({
     required this.currentUserStories,
-    required this.stories,
+    required this.storiesByAuthor,
+    required this.lengthOfStories,
     required this.userID,
   });
+ 
 }
 
 final class StoriesError extends HomeState {
@@ -105,4 +107,3 @@ final class MediaPickError extends HomeState {
 final class PostsPaginationLoading extends HomeState {}
 
 //
-

@@ -40,17 +40,7 @@ class StoryItem extends StatelessWidget with SU {
               shape: BoxShape.circle,
               border: Border.all(color: AppColors.primary, width: 2.0.w),
             ),
-            child: CircleAvatar(
-              radius: 40.r,
-              backgroundImage: story == null
-                  ? null
-                  : story!.imageUrl == null
-                  ? null
-                  : CachedNetworkImageProvider(story!.imageUrl!),
-              child: story == null
-                  ? Icon(Icons.add, color: AppColors.primary, size: 30.sp)
-                  : null,
-            ),
+            child: _buildStoryContent(story),
           ),
         ),
         5.verticalSpace,
@@ -60,5 +50,35 @@ class StoryItem extends StatelessWidget with SU {
         ),
       ],
     );
+  }
+}
+
+Widget _buildStoryContent(StoryModel? story) {
+  if (story == null) {
+    return CircleAvatar(
+      radius: 40.r,
+      backgroundColor: AppColors.primary,
+      child: Icon(Icons.add, color: AppColors.white, size: 30.sp),
+    );
+  } else if (story.imageUrl != null) {
+    return CircleAvatar(
+      radius: 40.r,
+      backgroundImage: CachedNetworkImageProvider(story.imageUrl!),
+    );
+  } else if (story.text != null) {
+    return CircleAvatar(
+      radius: 40.r,
+      backgroundColor: Color(story.color),
+      child: Padding(
+        padding: EdgeInsets.all(10.0.h),
+        child: Text(
+          story.text!,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.sSemiBold.copyWith(color: AppColors.white),
+        ),
+      ),
+    );
+  } else {
+    return Container(color: Color(story.color));
   }
 }

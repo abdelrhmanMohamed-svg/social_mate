@@ -35,14 +35,14 @@ class StoriesSection extends StatelessWidget with SU {
           if (state is StoriesLoading) {
             return _ListOfStories(stories: state.fakeStories, isLoading: true);
           } else if (state is StoriesLoaded) {
-            final stories = state.stories;
+            final storeisLength = state.lengthOfStories;
             final currentUserStories = state.currentUserStories;
-            final userID = state.userID;
 
             return _ListOfStories(
-              stories: stories,
+              stroriesByAuthor: state.storiesByAuthor,
+              storeisLength: storeisLength,
+
               currentUserStories: currentUserStories,
-              userID: userID,
             );
           }
 
@@ -63,16 +63,18 @@ class StoriesSection extends StatelessWidget with SU {
 
 class _ListOfStories extends StatelessWidget {
   const _ListOfStories({
-    required this.stories,
+    this.storeisLength = 1,
+    this.stroriesByAuthor,
     this.currentUserStories,
-    this.userID,
     this.isLoading = false,
+    this.stories = const [],
   });
 
-  final List<StoryModel> stories;
+  final Map<String, List<StoryModel>>? stroriesByAuthor;
   final List<StoryModel>? currentUserStories;
-  final String? userID;
   final bool isLoading;
+  final int storeisLength;
+  final List<StoryModel> stories;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class _ListOfStories extends StatelessWidget {
       child: ListView.separated(
         separatorBuilder: (context, index) => 13.horizontalSpace,
         scrollDirection: Axis.horizontal,
-        itemCount: stories.length + 1,
+        itemCount: storeisLength,
         itemBuilder: (context, index) {
           if (index == 0) {
             return currentUserStories == null || currentUserStories!.isEmpty
@@ -97,14 +99,22 @@ class _ListOfStories extends StatelessWidget {
                               isScrollControlled: true,
                               backgroundColor: AppColors.primary,
 
-                              builder: (context) =>
-                                  LongPressBottomSheetStory(userID: userID!),
+                              builder: (context) => LongPressBottomSheetStory(
+                                userID: currentUserStories!.first.authorId,
+                              ),
                             );
                     },
                   );
+          } else if (stroriesByAuthor != null) {
+            final userID = stroriesByAuthor!.keys.elementAt(index - 1);
+            final stories = stroriesByAuthor![userID];
+            if (stories != null && stories.isNotEmpty) {
+              return StoryItem(story: stories.first);
+            } else {
+              return const SizedBox.shrink();
+            }
           }
-          final story = stories[index - 1];
-          return StoryItem(story: story);
+          return const SizedBox.shrink();
         },
       ),
     );

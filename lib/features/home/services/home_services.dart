@@ -1,4 +1,3 @@
-import 'package:social_mate/core/services/auth_core_services.dart';
 import 'package:social_mate/core/services/supabase_database_services.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/supabase_tables_and_buckets_names.dart';
@@ -15,20 +14,13 @@ abstract class HomeServices {
 
 class HomeServicesImpl implements HomeServices {
   final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
-  final _authcoreServices = AuthCoreServicesImpl();
 
   @override
   Future<List<StoryModel>> fetchStories() async {
     try {
-      final currentUser = await _authcoreServices.fetchCurrentUser();
-      if (currentUser.id == null) {
-        throw Exception("user id is null");
-      }
       final response = await _supabaseDatabaseServices.fetchRows(
         table: SupabaseTablesAndBucketsNames.stories,
         builder: (data, id) => StoryModel.fromMap(data),
-        filter: (query) =>
-            query.neq(AppConstants.authorIdColumn, currentUser.id!),
       );
 
       return response;

@@ -254,30 +254,38 @@ class HomeCubit extends Cubit<HomeState> {
         return;
       }
       final rawStories = await _homeServices.fetchStories();
-      final currentUserStories = await _homeServices.fetchUserStories(
-        currentUser.id!,
-      );
-
       final users = await _authcoreServices.fetchUsers();
-      final List<StoryModel> updatedStoreis = [];
-      final List<StoryModel> currentUserStoriesUpdated = [];
+      final Map<String, UserModel> usersMap = {
+        for (var user in users) user.id!: user,
+      };
+
+      final List<StoryModel> currentUserStoriesList = [];
+      final Map<String, List<StoryModel>> storiesByAuthor = {};
+
       for (var story in rawStories) {
-        final authorName = users
-            .firstWhere((user) => user.id == story.authorId)
-            .name;
-        story = story.copyWith(authorName: authorName);
-        updatedStoreis.add(story);
-      }
-      for (var story in currentUserStories) {
-        story = story.copyWith(authorName: currentUser.name);
-        currentUserStoriesUpdated.add(story);
+        final author = usersMap[story.authorId];
+        final authorName = author?.name ?? 'Unknown';
+        var storyWithAuthor = story.copyWith(authorName: authorName);
+
+        if (story.authorId == currentUser.id) {
+
+          currentUserStoriesList.add(storyWithAuthor);
+        } else {
+          if (!storiesByAuthor.containsKey(story.authorId)) {
+            storiesByAuthor[story.authorId] = [];
+          }
+          storiesByAuthor[story.authorId]!.add(storyWithAuthor);
+        }
       }
 
       emit(
         StoriesLoaded(
-          currentUserStories: currentUserStoriesUpdated,
-          stories: updatedStoreis,
+          storiesByAuthor: storiesByAuthor,
+          lengthOfStories:
+              storiesByAuthor.length +
+              (currentUserStoriesList.isNotEmpty ? 1 : 0),
           userID: currentUser.id!,
+          currentUserStories: currentUserStoriesList,
         ),
       );
     } catch (e) {
