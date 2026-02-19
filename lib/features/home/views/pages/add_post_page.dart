@@ -6,6 +6,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/add_post_args.dart';
 import 'package:social_mate/features/home/views/widgets/add_post_txt_field_area.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class AddPostPage extends StatefulWidget {
   const AddPostPage({super.key, required this.args});
@@ -81,7 +82,10 @@ class _AddPostPageState extends State<AddPostPage> {
                   color: AppColors.primary,
                   size: 35.r,
                 ),
-                title: Text("Add A Photo", style: AppTextStyles.headingH6),
+                title: Text(
+                  S.of(context).addAPhoto,
+                  style: AppTextStyles.headingH6,
+                ),
                 onTap: () {
                   homeCubit.pickImageFromGallery();
                 },
@@ -92,7 +96,10 @@ class _AddPostPageState extends State<AddPostPage> {
                   color: AppColors.primary,
                   size: 35.r,
                 ),
-                title: Text("Take A Photo", style: AppTextStyles.headingH6),
+                title: Text(
+                  S.of(context).takeAPhoto,
+                  style: AppTextStyles.headingH6,
+                ),
                 onTap: () {
                   homeCubit.pickImageFromCamera();
                 },
@@ -103,7 +110,10 @@ class _AddPostPageState extends State<AddPostPage> {
                   color: AppColors.primary,
                   size: 35.r,
                 ),
-                title: Text("Add A Video", style: AppTextStyles.headingH6),
+                title: Text(
+                  S.of(context).addAVideo,
+                  style: AppTextStyles.headingH6,
+                ),
                 onTap: () {
                   homeCubit.pickVideoFromGallery();
                 },
@@ -114,7 +124,10 @@ class _AddPostPageState extends State<AddPostPage> {
                   color: AppColors.primary,
                   size: 35.r,
                 ),
-                title: Text("Attach A File", style: AppTextStyles.headingH6),
+                title: Text(
+                  S.of(context).attachAFile,
+                  style: AppTextStyles.headingH6,
+                ),
                 onTap: () {
                   homeCubit.pickFile();
                 },

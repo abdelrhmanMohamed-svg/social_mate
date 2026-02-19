@@ -20,6 +20,99 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+<<<<<<< HEAD
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+=======
+  static String m0(name) => "File Selected: ${name}";
+
+  static String m1(count) => "${count} followers";
+
+  final messages = _notInlinedMessages(_notInlinedMessages);
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "aboutMeLabel": MessageLookupByLibrary.simpleMessage("About Me"),
+    "acceptButton": MessageLookupByLibrary.simpleMessage("Accept"),
+    "acceptedLabel": MessageLookupByLibrary.simpleMessage("Accepted"),
+    "addAPhoto": MessageLookupByLibrary.simpleMessage("Add A Photo"),
+    "addAVideo": MessageLookupByLibrary.simpleMessage("Add A Video"),
+    "addLabel": MessageLookupByLibrary.simpleMessage("Add"),
+    "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
+    "attachAFile": MessageLookupByLibrary.simpleMessage("Attach A File"),
+    "bioLabel": MessageLookupByLibrary.simpleMessage("Bio"),
+    "cameraAction": MessageLookupByLibrary.simpleMessage("Camera"),
+    "changeCover": MessageLookupByLibrary.simpleMessage("Change Cover"),
+    "chatsTitle": MessageLookupByLibrary.simpleMessage("Chats"),
+    "deleteLabel": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deletePost": MessageLookupByLibrary.simpleMessage("Delete Post"),
+    "deleteStory": MessageLookupByLibrary.simpleMessage("Delete Story"),
+    "discoverPeople": MessageLookupByLibrary.simpleMessage("Discover people"),
+    "editProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
+    "editProfileLabel": MessageLookupByLibrary.simpleMessage("EDIT PROFILE"),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
+    "errorPageTitle": MessageLookupByLibrary.simpleMessage("error page"),
+    "errorPrefix": MessageLookupByLibrary.simpleMessage("Error:"),
+    "fileSelected": m0,
+    "follow": MessageLookupByLibrary.simpleMessage("FOLLOW"),
+    "followFollowing": MessageLookupByLibrary.simpleMessage("FOLLOWING"),
+    "followLabel": MessageLookupByLibrary.simpleMessage("FOLLOW"),
+    "followRequested": MessageLookupByLibrary.simpleMessage("REQUESTED"),
+    "followRequestsTitle": MessageLookupByLibrary.simpleMessage(
+      "Follow Requests",
+    ),
+    "followedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Followed Successfully",
+    ),
+    "followersCount": m1,
+    "followersLabel": MessageLookupByLibrary.simpleMessage("Followers"),
+    "followersTitle": MessageLookupByLibrary.simpleMessage("Followers"),
+    "followingLabel": MessageLookupByLibrary.simpleMessage("Following"),
+    "followingTitle": MessageLookupByLibrary.simpleMessage("Following"),
+    "galleryAction": MessageLookupByLibrary.simpleMessage("Gallery"),
+    "googleLabel": MessageLookupByLibrary.simpleMessage("Google"),
+    "languageLabel": MessageLookupByLibrary.simpleMessage("Language"),
+    "loggingOut": MessageLookupByLibrary.simpleMessage("Logging Out.."),
+    "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+    "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "noBioYet": MessageLookupByLibrary.simpleMessage("There is no Bio yet.."),
+    "noFollowersFound": MessageLookupByLibrary.simpleMessage(
+      "No followers found",
+    ),
+    "noLikesYet": MessageLookupByLibrary.simpleMessage("No likes yet."),
+    "noPostsFound": MessageLookupByLibrary.simpleMessage("No Posts Found"),
+    "noRequests": MessageLookupByLibrary.simpleMessage("No Follwo Requests"),
+    "noUsersFound": MessageLookupByLibrary.simpleMessage("No users found"),
+    "postButton": MessageLookupByLibrary.simpleMessage("Post"),
+    "postPlaceholder": MessageLookupByLibrary.simpleMessage(
+      "What is on your mind",
+    ),
+    "postTitle": MessageLookupByLibrary.simpleMessage("Create a Post"),
+    "postsLabel": MessageLookupByLibrary.simpleMessage("Posts"),
+    "rejectButton": MessageLookupByLibrary.simpleMessage("Reject"),
+    "rejectedLabel": MessageLookupByLibrary.simpleMessage("Rejected"),
+    "request": MessageLookupByLibrary.simpleMessage("Request"),
+    "requestSentSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Request Sent Successfully",
+    ),
+    "saveChanges": MessageLookupByLibrary.simpleMessage("Save Changes"),
+    "savedPosts": MessageLookupByLibrary.simpleMessage("Saved Posts"),
+    "searchPlacholder": MessageLookupByLibrary.simpleMessage("Search"),
+    "selectLanguage": MessageLookupByLibrary.simpleMessage("Select Language"),
+    "settingsLabel": MessageLookupByLibrary.simpleMessage("Settings"),
+    "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+      "something went wrong",
+    ),
+    "takeAPhoto": MessageLookupByLibrary.simpleMessage("Take A Photo"),
+    "unfollow": MessageLookupByLibrary.simpleMessage("UNFOLLOW"),
+    "unfollowedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Unfollowed Successfully",
+    ),
+    "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "unknownLower": MessageLookupByLibrary.simpleMessage("unknown"),
+    "usernameLabel": MessageLookupByLibrary.simpleMessage("username"),
+    "videosAction": MessageLookupByLibrary.simpleMessage("Videos"),
+    "workExperienceLabel": MessageLookupByLibrary.simpleMessage(
+      "Work Experience",
+    ),
+  };
+>>>>>>> localizationFeature
 }

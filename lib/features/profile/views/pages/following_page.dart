@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/views/widgets/follow_or_following_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class FollowingPage extends StatefulWidget with SU {
   const FollowingPage({super.key});
@@ -23,7 +24,7 @@ class _FollowingPageState extends State<FollowingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Following")),
+      appBar: AppBar(title: Text(S.of(context).followingTitle)),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         bloc: profileCubit,
         buildWhen: (previous, current) =>
@@ -40,13 +41,12 @@ class _FollowingPageState extends State<FollowingPage> {
           if (state is FetchedFollowing) {
             final followers = state.following;
             return followers.isEmpty
-                ? const Center(child: Text("No followers found"))
+                ? Center(child: Text(S.of(context).noFollowersFound))
                 : ListView.separated(
                     itemCount: followers.length,
 
-                    itemBuilder: (context, index) => FollowOrFollowingItem(
-                      user: followers[index],
-                    ),
+                    itemBuilder: (context, index) =>
+                        FollowOrFollowingItem(user: followers[index]),
                     separatorBuilder: (context, index) => 12.verticalSpace,
                   );
           }

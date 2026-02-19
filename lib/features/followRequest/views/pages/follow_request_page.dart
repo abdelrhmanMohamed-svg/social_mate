@@ -9,6 +9,7 @@ import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/followRequest/cubit/follow_request_cubit.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class FollowRequestPage extends StatefulWidget with SU {
   const FollowRequestPage({super.key, required this.users});
@@ -30,9 +31,9 @@ class _FollowRequestPageState extends State<FollowRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Follow Requests')),
+      appBar: AppBar(title: Text(S.of(context).followRequestsTitle)),
       body: widget.users.isEmpty
-          ? Center(child: Text("No Follow Requests"))
+          ? Center(child: Text(S.of(context).noRequests))
           : ListView.separated(
               itemBuilder: (context, index) {
                 final user = widget.users[index];
@@ -130,7 +131,7 @@ class AcceptAndRejectState extends StatelessWidget {
         width: 120.w,
         color: AppColors.red,
 
-        child: Text("Accepted", style: AppTextStyles.sMedium),
+        child: Text(S.of(context).acceptedLabel, style: AppTextStyles.sMedium),
       );
     } else if (isAccepted == false) {
       return MainButton(
@@ -138,7 +139,7 @@ class AcceptAndRejectState extends StatelessWidget {
         width: 120.w,
         color: AppColors.red,
 
-        child: Text("Rejected", style: AppTextStyles.sMedium),
+        child: Text(S.of(context).rejectedLabel, style: AppTextStyles.sMedium),
       );
     }
     return Row(
@@ -150,7 +151,7 @@ class AcceptAndRejectState extends StatelessWidget {
           width: 100.w,
           color: AppColors.red,
 
-          child: Text("Reject", style: AppTextStyles.sMedium),
+          child: Text(S.of(context).rejectButton, style: AppTextStyles.sMedium),
         ),
         10.horizontalSpace,
         MainButton(
@@ -158,7 +159,7 @@ class AcceptAndRejectState extends StatelessWidget {
           height: 45.h,
 
           width: 100.w,
-          child: Text("Accept", style: AppTextStyles.sMedium),
+          child: Text(S.of(context).acceptButton, style: AppTextStyles.sMedium),
         ),
       ],
     );

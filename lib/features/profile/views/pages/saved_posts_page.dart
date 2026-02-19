@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/views/widgets/post_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class SavedPostsPage extends StatelessWidget {
   const SavedPostsPage({super.key});
@@ -11,7 +12,7 @@ class SavedPostsPage extends StatelessWidget {
     final postCubit = context.read<PostCubit>()..fetchSavedPosts();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Saved Posts')),
+      appBar: AppBar(title: Text(S.of(context).savedPosts)),
       body: BlocBuilder<PostCubit, PostState>(
         bloc: postCubit,
         buildWhen: (previous, current) =>

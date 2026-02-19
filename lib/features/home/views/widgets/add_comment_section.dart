@@ -6,6 +6,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class AddCommentSection extends StatefulWidget with SU {
   const AddCommentSection({super.key, required this.post});
@@ -64,7 +65,10 @@ class _AddCommentSectionState extends State<AddCommentSection> {
               }
               return MainButton(
                 width: 100.w,
-                child: Text("Add", style: AppTextStyles.lMedium),
+                child: Text(
+                  S.of(context).addLabel,
+                  style: AppTextStyles.lMedium,
+                ),
                 onTap: () async {
                   if (_textController.text.isNotEmpty) {
                     await postCubit.addComment(

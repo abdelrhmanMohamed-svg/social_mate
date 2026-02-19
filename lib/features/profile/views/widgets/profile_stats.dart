@@ -7,6 +7,7 @@ import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/widgets/stats_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class ProfileStats extends StatelessWidget with SU {
   const ProfileStats({super.key, required this.userData});
@@ -28,8 +29,9 @@ class ProfileStats extends StatelessWidget with SU {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               StatsItem(
-                
-                title: 'Posts', value: userData.postsCount),
+                title: S.of(context).postsLabel,
+                value: userData.postsCount,
+              ),
               SizedBox(
                 height: 50.h,
                 child: VerticalDivider(color: AppColors.black26, width: 3.w),
@@ -44,7 +46,7 @@ class ProfileStats extends StatelessWidget with SU {
                         profileCubit: profileCubit,
                       ),
                     ),
-                title: 'Followers',
+                title: S.of(context).followersLabel,
                 value: userData.followers != null
                     ? userData.followers!.length
                     : 0,
@@ -62,7 +64,7 @@ class ProfileStats extends StatelessWidget with SU {
                         profileCubit: profileCubit,
                       ),
                     ),
-                title: 'Following',
+                title: S.of(context).followingLabel,
                 value: userData.following != null
                     ? userData.following!.length
                     : 0,

@@ -13,6 +13,7 @@ import 'package:social_mate/features/home/views/widgets/file_download_tile.dart'
 import 'package:social_mate/features/home/views/widgets/post_comment_section.dart';
 import 'package:social_mate/features/home/views/widgets/post_like_section.dart';
 import 'package:social_mate/features/home/views/widgets/post_saved_section.dart';
+import 'package:social_mate/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -109,7 +110,10 @@ class _PostItemState extends State<PostItem> {
                     },
                     itemBuilder: (context) {
                       return [
-                        PopupMenuItem(value: 'delete', child: Text("Delete")),
+                        PopupMenuItem(
+                          value: 'delete',
+                          child: Text(S.of(context).deleteLabel),
+                        ),
                       ];
                     },
                   ),
@@ -254,7 +258,7 @@ Future<dynamic> showCustomDialogForPost(
     context: context,
     builder: (context) => AlertDialog(
       backgroundColor: AppColors.white,
-      title: Text("Delete Post", style: AppTextStyles.headingH5),
+      title: Text(S.of(context).deletePost, style: AppTextStyles.headingH5),
       content: Text(
         "Are you sure you want to delete this Post?",
         style: AppTextStyles.lMedium,

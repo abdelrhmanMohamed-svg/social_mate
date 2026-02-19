@@ -9,6 +9,7 @@ import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class FollowOrFollowingItem extends StatelessWidget with SU {
   const FollowOrFollowingItem({
@@ -35,11 +36,11 @@ class FollowOrFollowingItem extends StatelessWidget with SU {
         title: Text(
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          user.name ?? "Unknown",
+          user.name ?? S.of(context).unknown,
           style: AppTextStyles.lMedium,
         ),
         subtitle: Text(
-          " ${user.followers?.length ?? 0} followers",
+          S.of(context).followersCount(user.followers?.length ?? 0),
           style: AppTextStyles.mMedium.copyWith(color: AppColors.gray),
         ),
         trailing: BlocConsumer<ProfileCubit, ProfileState>(
@@ -59,10 +60,10 @@ class FollowOrFollowingItem extends StatelessWidget with SU {
               showCustomSnackBar(
                 context,
                 (state is UnSendRequestSuccess)
-                    ? "Request Sent Successfully"
+                    ? S.of(context).requestSentSuccessfully
                     : (state is FollowUserSuccess)
-                    ? "Followed Scuccessfully"
-                    : "Unfollowed Scuccessfully",
+                    ? S.of(context).followedSuccessfully
+                    : S.of(context).unfollowedSuccessfully,
               );
               if (followerPage) {
                 profileCubit.fetchFollowers();
@@ -130,12 +131,18 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     if (followerPage) {
       if (user.isFollowWaiting == true)
-        return Text("REQUESTED", style: AppTextStyles.sSemiBold);
+        return Text(
+          S.of(context).followRequested,
+          style: AppTextStyles.sSemiBold,
+        );
       if (user.isFollow == true)
-        return Text("FOLLOWING", style: AppTextStyles.sSemiBold);
-      return Text("FOLLOW", style: AppTextStyles.sSemiBold);
+        return Text(
+          S.of(context).followFollowing,
+          style: AppTextStyles.sSemiBold,
+        );
+      return Text(S.of(context).follow, style: AppTextStyles.sSemiBold);
     }
 
-    return Text("UNFOLLOW", style: AppTextStyles.sSemiBold);
+    return Text(S.of(context).unfollow, style: AppTextStyles.sSemiBold);
   }
 }

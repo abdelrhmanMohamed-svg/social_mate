@@ -7,6 +7,7 @@ import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
+import 'package:social_mate/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 
 class AddPostTxtFieldArea extends StatefulWidget with SU {
@@ -45,7 +46,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
               child: Icon(Icons.close),
             ),
             Text(
-              "Create a Post",
+              S.of(context).postTitle,
               style: AppTextStyles.headingH5.copyWith(color: AppColors.black45),
             ),
             BlocConsumer<HomeCubit, HomeState>(
@@ -73,7 +74,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                             await homeCubit.addPost(_textController.text);
                           },
                     child: Text(
-                      "Post",
+                      S.of(context).postButton,
                       style: AppTextStyles.headingH6.copyWith(
                         color: state.isEmpty
                             ? AppColors.black45
@@ -96,7 +97,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                 }
 
                 return Text(
-                  "Post",
+                  S.of(context).postButton,
                   style: AppTextStyles.headingH6.copyWith(
                     color: AppColors.black45,
                   ),
@@ -143,7 +144,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                         ),
                         14.horizontalSpace,
                         Text(
-                          user.name ?? "username",
+                          user.name ?? S.of(context).usernameLabel,
                           style: AppTextStyles.headingH6,
                         ),
                       ],
@@ -154,7 +155,10 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                     children: [
                       CircleAvatar(radius: 25.r),
                       14.horizontalSpace,
-                      Text("username", style: AppTextStyles.headingH6),
+                      Text(
+                        S.of(context).usernameLabel,
+                        style: AppTextStyles.headingH6,
+                      ),
                     ],
                   );
                 },
@@ -175,7 +179,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "What's on your mind?",
+                  hintText: S.of(context).postPlaceholder,
                   hintStyle: AppTextStyles.headingH5.copyWith(
                     color: AppColors.black45,
                   ),
@@ -240,7 +244,9 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                   }
                   if (state is FilePickedSuccess) {
                     return Text(
-                      "File Selected: ${homeCubit.filePicked!.fileName}",
+                      S
+                          .of(context)
+                          .fileSelected(homeCubit.filePicked!.fileName),
                     );
                   }
                   return SizedBox.shrink();

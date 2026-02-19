@@ -13,5 +13,7 @@ class AppRoutes {
   static const String followingPage = "/following";
   static const String savedPostsPageRoute = "/saved-posts";
   static const String singleChatPageRoute = "/chat";
+  static const String settingsPageRoute = "/settings";
+  static const String languageSelectionPageRoute = "/language-selection";
 
 }

@@ -6,6 +6,7 @@ import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class CommentSection extends StatelessWidget with SU {
   const CommentSection({super.key});
@@ -23,7 +24,9 @@ class CommentSection extends StatelessWidget with SU {
         if (state is FetchCommentsLoading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         } else if (state is FetchCommentsError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(
+            child: Text('${S.of(context).errorPrefix} ${state.message}'),
+          );
         } else if (state is FetchCommentsSuccess) {
           final comments = state.comments;
           if (comments.isEmpty) {
