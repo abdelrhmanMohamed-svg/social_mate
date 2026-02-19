@@ -9,6 +9,7 @@ import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class EditProfile extends StatefulWidget with SU {
   const EditProfile({super.key, required this.userData});
@@ -39,7 +40,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     final profileCubit = context.read<ProfileCubit>();
     return Scaffold(
-      appBar: AppBar(title: const Text("Edit Profile")),
+      appBar: AppBar(title: Text(S.of(context).editProfile)),
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -98,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
                       onPressed: () async =>
                           await profileCubit.updateCoverImage(),
                       child: Text(
-                        "Change Cover",
+                        S.of(context).changeCover,
                         style: AppTextStyles.sSemiBold.copyWith(
                           color: AppColors.black,
                         ),
@@ -148,25 +149,31 @@ class _EditProfileState extends State<EditProfile> {
                   25.verticalSpace,
                   TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: "Name"),
+                    decoration: InputDecoration(
+                      labelText: S.of(context).nameLabel,
+                    ),
                   ),
                   25.verticalSpace,
                   TextField(
                     controller: _bioController,
-                    decoration: const InputDecoration(labelText: "Bio"),
+                    decoration: InputDecoration(
+                      labelText: S.of(context).bioLabel,
+                    ),
                   ),
                   25.verticalSpace,
 
                   TextField(
                     controller: _aboutMeController,
-                    decoration: const InputDecoration(labelText: "About Me"),
+                    decoration: InputDecoration(
+                      labelText: S.of(context).aboutMeLabel,
+                    ),
                   ),
                   25.verticalSpace,
 
                   TextField(
                     controller: _workExperienceController,
-                    decoration: const InputDecoration(
-                      labelText: "Work Experience",
+                    decoration: InputDecoration(
+                      labelText: S.of(context).workExperienceLabel,
                     ),
                   ),
                   50.verticalSpace,
@@ -206,7 +213,7 @@ class _EditProfileState extends State<EditProfile> {
                         return MainButton(isLoading: true);
                       }
                       return MainButton(
-                        child: Text("Save Changes"),
+                        child: Text(S.of(context).saveChanges),
                         onTap: () async => await profileCubit.editUserData(
                           name: _nameController.text,
                           bio: _bioController.text,

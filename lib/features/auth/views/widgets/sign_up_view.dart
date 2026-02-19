@@ -10,6 +10,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/auth/views/widgets/custom_container.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key, required this.onGoToTab});
@@ -153,7 +154,7 @@ class _SignUpViewState extends State<SignUpView> {
           SizedBox(height: size.height * 0.03),
           CustomContainer(
             imgPath: AppConstants.googlePath,
-            title: "Google",
+            title: S.of(context).googleLabel,
             onTap: () async => await authCubit.nativeGoogleAuth(),
           ),
           SizedBox(height: size.height * 0.04),

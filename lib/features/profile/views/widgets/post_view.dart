@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/views/widgets/post_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class PostView extends StatelessWidget {
   const PostView({super.key});
@@ -23,7 +24,7 @@ class PostView extends StatelessWidget {
         } else if (state is FetchedUserPosts) {
           final posts = state.posts;
           if (posts.isEmpty) {
-            return const Center(child: Text("No Posts Found"));
+            return Center(child: Text(S.of(context).noPostsFound));
           }
           return ListView.builder(
             shrinkWrap: true,

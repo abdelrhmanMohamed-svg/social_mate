@@ -9,6 +9,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/chat/cubit/chat_list/chat_list_cubit.dart';
 import 'package:social_mate/features/chat/models/inbox_chat_model.dart';
+import 'package:social_mate/generated/l10n.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ChatListPage extends StatelessWidget with SU {
@@ -34,7 +35,7 @@ class ChatListBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final chatListCubit = context.read<ChatListCubit>();
     return Scaffold(
-      appBar: AppBar(title: Text('Chats')),
+      appBar: AppBar(title: Text(S.of(context).chatsTitle)),
       body: BlocBuilder<ChatListCubit, ChatListState>(
         bloc: chatListCubit,
         buildWhen: (previous, current) =>
@@ -67,7 +68,9 @@ class ChatListBody extends StatelessWidget {
 
             return _ListOfChats(chats: chats);
           } else if (state is ChatListError) {
-            return Center(child: Text('Error: ${state.message}'));
+            return Center(
+              child: Text('${S.of(context).errorPrefix} ${state.message}'),
+            );
           }
           return SizedBox.shrink();
         },

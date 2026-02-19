@@ -11,6 +11,7 @@ import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/widgets/profile_stats.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class HeaderSection extends StatelessWidget with SU {
   const HeaderSection({
@@ -91,15 +92,22 @@ class HeaderSection extends StatelessWidget with SU {
           ],
         ),
         SizedBox(height: 60.h),
-        Text(userData.name ?? "unknown", style: AppTextStyles.headingH4),
+        Text(
+          userData.name ?? S.of(context).unknownLower,
+          style: AppTextStyles.headingH4,
+        ),
         SizedBox(height: 6.h),
         Text(
-          userData.bio ?? "There is no Bio yet..",
+          userData.bio ?? S.of(context).noBioYet,
           style: AppTextStyles.mMedium,
         ),
         SizedBox(height: 20.h),
         isPublic
-            ? MainButton(width: 250.h, onTap: () {}, child: Text("FOLLOW"))
+            ? MainButton(
+                width: 250.h,
+                onTap: () {},
+                child: Text(S.of(context).followLabel),
+              )
             : MainButton(
                 width: 250.h,
                 onTap: () async {
@@ -119,7 +127,7 @@ class HeaderSection extends StatelessWidget with SU {
                   }
                 },
                 isTransperent: true,
-                child: Text("EDIT PROFILE"),
+                child: Text(S.of(context).editProfileLabel),
               ),
         SizedBox(height: 25.h),
         ProfileStats(userData: userData),

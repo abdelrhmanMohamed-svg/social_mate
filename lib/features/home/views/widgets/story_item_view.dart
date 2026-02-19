@@ -7,6 +7,7 @@ import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/home/cubits/story_cubit/story_cubit.dart';
 import 'package:social_mate/features/home/models/story_model.dart';
 import 'package:social_mate/features/home/views/widgets/stories_progress_bar.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class StoryItemView extends StatelessWidget with SU {
   const StoryItemView({super.key, required this.story});
@@ -89,7 +90,10 @@ class StoryItemView extends StatelessWidget with SU {
                   itemBuilder: (context) => <PopupMenuEntry>[
                     PopupMenuItem<String>(
                       value: 'delete',
-                      child: Text('Delete', style: AppTextStyles.mRegular),
+                      child: Text(
+                        S.of(context).deleteLabel,
+                        style: AppTextStyles.mRegular,
+                      ),
                     ),
                   ],
                 ),
@@ -107,7 +111,7 @@ class StoryItemView extends StatelessWidget with SU {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.white,
-        title: Text("Delete Story", style: AppTextStyles.headingH5),
+        title: Text(S.of(context).deleteStory, style: AppTextStyles.headingH5),
         content: Text(
           "Are you sure you want to delete this story?",
           style: AppTextStyles.lMedium,

@@ -6,6 +6,7 @@ import 'package:social_mate/features/chat/cubit/single_chat/single_chat_cubit.da
 import 'package:social_mate/features/chat/views/widgets/message_input.dart';
 import 'package:social_mate/features/chat/views/widgets/message_list.dart';
 import 'package:social_mate/features/chat/views/widgets/other_user_header_section.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class SingleChatPage extends StatelessWidget {
   final String otherUserId;
@@ -21,7 +22,7 @@ class SingleChatPage extends StatelessWidget {
   }
 }
 
-class _SingleChatView extends StatefulWidget with SU {
+class _SingleChatView extends StatefulWidget {
   const _SingleChatView({required this.otherUserId});
   final String otherUserId;
 
@@ -78,7 +79,11 @@ class _SingleChatViewState extends State<_SingleChatView> {
                 }
 
                 if (state is SingleChatError) {
-                  return Center(child: Text('Error: ${state.message}'));
+                  return Center(
+                    child: Text(
+                      '${S.of(context).errorPrefix} ${state.message}',
+                    ),
+                  );
                 }
 
                 if (state is SingleChatLoaded) {
@@ -98,7 +103,6 @@ class _SingleChatViewState extends State<_SingleChatView> {
           // Message Input
           Expanded(
             flex: 1,
-
             child: MessageInput(
               onSend: (message) {
                 singleChatCubit.sendMessage(message);

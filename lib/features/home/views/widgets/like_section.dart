@@ -4,6 +4,7 @@ import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class LikeSection extends StatelessWidget {
   const LikeSection({super.key, required this.post});
@@ -22,12 +23,17 @@ class LikeSection extends StatelessWidget {
         if (state is FetchLikesLoading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         } else if (state is FetchLikesError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(
+            child: Text('${S.of(context).errorPrefix} ${state.message}'),
+          );
         } else if (state is FetchLikesSuccess) {
           final likedUsers = state.likedUsers;
           if (likedUsers.isEmpty) {
             return Center(
-              child: Text('No likes yet.', style: AppTextStyles.mRegular),
+              child: Text(
+                S.of(context).noLikesYet,
+                style: AppTextStyles.mRegular,
+              ),
             );
           }
           return Row(

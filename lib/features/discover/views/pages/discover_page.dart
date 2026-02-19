@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/discover/cubit/discover_cubit.dart';
 import 'package:social_mate/features/discover/views/widgets/discover_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
@@ -52,7 +53,10 @@ class _DicoverBodyState extends State<DicoverBody> {
             children: [
               Row(
                 children: [
-                  Text('Discover people', style: AppTextStyles.headingH4),
+                  Text(
+                    S.of(context).discoverPeople,
+                    style: AppTextStyles.headingH4,
+                  ),
                   20.horizontalSpace,
 
                   Expanded(
@@ -60,7 +64,7 @@ class _DicoverBodyState extends State<DicoverBody> {
                       controller: _searchController,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        hintText: 'Search',
+                        hintText:S.of(context).searchPlacholder,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.r),
                         ),
@@ -94,7 +98,7 @@ class _DicoverBodyState extends State<DicoverBody> {
                     } else if (state is FetchUsersSuccess) {
                       final users = state.users;
                       if (users.isEmpty) {
-                        return const Center(child: Text('No users found'));
+                        return Center(child: Text(S.of(context).noUsersFound));
                       }
                       return ListView.separated(
                         physics: const BouncingScrollPhysics(),

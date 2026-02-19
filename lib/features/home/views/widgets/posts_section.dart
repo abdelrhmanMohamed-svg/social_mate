@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/core/views/widgets/post_item.dart';
+import 'package:social_mate/features/home/cubits/home_cubit/home_cubit.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class PostsSection extends StatelessWidget {
   const PostsSection({super.key});
@@ -27,7 +28,7 @@ class PostsSection extends StatelessWidget {
         }
         if (state is PostsLoaded) {
           final posts = state.posts;
-          if (posts.isEmpty) return Text("There are no posts");
+          if (posts.isEmpty) return Text(S.of(context).noPostsFound);
           return _ListOfPosts(posts: posts);
         }
         return SizedBox.shrink();
@@ -37,7 +38,7 @@ class PostsSection extends StatelessWidget {
 }
 
 class _ListOfPosts extends StatelessWidget {
-  const _ListOfPosts({ required this.posts, this.isLoading = false});
+  const _ListOfPosts({required this.posts, this.isLoading = false});
 
   final List<PostModel> posts;
   final bool isLoading;

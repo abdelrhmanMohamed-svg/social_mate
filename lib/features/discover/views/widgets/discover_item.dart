@@ -10,6 +10,7 @@ import 'package:social_mate/core/views/widgets/main_button.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/discover/cubit/discover_cubit.dart';
 import 'package:social_mate/features/discover/models/public_profile_args.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class DiscoverItem extends StatelessWidget with SU {
   const DiscoverItem({super.key, required this.user});
@@ -36,11 +37,11 @@ class DiscoverItem extends StatelessWidget with SU {
         title: Text(
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          user.name ?? "Unknown",
+          user.name ?? S.of(context).unknown,
           style: AppTextStyles.lMedium,
         ),
         subtitle: Text(
-          " ${user.followers?.length ?? 0} followers",
+          " ${user.followers?.length ?? 0} ${S.of(context).followersLabel}",
           style: AppTextStyles.mMedium.copyWith(color: AppColors.gray),
         ),
         trailing: BlocBuilder<DiscoverCubit, DiscoverState>(
@@ -63,7 +64,9 @@ class DiscoverItem extends StatelessWidget with SU {
                     await dicoverCubit.followUser(user.id!);
                   },
                   child: Text(
-                    state.isUserToFollow ? "Follow" : "Request ",
+                    state.isUserToFollow
+                        ? S.of(context).followLabel
+                        : S.of(context).request,
                     style: AppTextStyles.mMedium,
                   ),
                 );
@@ -73,7 +76,9 @@ class DiscoverItem extends StatelessWidget with SU {
                 width: 115.w,
                 onTap: () async => await dicoverCubit.followUser(user.id!),
                 child: Text(
-                  user.isFollowWaiting ? "Request" : "Follow",
+                  user.isFollowWaiting
+                      ? S.of(context).request
+                      : S.of(context).followLabel,
                   style: AppTextStyles.mMedium,
                 ),
               );

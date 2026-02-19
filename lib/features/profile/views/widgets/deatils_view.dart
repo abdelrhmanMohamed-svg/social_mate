@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/features/auth/models/user_model.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/views/widgets/details_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class DeatilsView extends StatelessWidget with SU {
   const DeatilsView({super.key, this.userData});
@@ -30,13 +31,13 @@ class DeatilsView extends StatelessWidget with SU {
             child: Column(
               children: [
                 DetailsItem(
-                  title: "About Me",
+                  title: S.of(context).aboutMeLabel,
                   icon: Icons.person_2_outlined,
                   value: user.aboutMe,
                 ),
                 10.verticalSpace,
                 DetailsItem(
-                  title: "Work Experience",
+                  title: S.of(context).workExperienceLabel,
                   icon: Icons.work_outline,
                   value: user.workExperience,
                 ),

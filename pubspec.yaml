@@ -21,6 +21,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_dotenv: ^6.0.0
   flutter_local_notifications: ^20.1.0
+  flutter_localization: ^0.3.3
   flutter_screenutil: ^5.9.3
   get: ^4.7.3
   google_sign_in: ^7.2.0
@@ -66,3 +67,5 @@ flutter:
           weight: 300
         - asset: assets/fonts/manrope/Manrope-ExtraLight.ttf
           weight: 200
+flutter_intl:
+  enabled: true

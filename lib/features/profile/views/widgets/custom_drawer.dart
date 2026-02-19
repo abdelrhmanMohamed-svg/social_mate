@@ -7,6 +7,7 @@ import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/views/widgets/custom_drawer_header.dart';
 import 'package:social_mate/features/profile/views/widgets/drawer_item.dart';
+import 'package:social_mate/generated/l10n.dart';
 
 class CustomDrawer extends StatelessWidget with SU {
   const CustomDrawer({super.key});
@@ -46,25 +47,40 @@ class CustomDrawer extends StatelessWidget with SU {
           Divider(indent: 25.w, endIndent: 25.w),
           DrawerItem(
             leadingIcon: Icons.edit,
-            title: "Edit Profile",
+            title: S.of(context).editProfileLabel,
             trailingIcon: Icons.chevron_right_outlined,
             onTap: () {},
           ),
           12.verticalSpace,
           DrawerItem(
             leadingIcon: Icons.bookmark,
-            title: "Saved Posts",
+            title: S.of(context).savedPosts,
             trailingIcon: Icons.chevron_right_outlined,
-            onTap: () => Navigator.of(context,rootNavigator: true).pushNamed(
-              AppRoutes.savedPostsPageRoute,
-            ),
+            onTap: () => Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(AppRoutes.savedPostsPageRoute),
           ),
           12.verticalSpace,
           DrawerItem(
             leadingIcon: Icons.settings_outlined,
-            title: "Settings",
+            title: S.of(context).settingsLabel,
             trailingIcon: Icons.chevron_right_outlined,
-            onTap: () {},
+            onTap: () => Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(AppRoutes.settingsPageRoute),
+          ),
+          12.verticalSpace,
+          12.verticalSpace,
+          DrawerItem(
+            leadingIcon: Icons.language_outlined,
+            title: S.of(context).languageLabel,
+            trailingIcon: Icons.chevron_right_outlined,
+            onTap: () => Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(AppRoutes.languageSelectionPageRoute),
           ),
           const Spacer(),
           Divider(indent: 25.w, endIndent: 25.w),
@@ -92,13 +108,13 @@ class CustomDrawer extends StatelessWidget with SU {
                 return DrawerItem(
                   isSignout: true,
                   leadingIcon: Icons.logout_outlined,
-                  title: "Logging Out..",
+                  title: S.of(context).loggingOut,
                 );
               }
               return DrawerItem(
                 isSignout: true,
                 leadingIcon: Icons.logout_outlined,
-                title: "Logout",
+                title: S.of(context).logout,
                 onTap: () async => await authCubit.signOut(),
               );
             },

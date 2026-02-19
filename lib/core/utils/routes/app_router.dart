@@ -17,6 +17,7 @@ import 'package:social_mate/features/profile/models/profile_args.dart';
 import 'package:social_mate/features/profile/views/pages/edit_profile.dart';
 import 'package:social_mate/features/profile/views/pages/followers_page.dart';
 import 'package:social_mate/features/profile/views/pages/following_page.dart';
+import 'package:social_mate/features/profile/views/pages/language_selection_page.dart';
 import 'package:social_mate/features/profile/views/pages/profile_page.dart';
 import 'package:social_mate/features/profile/views/pages/saved_posts_page.dart';
 
@@ -24,6 +25,16 @@ class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.languageSelectionPageRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const LanguageSelectionPage(),
+        );
+      case AppRoutes.settingsPageRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const ErrorPage(),
+        );
         case AppRoutes.singleChatPageRoute:
         final userID = settings.arguments as String;
         return MaterialPageRoute(
