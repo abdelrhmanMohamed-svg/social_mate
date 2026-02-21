@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
+import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 
 class MainButton extends StatelessWidget {
   const MainButton({
@@ -29,7 +30,7 @@ class MainButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: isTransperent ? AppColors.white : color,
           foregroundColor: isTransperent ? AppColors.black : AppColors.white,
-          textStyle: Theme.of(context).textTheme.bodyLarge,
+          textStyle: AppTextStyles.sMedium,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
             side: isTransperent

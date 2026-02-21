@@ -20,11 +20,17 @@ import 'package:social_mate/features/profile/views/pages/following_page.dart';
 import 'package:social_mate/features/profile/views/pages/language_selection_page.dart';
 import 'package:social_mate/features/profile/views/pages/profile_page.dart';
 import 'package:social_mate/features/profile/views/pages/saved_posts_page.dart';
+import 'package:social_mate/features/profile/views/pages/thme_selection_page.dart';
 
 class AppRouter {
   AppRouter._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.themeSelectionPageRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const ThmeSelectionPage(),
+        );
       case AppRoutes.languageSelectionPageRoute:
         return MaterialPageRoute(
           settings: settings,

@@ -53,8 +53,6 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
-<<<<<<< HEAD
-=======
 
   /// `Camera`
   String get cameraAction {
@@ -545,21 +543,41 @@ class S {
   String get googleLabel {
     return Intl.message('Google', name: 'googleLabel', desc: '', args: []);
   }
->>>>>>> localizationFeature
+
+  /// `Theme`
+  String get ThemeLabel {
+    return Intl.message('Theme', name: 'ThemeLabel', desc: '', args: []);
+  }
+
+  /// `Light`
+  String get lightLabel {
+    return Intl.message('Light', name: 'lightLabel', desc: '', args: []);
+  }
+
+  /// `Dark`
+  String get darkLabel {
+    return Intl.message('Dark', name: 'darkLabel', desc: '', args: []);
+  }
+
+  /// `Select Theme`
+  String get themePageTitle {
+    return Intl.message(
+      'Select Theme',
+      name: 'themePageTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
-<<<<<<< HEAD
-    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
-=======
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ar'),
     ];
->>>>>>> localizationFeature
   }
 
   @override

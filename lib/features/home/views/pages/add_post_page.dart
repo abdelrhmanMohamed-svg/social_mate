@@ -60,7 +60,7 @@ class _AddPostPageState extends State<AddPostPage> {
       enableDrag: true,
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).cardColor,
 
       clipBehavior: Clip.hardEdge,
       context: context,
@@ -72,7 +72,7 @@ class _AddPostPageState extends State<AddPostPage> {
           height: 350.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
-            color: AppColors.white,
+            color: Theme.of(context).cardColor,
           ),
           child: Column(
             children: [

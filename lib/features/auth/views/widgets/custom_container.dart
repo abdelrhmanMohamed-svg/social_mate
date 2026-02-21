@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_mate/core/utils/extenstions/theme_extenstion.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
+import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
@@ -40,7 +41,7 @@ class CustomContainer extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             SizedBox(width: size.width * 0.02),
-            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+            Text(title, style: AppTextStyles.sMedium),
           ],
         ),
       ),

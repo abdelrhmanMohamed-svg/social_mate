@@ -55,7 +55,7 @@ class _PostItemState extends State<PostItem> {
   Widget build(BuildContext context) {
     final postCubit = context.read<PostCubit.PostCubit>();
     return Card(
-      color: AppColors.white,
+      color: Theme.of(context).cardColor,
       shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.r),
         borderSide: BorderSide.none,
@@ -98,7 +98,7 @@ class _PostItemState extends State<PostItem> {
                   const Spacer(),
                   PopupMenuButton(
                     padding: EdgeInsetsGeometry.zero,
-                    color: AppColors.white,
+                    color: Theme.of(context).cardColor,
                     onSelected: (value) {
                       if (value == 'delete') {
                         showCustomDialogForPost(
@@ -235,7 +235,10 @@ class _PostItemState extends State<PostItem> {
 
                     PostCommentSection(post: widget.post),
                     12.horizontalSpace,
-                    Icon(Icons.share_outlined, color: AppColors.black),
+                    Icon(
+                      Icons.share_outlined,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ],
                 ),
 
@@ -257,7 +260,7 @@ Future<dynamic> showCustomDialogForPost(
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).cardColor,
       title: Text(S.of(context).deletePost, style: AppTextStyles.headingH5),
       content: Text(
         "Are you sure you want to delete this Post?",

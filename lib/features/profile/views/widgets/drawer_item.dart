@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 
 class DrawerItem extends StatelessWidget with SU {
@@ -24,11 +23,24 @@ class DrawerItem extends StatelessWidget with SU {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(leadingIcon, size: 25.h, color: AppColors.primary),
-      title: Text(title, style: AppTextStyles.lRegular),
+      leading: Icon(
+        leadingIcon,
+        size: 25.h,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      title: Text(
+        title,
+        style: AppTextStyles.lRegular.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
       trailing: isSignout
           ? null
-          : Icon(trailingIcon, size: 23.h, color: AppColors.black),
+          : Icon(
+              trailingIcon,
+              size: 23.h,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
       onTap: onTap,
     );
   }

@@ -21,7 +21,10 @@ class ProfileStats extends StatelessWidget with SU {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: Colors.grey.shade300, width: 2.w),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline,
+            width: 2.w,
+          ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h),

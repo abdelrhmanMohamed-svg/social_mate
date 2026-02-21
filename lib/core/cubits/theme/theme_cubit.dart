@@ -5,36 +5,30 @@ class ThemeCubit extends HydratedCubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.system);
   final _key = "theme";
 
-  void toggleTheme() {
-    emit(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+  void toggleTheme(ThemeMode? theme) {
+    emit(theme ?? ThemeMode.system);
   }
 
   @override
   ThemeMode? fromJson(Map<String, dynamic> json) {
-   final theme = json[_key];
-    if(theme == "dark"){
+    final theme = json[_key];
+    if (theme == "dark") {
       return ThemeMode.dark;
-    }else if(theme == "light"){
+    } else if (theme == "light") {
       return ThemeMode.light;
-
-    }
-    else {
+    } else {
       return ThemeMode.system;
     }
-  
   }
 
   @override
   Map<String, dynamic>? toJson(ThemeMode state) {
-    if(state ==ThemeMode.dark){
+    if (state == ThemeMode.dark) {
       return {_key: "dark"};
-    }else if(state == ThemeMode.light){
+    } else if (state == ThemeMode.light) {
       return {_key: "light"};
-
-    }
-    else {
+    } else {
       return {_key: "system"};
     }
-   
   }
 }

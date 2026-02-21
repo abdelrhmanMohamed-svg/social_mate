@@ -47,7 +47,9 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
             ),
             Text(
               S.of(context).postTitle,
-              style: AppTextStyles.headingH5.copyWith(color: AppColors.black45),
+              style: AppTextStyles.headingH5.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             BlocConsumer<HomeCubit, HomeState>(
               bloc: homeCubit,
@@ -77,7 +79,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                       S.of(context).postButton,
                       style: AppTextStyles.headingH6.copyWith(
                         color: state.isEmpty
-                            ? AppColors.black45
+                            ? Theme.of(context).colorScheme.onSurfaceVariant
                             : AppColors.primary,
                       ),
                     ),
@@ -99,7 +101,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                 return Text(
                   S.of(context).postButton,
                   style: AppTextStyles.headingH6.copyWith(
-                    color: AppColors.black45,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 );
               },
@@ -163,7 +165,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                   );
                 },
               ),
-              5.verticalSpace,
+              15.verticalSpace,
               TextField(
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 controller: _textController,
@@ -172,6 +174,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                 onChanged: (value) => homeCubit.checkIsEmpty(value),
 
                 decoration: InputDecoration(
+                  filled: false,
                   border: OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
@@ -181,7 +184,7 @@ class _AddPostTxtFieldAreaState extends State<AddPostTxtFieldArea> {
                   ),
                   hintText: S.of(context).postPlaceholder,
                   hintStyle: AppTextStyles.headingH5.copyWith(
-                    color: AppColors.black45,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),

@@ -11,7 +11,7 @@ class LanguageSelectionPage extends StatefulWidget {
 }
 
 class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
-  late String _selectedLanguage;
+  late String? _selectedLanguage;
 
   @override
   void initState() {
@@ -26,37 +26,27 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
       appBar: AppBar(title: Text(S.of(context).selectLanguage)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            RadioListTile<String>(
-              title: Text(S.of(context).english),
-              value: 'en',
-              groupValue: _selectedLanguage,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedLanguage = value;
-                  });
-                  context.read<LocalizationCubit>().changeLocale('en', 'US');
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-            RadioListTile<String>(
-              title: Text(S.of(context).arabic),
-              value: 'ar',
-              groupValue: _selectedLanguage,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedLanguage = value;
-                  });
-                  context.read<LocalizationCubit>().changeLocale('ar');
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
+        child: RadioGroup<String>(
+          groupValue: _selectedLanguage,
+          onChanged: (value) {
+            setState(() {
+              _selectedLanguage = value;
+            });
+            context.read<LocalizationCubit>().changeLocale(_selectedLanguage!);
+          },
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text(S.of(context).english),
+                leading: Radio<String>(value: 'en'),
+              ),
+
+              ListTile(
+                title: Text(S.of(context).arabic),
+                leading: Radio<String>(value: 'ar'),
+              ),
+            ],
+          ),
         ),
       ),
     );

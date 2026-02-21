@@ -20,16 +20,13 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-<<<<<<< HEAD
-  final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
-=======
   static String m0(name) => "File Selected: ${name}";
 
   static String m1(count) => "${count} followers";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "ThemeLabel": MessageLookupByLibrary.simpleMessage("Theme"),
     "aboutMeLabel": MessageLookupByLibrary.simpleMessage("About Me"),
     "acceptButton": MessageLookupByLibrary.simpleMessage("Accept"),
     "acceptedLabel": MessageLookupByLibrary.simpleMessage("Accepted"),
@@ -42,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cameraAction": MessageLookupByLibrary.simpleMessage("Camera"),
     "changeCover": MessageLookupByLibrary.simpleMessage("Change Cover"),
     "chatsTitle": MessageLookupByLibrary.simpleMessage("Chats"),
+    "darkLabel": MessageLookupByLibrary.simpleMessage("Dark"),
     "deleteLabel": MessageLookupByLibrary.simpleMessage("Delete"),
     "deletePost": MessageLookupByLibrary.simpleMessage("Delete Post"),
     "deleteStory": MessageLookupByLibrary.simpleMessage("Delete Story"),
@@ -70,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryAction": MessageLookupByLibrary.simpleMessage("Gallery"),
     "googleLabel": MessageLookupByLibrary.simpleMessage("Google"),
     "languageLabel": MessageLookupByLibrary.simpleMessage("Language"),
+    "lightLabel": MessageLookupByLibrary.simpleMessage("Light"),
     "loggingOut": MessageLookupByLibrary.simpleMessage("Logging Out.."),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
@@ -102,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "something went wrong",
     ),
     "takeAPhoto": MessageLookupByLibrary.simpleMessage("Take A Photo"),
+    "themePageTitle": MessageLookupByLibrary.simpleMessage("Select Theme"),
     "unfollow": MessageLookupByLibrary.simpleMessage("UNFOLLOW"),
     "unfollowedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Unfollowed Successfully",
@@ -114,5 +114,4 @@ class MessageLookup extends MessageLookupByLibrary {
       "Work Experience",
     ),
   };
->>>>>>> localizationFeature
 }

@@ -30,10 +30,10 @@ class _MessageInputState extends State<MessageInput> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: Theme.of(context).colorScheme.shadow,
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),
@@ -52,7 +52,7 @@ class _MessageInputState extends State<MessageInput> {
                     borderSide: BorderSide.none,
                   ),
                   filled: true,
-                  fillColor: Colors.grey[100],
+                  fillColor: Theme.of(context).colorScheme.surface,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 16.w,
                     vertical: 8.h,
@@ -63,7 +63,10 @@ class _MessageInputState extends State<MessageInput> {
             ),
             8.horizontalSpace,
             IconButton(
-              icon: const Icon(Icons.send, color: Colors.blue),
+              icon: Icon(
+                Icons.send,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               onPressed: _handleSend,
             ),
           ],

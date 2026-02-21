@@ -117,7 +117,7 @@ class ChatListItem extends StatelessWidget with SU {
 
     if (chat == null && user != null) {
       return Card(
-        color: AppColors.white,
+        color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
@@ -160,7 +160,7 @@ class ChatListItem extends StatelessWidget with SU {
       );
 
       return Card(
-        color: AppColors.white,
+        color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),

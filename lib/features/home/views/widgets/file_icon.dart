@@ -15,20 +15,20 @@ class FileIcon extends StatelessWidget {
     switch (ext) {
       case 'pdf':
         icon = Icons.picture_as_pdf;
-        color = Colors.red;
+        color = Color(0xffFF0000); // Red - use semantic color for error states
         break;
       case 'jpg':
       case 'png':
         icon = Icons.image;
-        color = Colors.blue;
+        color = Theme.of(context).colorScheme.primary;
         break;
       case 'mp4':
         icon = Icons.videocam;
-        color = Colors.deepPurple;
+        color = Color(0xff9C27B0); // Purple - TODO: Add as app color if needed for dark mode
         break;
       default:
         icon = Icons.insert_drive_file;
-        color = Colors.grey;
+        color = Theme.of(context).colorScheme.outlineVariant;
     }
 
     return Container(

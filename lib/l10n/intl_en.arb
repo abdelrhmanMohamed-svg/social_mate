@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-{}
-=======
 {
   "cameraAction": "Camera",
   "videosAction": "Videos",
@@ -68,6 +65,9 @@
   "languageLabel": "Language",
   "loggingOut": "Logging Out..",
   "logout": "Logout",
-  "googleLabel": "Google"
+  "googleLabel": "Google",
+  "ThemeLabel": "Theme",
+  "lightLabel": "Light",
+  "darkLabel": "Dark",
+  "themePageTitle":"Select Theme"
 }
->>>>>>> localizationFeature

@@ -35,10 +35,10 @@ class MessageBubble extends StatelessWidget with SU {
           message.content,
           style: AppTextStyles.mRegular.copyWith(
             color: isLoading
-                ? AppColors.gray100
+                ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)
                 : isMe
-                ? Colors.white
-                : AppColors.black,
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),

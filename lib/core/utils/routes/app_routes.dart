@@ -15,5 +15,5 @@ class AppRoutes {
   static const String singleChatPageRoute = "/chat";
   static const String settingsPageRoute = "/settings";
   static const String languageSelectionPageRoute = "/language-selection";
-
+  static const String themeSelectionPageRoute = "/theme-selection";
 }

@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "ThemeLabel": MessageLookupByLibrary.simpleMessage("سمه"),
     "aboutMeLabel": MessageLookupByLibrary.simpleMessage("عنّي"),
     "acceptButton": MessageLookupByLibrary.simpleMessage("قبول"),
     "acceptedLabel": MessageLookupByLibrary.simpleMessage("تم القبول"),
@@ -37,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "bioLabel": MessageLookupByLibrary.simpleMessage("نبذة"),
     "cameraAction": MessageLookupByLibrary.simpleMessage("كاميرا"),
     "changeCover": MessageLookupByLibrary.simpleMessage("تغيير الغلاف"),
+    "darkLabel": MessageLookupByLibrary.simpleMessage("غامق"),
     "deleteLabel": MessageLookupByLibrary.simpleMessage("حذف"),
     "deletePost": MessageLookupByLibrary.simpleMessage("حذف المنشور"),
     "deleteStory": MessageLookupByLibrary.simpleMessage("حذف القصة"),
@@ -65,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryAction": MessageLookupByLibrary.simpleMessage("ستوديو"),
     "googleLabel": MessageLookupByLibrary.simpleMessage("جوجل"),
     "languageLabel": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "lightLabel": MessageLookupByLibrary.simpleMessage("فاتح"),
     "loggingOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج.."),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
@@ -91,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsLabel": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "takeAPhoto": MessageLookupByLibrary.simpleMessage("التقط صورة"),
+    "themePageTitle": MessageLookupByLibrary.simpleMessage("اختار سمه"),
     "unfollow": MessageLookupByLibrary.simpleMessage("إلغاء المتابعة"),
     "unfollowedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم إلغاء المتابعة بنجاح",

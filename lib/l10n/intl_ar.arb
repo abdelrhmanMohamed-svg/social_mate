@@ -64,5 +64,10 @@
   "languageLabel": "اللغة",
   "loggingOut": "تسجيل الخروج..",
   "logout": "تسجيل الخروج",
-  "googleLabel": "جوجل"
+  "googleLabel": "جوجل",
+  "ThemeLabel": "سمه",
+  "lightLabel": "فاتح",
+  "darkLabel": "غامق",
+  "themePageTitle":"اختار سمه"
+
 }

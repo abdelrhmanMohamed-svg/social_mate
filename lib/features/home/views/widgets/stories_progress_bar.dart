@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/features/home/cubits/story_cubit/story_cubit.dart';
 
 class StoriesProgressBar extends StatefulWidget {
@@ -94,9 +93,11 @@ class _StoriesProgressBarState extends State<StoriesProgressBar>
 
                       return LinearProgressIndicator(
                         value: value,
-                        backgroundColor: Colors.white.withValues(alpha: 0.3),
-                        valueColor: const AlwaysStoppedAnimation(
-                          AppColors.white,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.3),
+                        valueColor: AlwaysStoppedAnimation(
+                          Theme.of(context).colorScheme.surface,
                         ),
                       );
                     },

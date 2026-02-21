@@ -101,11 +101,15 @@ class _ProfilePageState extends State<ProfilePage>
                                 controller: _tabController,
                                 isScrollable: true,
                                 labelStyle: AppTextStyles.headingH6,
-                                unselectedLabelColor: AppColors.black45,
+                                unselectedLabelColor: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                                 indicatorSize: TabBarIndicatorSize.label,
 
                                 tabAlignment: TabAlignment.center,
-                                labelColor: AppColors.black,
+                                labelColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                                 indicatorColor: AppColors.primary,
                                 tabs: const [
                                   Tab(text: 'Details'),
@@ -127,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage>
                               }
                               return SizedBox.shrink();
                             },
-                          ), 
+                          ),
                         ),
                       ];
                     },
@@ -162,7 +166,10 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: Colors.white, child: child);
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      child: child,
+    );
   }
 
   @override

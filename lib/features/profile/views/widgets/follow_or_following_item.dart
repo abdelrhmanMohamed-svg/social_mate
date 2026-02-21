@@ -24,7 +24,7 @@ class FollowOrFollowingItem extends StatelessWidget with SU {
   Widget build(BuildContext context) {
     final profileCubit = context.read<ProfileCubit>();
     return Card(
-      color: AppColors.white,
+      color: Theme.of(context).cardColor,
       child: ListTile(
         onTap: () {},
         leading: CircleAvatar(

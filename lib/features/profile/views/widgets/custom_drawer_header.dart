@@ -33,9 +33,19 @@ class CustomDrawerHeader extends StatelessWidget with SU {
           ),
         ),
         10.verticalSpace,
-        Text(userData.name ?? "Unknown", style: AppTextStyles.headingH6),
+        Text(
+          userData.name ?? "Unknown",
+          style: AppTextStyles.headingH6.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         10.verticalSpace,
-        Text(userData.bio ?? "There is no Bio yet.."),
+        Text(
+          userData.bio ?? "There is no Bio yet..",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
       ],
     );
   }

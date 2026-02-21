@@ -9,13 +9,16 @@ void showCustomSnackBar(
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message, style: TextStyle(color: Colors.white)),
+      content: Text(
+        message,
+        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+      ),
       backgroundColor: isError ? AppColors.red : AppColors.primary,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       action: action,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
     ),
   );
 }

@@ -110,7 +110,7 @@ class StoryItemView extends StatelessWidget with SU {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.white,
+        backgroundColor: Theme.of(context).cardColor,
         title: Text(S.of(context).deleteStory, style: AppTextStyles.headingH5),
         content: Text(
           "Are you sure you want to delete this story?",

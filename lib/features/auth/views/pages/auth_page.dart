@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
 import 'package:social_mate/core/utils/extenstions/theme_extenstion.dart';
 import 'package:social_mate/core/utils/theme/app_gradiant.dart';
+import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/auth/views/widgets/sign_in_view.dart';
 import 'package:social_mate/features/auth/views/widgets/sign_up_view.dart';
 
@@ -35,20 +36,6 @@ class _AuthPageState extends State<AuthPage>
     return Builder(
       builder: (context) {
         return Scaffold(
-          // appBar: AppBar(
-          //   actions: [
-          //     BlocBuilder<ThemeCubit, ThemeMode>(
-          //       builder: (context, state) {
-          //         return IconButton(
-          //           onPressed: () => themeCubit.toggleTheme(),
-          //           icon: state == ThemeMode.dark
-          //               ? const Icon(Icons.dark_mode_outlined)
-          //               : const Icon(Icons.light_mode_outlined),
-          //         );
-          //       },
-          //     ),
-          //   ],
-          // ),
           body: DecoratedBox(
             decoration: BoxDecoration(
               gradient: context.isDarkMode
@@ -67,10 +54,8 @@ class _AuthPageState extends State<AuthPage>
                     //tab bar
                     TabBar(
                       controller: _tabController,
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      unselectedLabelStyle: Theme.of(
-                        context,
-                      ).textTheme.titleMedium,
+                      labelStyle: AppTextStyles.sMedium,
+                      unselectedLabelStyle: AppTextStyles.sRegular,
                       isScrollable: true,
                       padding: EdgeInsets.zero,
                       tabs: tabs,

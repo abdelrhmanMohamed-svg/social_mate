@@ -38,7 +38,7 @@ class _FollowRequestPageState extends State<FollowRequestPage> {
               itemBuilder: (context, index) {
                 final user = widget.users[index];
                 return Card(
-                  color: AppColors.white,
+                  color: Theme.of(context).cardColor,
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     child: ListTile(

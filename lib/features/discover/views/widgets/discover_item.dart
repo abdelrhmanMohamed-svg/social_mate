@@ -20,7 +20,7 @@ class DiscoverItem extends StatelessWidget with SU {
   Widget build(BuildContext context) {
     final dicoverCubit = context.read<DiscoverCubit>();
     return Card(
-      color: AppColors.white,
+      color: Theme.of(context).cardColor,
       child: ListTile(
         onTap: () {
           Navigator.of(context, rootNavigator: true).pushNamed(

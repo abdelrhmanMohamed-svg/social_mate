@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/routes/app_routes.dart';
-import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/profile/cubit/profile_cubit.dart';
 import 'package:social_mate/features/profile/views/widgets/custom_drawer_header.dart';
@@ -21,7 +20,9 @@ class CustomDrawer extends StatelessWidget with SU {
       height: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 45.h),
       decoration: BoxDecoration(
-        color: AppColors.whiteA9,
+        color:
+            Theme.of(context).drawerTheme.backgroundColor ??
+            Theme.of(context).cardColor,
         borderRadius: BorderRadius.only(topRight: Radius.circular(20.r)),
       ),
       child: Column(
@@ -72,7 +73,6 @@ class CustomDrawer extends StatelessWidget with SU {
             ).pushNamed(AppRoutes.settingsPageRoute),
           ),
           12.verticalSpace,
-          12.verticalSpace,
           DrawerItem(
             leadingIcon: Icons.language_outlined,
             title: S.of(context).languageLabel,
@@ -82,8 +82,18 @@ class CustomDrawer extends StatelessWidget with SU {
               rootNavigator: true,
             ).pushNamed(AppRoutes.languageSelectionPageRoute),
           ),
+          DrawerItem(
+            leadingIcon: Icons.color_lens_outlined,
+            title: S.of(context).ThemeLabel,
+            trailingIcon: Icons.chevron_right_outlined,
+            onTap: () => Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(AppRoutes.themeSelectionPageRoute),
+          ),
           const Spacer(),
           Divider(indent: 25.w, endIndent: 25.w),
+
           BlocConsumer<AuthCubit, AuthState>(
             bloc: authCubit,
             listenWhen: (previous, current) => current is AuthSignOutSuccess,

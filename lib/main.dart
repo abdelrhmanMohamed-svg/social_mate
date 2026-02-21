@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,10 +19,9 @@ import 'package:social_mate/core/utils/theme/app_theme.dart';
 import 'package:social_mate/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:social_mate/features/auth/views/pages/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'generated/l10n.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'firebase_options.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,7 +87,7 @@ class MyApp extends StatelessWidget {
                           milliseconds: 300,
                         ),
                         themeAnimationStyle: AnimationStyle(
-                          curve: Curves.linear,
+                          curve: Curves.easeIn,
                           duration: const Duration(milliseconds: 300),
                         ),
                         debugShowCheckedModeBanner: false,

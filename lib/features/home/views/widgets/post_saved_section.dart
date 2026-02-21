@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
-import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/views/widgets/custom_snack_bar.dart';
 import 'package:social_mate/features/home/models/post_model.dart';
 
@@ -52,8 +51,8 @@ class PostSavedSection extends StatelessWidget {
                 : Icons.bookmark_outline,
             color:
                 (state is ToggleSavedPostSuccess ? state.isSaved : post.isSaved)
-                ? AppColors.yellowStory
-                : AppColors.black,
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         );
       },
