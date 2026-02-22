@@ -65,18 +65,54 @@ class MessageLookup extends MessageLookupByLibrary {
     "followingLabel": MessageLookupByLibrary.simpleMessage("متابع"),
     "followingTitle": MessageLookupByLibrary.simpleMessage("المتابَعون"),
     "galleryAction": MessageLookupByLibrary.simpleMessage("ستوديو"),
+    "getStarted": MessageLookupByLibrary.simpleMessage("ابدأ الآن"),
     "googleLabel": MessageLookupByLibrary.simpleMessage("جوجل"),
     "languageLabel": MessageLookupByLibrary.simpleMessage("اللغة"),
     "lightLabel": MessageLookupByLibrary.simpleMessage("فاتح"),
     "loggingOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج.."),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("الاسم"),
+    "next": MessageLookupByLibrary.simpleMessage("التالي"),
     "noBioYet": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة حتى الآن.."),
     "noFollowersFound": MessageLookupByLibrary.simpleMessage("لا يوجد متابعين"),
     "noLikesYet": MessageLookupByLibrary.simpleMessage("لا توجد إعجابات بعد."),
     "noPostsFound": MessageLookupByLibrary.simpleMessage("لا توجد منشورات"),
     "noRequests": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
     "noUsersFound": MessageLookupByLibrary.simpleMessage("لا يوجد مستخدمين"),
+    "onboardingDescription1": MessageLookupByLibrary.simpleMessage(
+      "ابق على اتصال مع الأشخاص الذين تهتم بهم. اكتشف أصدقاء جدد والهم بقصصهم.",
+    ),
+    "onboardingDescription2": MessageLookupByLibrary.simpleMessage(
+      "أنشئ منشورات وشارك الصور ومقاطع الفيديو والتزم مع مجتمعك.",
+    ),
+    "onboardingDescription3": MessageLookupByLibrary.simpleMessage(
+      "اكتشف الأشخاص الذين يشاركونك الاهتمامات وبناء اتصالات ذات مغزى.",
+    ),
+    "onboardingDescription4": MessageLookupByLibrary.simpleMessage(
+      "تحدث وتعاون واستمتع معاً مع أصدقائك.",
+    ),
+    "onboardingSubtitle1": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن أصدقاء واحصل على الإلهام",
+    ),
+    "onboardingSubtitle2": MessageLookupByLibrary.simpleMessage(
+      "شارك حياتك مع الأصدقاء",
+    ),
+    "onboardingSubtitle3": MessageLookupByLibrary.simpleMessage(
+      "التقِ بأشخاص رائعين واستمتع بنفسك",
+    ),
+    "onboardingSubtitle4": MessageLookupByLibrary.simpleMessage(
+      "قضاء الوقت مع الأصدقاء",
+    ),
+    "onboardingTitle1": MessageLookupByLibrary.simpleMessage(
+      "تواصل مع الأصدقاء",
+    ),
+    "onboardingTitle2": MessageLookupByLibrary.simpleMessage("شارك لحظاتك"),
+    "onboardingTitle3": MessageLookupByLibrary.simpleMessage(
+      "التقِ بأشخاص رائعين",
+    ),
+    "onboardingTitle4": MessageLookupByLibrary.simpleMessage(
+      "قضاء الوقت مع الأصدقاء",
+    ),
     "postButton": MessageLookupByLibrary.simpleMessage("نشر"),
     "postPlaceholder": MessageLookupByLibrary.simpleMessage("ماذا في عقلك"),
     "postTitle": MessageLookupByLibrary.simpleMessage("اضف منشور"),
@@ -92,6 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchPlacholder": MessageLookupByLibrary.simpleMessage("بحث"),
     "selectLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "settingsLabel": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "takeAPhoto": MessageLookupByLibrary.simpleMessage("التقط صورة"),
     "themePageTitle": MessageLookupByLibrary.simpleMessage("اختار سمه"),

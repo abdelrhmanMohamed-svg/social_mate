@@ -24,6 +24,7 @@ dependencies:
   flutter_local_notifications: ^20.1.0
   flutter_localization: ^0.3.3
   flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.3
   get: ^4.7.3
   google_sign_in: ^7.2.0
   hydrated_bloc: ^10.1.1
@@ -33,6 +34,7 @@ dependencies:
   open_filex: ^4.7.0
   path_provider: ^2.1.5
   persistent_bottom_nav_bar_v2: ^6.2.0
+  shared_preferences: ^2.3.0
   skeletonizer: ^2.1.2
   supabase_flutter: ^2.12.0
   timeago: ^3.7.1
@@ -50,6 +52,7 @@ flutter:
     - .env
     - assets/
     - assets/images/
+    - assets/svgs/
 
   fonts:
     - family: Manrope

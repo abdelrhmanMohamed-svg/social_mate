@@ -9,6 +9,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_mate/core/cubits/internet/internet_cubit.dart';
 import 'package:social_mate/core/cubits/localization/localization_cubit.dart';
+import 'package:social_mate/core/cubits/onboarding/onboarding_cubit.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
 import 'package:social_mate/core/models/custom_snack_bar.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()..checkAuthStatus()),
+        BlocProvider(create: (context) => OnboardingCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => PostCubit()),
         BlocProvider(create: (context) => LocalizationCubit()),

@@ -19,7 +19,7 @@
   "followFollowing": "متابع",
   "follow": "متابعة",
   "request": "تم الطلب",
-   "searchPlacholder":"بحث",
+  "searchPlacholder": "بحث",
   "unfollow": "إلغاء المتابعة",
   "savedPosts": "المنشورات المحفوظة",
   "usernameLabel": "اسم المستخدم",
@@ -68,6 +68,20 @@
   "ThemeLabel": "سمه",
   "lightLabel": "فاتح",
   "darkLabel": "غامق",
-  "themePageTitle":"اختار سمه"
-
+  "themePageTitle": "اختار سمه",
+  "skip": "تخطي",
+  "next": "التالي",
+  "getStarted": "ابدأ الآن",
+  "onboardingTitle1": "تواصل مع الأصدقاء",
+  "onboardingSubtitle1": "ابحث عن أصدقاء واحصل على الإلهام",
+  "onboardingDescription1": "ابق على اتصال مع الأشخاص الذين تهتم بهم. اكتشف أصدقاء جدد والهم بقصصهم.",
+  "onboardingTitle2": "شارك لحظاتك",
+  "onboardingSubtitle2": "شارك حياتك مع الأصدقاء",
+  "onboardingDescription2": "أنشئ منشورات وشارك الصور ومقاطع الفيديو والتزم مع مجتمعك.",
+  "onboardingTitle3": "التقِ بأشخاص رائعين",
+  "onboardingSubtitle3": "التقِ بأشخاص رائعين واستمتع بنفسك",
+  "onboardingDescription3": "اكتشف الأشخاص الذين يشاركونك الاهتمامات وبناء اتصالات ذات مغزى.",
+  "onboardingTitle4": "قضاء الوقت مع الأصدقاء",
+  "onboardingSubtitle4": "قضاء الوقت مع الأصدقاء",
+  "onboardingDescription4": "تحدث وتعاون واستمتع معاً مع أصدقائك."
 }

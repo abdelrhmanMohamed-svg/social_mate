@@ -568,6 +568,141 @@ class S {
       args: [],
     );
   }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message('Next', name: 'next', desc: '', args: []);
+  }
+
+  /// `Get Started`
+  String get getStarted {
+    return Intl.message('Get Started', name: 'getStarted', desc: '', args: []);
+  }
+
+  /// `Connect with Friends`
+  String get onboardingTitle1 {
+    return Intl.message(
+      'Connect with Friends',
+      name: 'onboardingTitle1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find Friends & Get Inspiration`
+  String get onboardingSubtitle1 {
+    return Intl.message(
+      'Find Friends & Get Inspiration',
+      name: 'onboardingSubtitle1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stay connected with people you care about. Discover new friends and get inspired by their stories.`
+  String get onboardingDescription1 {
+    return Intl.message(
+      'Stay connected with people you care about. Discover new friends and get inspired by their stories.',
+      name: 'onboardingDescription1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share Your Moments`
+  String get onboardingTitle2 {
+    return Intl.message(
+      'Share Your Moments',
+      name: 'onboardingTitle2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share Your Life with Friends`
+  String get onboardingSubtitle2 {
+    return Intl.message(
+      'Share Your Life with Friends',
+      name: 'onboardingSubtitle2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create posts, share photos and videos, and engage with your community.`
+  String get onboardingDescription2 {
+    return Intl.message(
+      'Create posts, share photos and videos, and engage with your community.',
+      name: 'onboardingDescription2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Meet Awesome People`
+  String get onboardingTitle3 {
+    return Intl.message(
+      'Meet Awesome People',
+      name: 'onboardingTitle3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Meet Awesome People & Enjoy Yourself`
+  String get onboardingSubtitle3 {
+    return Intl.message(
+      'Meet Awesome People & Enjoy Yourself',
+      name: 'onboardingSubtitle3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover like-minded individuals and build meaningful connections.`
+  String get onboardingDescription3 {
+    return Intl.message(
+      'Discover like-minded individuals and build meaningful connections.',
+      name: 'onboardingDescription3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hangout with Friends`
+  String get onboardingTitle4 {
+    return Intl.message(
+      'Hangout with Friends',
+      name: 'onboardingTitle4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hangout with Friends`
+  String get onboardingSubtitle4 {
+    return Intl.message(
+      'Hangout with Friends',
+      name: 'onboardingSubtitle4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat, collaborate, and have fun together with your friends.`
+  String get onboardingDescription4 {
+    return Intl.message(
+      'Chat, collaborate, and have fun together with your friends.',
+      name: 'onboardingDescription4',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -66,12 +66,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "followingLabel": MessageLookupByLibrary.simpleMessage("Following"),
     "followingTitle": MessageLookupByLibrary.simpleMessage("Following"),
     "galleryAction": MessageLookupByLibrary.simpleMessage("Gallery"),
+    "getStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
     "googleLabel": MessageLookupByLibrary.simpleMessage("Google"),
     "languageLabel": MessageLookupByLibrary.simpleMessage("Language"),
     "lightLabel": MessageLookupByLibrary.simpleMessage("Light"),
     "loggingOut": MessageLookupByLibrary.simpleMessage("Logging Out.."),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noBioYet": MessageLookupByLibrary.simpleMessage("There is no Bio yet.."),
     "noFollowersFound": MessageLookupByLibrary.simpleMessage(
       "No followers found",
@@ -80,6 +82,42 @@ class MessageLookup extends MessageLookupByLibrary {
     "noPostsFound": MessageLookupByLibrary.simpleMessage("No Posts Found"),
     "noRequests": MessageLookupByLibrary.simpleMessage("No Follwo Requests"),
     "noUsersFound": MessageLookupByLibrary.simpleMessage("No users found"),
+    "onboardingDescription1": MessageLookupByLibrary.simpleMessage(
+      "Stay connected with people you care about. Discover new friends and get inspired by their stories.",
+    ),
+    "onboardingDescription2": MessageLookupByLibrary.simpleMessage(
+      "Create posts, share photos and videos, and engage with your community.",
+    ),
+    "onboardingDescription3": MessageLookupByLibrary.simpleMessage(
+      "Discover like-minded individuals and build meaningful connections.",
+    ),
+    "onboardingDescription4": MessageLookupByLibrary.simpleMessage(
+      "Chat, collaborate, and have fun together with your friends.",
+    ),
+    "onboardingSubtitle1": MessageLookupByLibrary.simpleMessage(
+      "Find Friends & Get Inspiration",
+    ),
+    "onboardingSubtitle2": MessageLookupByLibrary.simpleMessage(
+      "Share Your Life with Friends",
+    ),
+    "onboardingSubtitle3": MessageLookupByLibrary.simpleMessage(
+      "Meet Awesome People & Enjoy Yourself",
+    ),
+    "onboardingSubtitle4": MessageLookupByLibrary.simpleMessage(
+      "Hangout with Friends",
+    ),
+    "onboardingTitle1": MessageLookupByLibrary.simpleMessage(
+      "Connect with Friends",
+    ),
+    "onboardingTitle2": MessageLookupByLibrary.simpleMessage(
+      "Share Your Moments",
+    ),
+    "onboardingTitle3": MessageLookupByLibrary.simpleMessage(
+      "Meet Awesome People",
+    ),
+    "onboardingTitle4": MessageLookupByLibrary.simpleMessage(
+      "Hangout with Friends",
+    ),
     "postButton": MessageLookupByLibrary.simpleMessage("Post"),
     "postPlaceholder": MessageLookupByLibrary.simpleMessage(
       "What is on your mind",
@@ -97,6 +135,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchPlacholder": MessageLookupByLibrary.simpleMessage("Search"),
     "selectLanguage": MessageLookupByLibrary.simpleMessage("Select Language"),
     "settingsLabel": MessageLookupByLibrary.simpleMessage("Settings"),
+    "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "something went wrong",
     ),
