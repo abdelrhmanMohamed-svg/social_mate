@@ -22,11 +22,9 @@ class PostsSection extends StatelessWidget {
       builder: (context, state) {
         if (state is PostsLoading) {
           return _ListOfPosts(posts: state.fakePosts, isLoading: true);
-        }
-        if (state is PostsError) {
-          return Center(child: Text(state.message));
-        }
-        if (state is PostsLoaded) {
+        } else if (state is PostsError) {
+          return _ListOfPosts(posts: homeCubit.fakePosts, isLoading: true);
+        } else if (state is PostsLoaded) {
           final posts = state.posts;
           if (posts.isEmpty) return Text(S.of(context).noPostsFound);
           return _ListOfPosts(posts: posts);

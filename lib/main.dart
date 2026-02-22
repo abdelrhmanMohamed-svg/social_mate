@@ -7,9 +7,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:social_mate/core/cubits/internet/internet_cubit.dart';
 import 'package:social_mate/core/cubits/localization/localization_cubit.dart';
 import 'package:social_mate/core/cubits/post/post_cubit.dart';
 import 'package:social_mate/core/cubits/theme/theme_cubit.dart';
+import 'package:social_mate/core/models/custom_snack_bar.dart';
 import 'package:social_mate/core/models/route_observer.dart';
 import 'package:social_mate/core/services/fcm_services.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
@@ -58,6 +60,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => PostCubit()),
         BlocProvider(create: (context) => LocalizationCubit()),
+        BlocProvider(create: (context) => InternetCubit()),
       ],
       child: Builder(
         builder: (context) {
@@ -65,38 +68,59 @@ class MyApp extends StatelessWidget {
             designSize: const Size(428, 926),
             minTextAdapt: true,
             builder: (_, child) {
-              return BlocBuilder<ThemeCubit, ThemeMode>(
-                bloc: BlocProvider.of<ThemeCubit>(context),
-                builder: (context, themeState) {
-                  return BlocBuilder<LocalizationCubit, Locale>(
-                    bloc: BlocProvider.of<LocalizationCubit>(context),
-                    builder: (context, localeState) {
-                      return MaterialApp(
-                        locale: localeState,
-                        localizationsDelegates: [
-                          S.delegate,
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalWidgetsLocalizations.delegate,
-                          GlobalCupertinoLocalizations.delegate,
-                        ],
-                        supportedLocales: S.delegate.supportedLocales,
-                        navigatorKey: AppKeys.navigatorKey,
-                        navigatorObservers: [RouteObserverModel()],
-                        themeAnimationCurve: Curves.linear,
-                        themeAnimationDuration: const Duration(
-                          milliseconds: 300,
-                        ),
-                        themeAnimationStyle: AnimationStyle(
-                          curve: Curves.easeIn,
-                          duration: const Duration(milliseconds: 300),
-                        ),
-                        debugShowCheckedModeBanner: false,
-                        title: AppConstants.appName,
-                        theme: AppTheme.lightTheme,
-                        darkTheme: AppTheme.darkTheme,
-                        themeMode: themeState,
-                        onGenerateRoute: AppRouter.generateRoute,
-                        home: child,
+              return BlocConsumer<InternetCubit, InternetState>(
+                bloc: BlocProvider.of<InternetCubit>(context),
+                listenWhen: (previous, current) =>
+                    current is InternetConnectionLost ||
+                    (current is InternetConnectionGained &&
+                        previous is InternetConnectionLost),
+                listener: (context, state) {
+                  if (state is InternetConnectionLost) {
+                    CustomSnackBar.hide();
+
+                    CustomSnackBar.show("No Internet Connection", true);
+                  } else if (state is InternetConnectionGained) {
+                    CustomSnackBar.hide();
+
+                    CustomSnackBar.show("Internet Connection Restored");
+                  }
+                },
+                builder: (context, state) {
+                  return BlocBuilder<ThemeCubit, ThemeMode>(
+                    bloc: BlocProvider.of<ThemeCubit>(context),
+                    builder: (context, themeState) {
+                      return BlocBuilder<LocalizationCubit, Locale>(
+                        bloc: BlocProvider.of<LocalizationCubit>(context),
+                        builder: (context, localeState) {
+                          return MaterialApp(
+                            locale: localeState,
+                            localizationsDelegates: [
+                              S.delegate,
+                              GlobalMaterialLocalizations.delegate,
+                              GlobalWidgetsLocalizations.delegate,
+                              GlobalCupertinoLocalizations.delegate,
+                            ],
+                            supportedLocales: S.delegate.supportedLocales,
+                            navigatorKey: AppKeys.navigatorKey,
+                            scaffoldMessengerKey: AppKeys.scaffoldMessengerKey,
+                            navigatorObservers: [RouteObserverModel()],
+                            themeAnimationCurve: Curves.linear,
+                            themeAnimationDuration: const Duration(
+                              milliseconds: 300,
+                            ),
+                            themeAnimationStyle: AnimationStyle(
+                              curve: Curves.easeIn,
+                              duration: const Duration(milliseconds: 300),
+                            ),
+                            debugShowCheckedModeBanner: false,
+                            title: AppConstants.appName,
+                            theme: AppTheme.lightTheme,
+                            darkTheme: AppTheme.darkTheme,
+                            themeMode: themeState,
+                            onGenerateRoute: AppRouter.generateRoute,
+                            home: child,
+                          );
+                        },
                       );
                     },
                   );

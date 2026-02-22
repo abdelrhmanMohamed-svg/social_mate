@@ -6,6 +6,7 @@ void showCustomSnackBar(
   String message, {
   SnackBarAction? action,
   bool isError = false,
+  bool isAlwayes = false,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -13,8 +14,11 @@ void showCustomSnackBar(
         message,
         style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
       ),
+
       backgroundColor: isError ? AppColors.red : AppColors.primary,
-      duration: const Duration(seconds: 2),
+      duration: isAlwayes
+          ? const Duration(days: 256)
+          : const Duration(seconds: 2),
       action: action,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
