@@ -33,7 +33,7 @@ class _MessageInputState extends State<MessageInput> {
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.shadow,
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.2),
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),

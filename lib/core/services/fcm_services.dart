@@ -103,7 +103,6 @@ class FcmServicesImpl implements FcmServices {
   @override
   Future<String?> getSavedFcmToken(String userId) async {
     try {
-      // 1. تأكد أن المستخدم لسه موجود
       final currentUser = _client.auth.currentUser;
       debugPrint('👤 Current user: ${currentUser?.id}');
       debugPrint(
@@ -115,7 +114,6 @@ class FcmServicesImpl implements FcmServices {
         return null;
       }
 
-      // 2. لو userId مش مطابق للـ current user، ممكن يكون في مشكلة
       if (userId != currentUser.id) {
         debugPrint(
           '⚠️ Requested userId ($userId) != currentUser (${currentUser.id})',
@@ -156,7 +154,6 @@ class FcmServicesImpl implements FcmServices {
   @override
   Future<void> initialize() async {
     try {
-      // 1. Request permissions first
       final settings = await _firebaseMessaging.requestPermission(
         alert: true,
         badge: true,
@@ -168,7 +165,6 @@ class FcmServicesImpl implements FcmServices {
         return;
       }
 
-      // 2. Initialize local notifications
       _localNotifications = FlutterLocalNotificationsPlugin();
 
       const androidSettings = AndroidInitializationSettings(

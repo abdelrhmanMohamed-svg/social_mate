@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_mate/core/utils/app_constants.dart';
-import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/chat/cubit/single_chat/single_chat_cubit.dart';
 
@@ -37,7 +36,7 @@ class OtherUserHeaderSection extends StatelessWidget with SU {
               Text(
                 otherUser.name ?? 'Unknown',
                 style: AppTextStyles.headingH6.copyWith(
-                  color: AppColors.black87,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ],

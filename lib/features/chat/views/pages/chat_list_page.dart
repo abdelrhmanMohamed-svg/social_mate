@@ -52,7 +52,11 @@ class ChatListBody extends StatelessWidget {
               return Center(
                 child: Text(
                   'No chats yet. Start following users to see them here!',
-                  style: AppTextStyles.lMedium.copyWith(color: AppColors.gray),
+                  style: AppTextStyles.lMedium.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
                 ),
               );
             }
@@ -133,11 +137,17 @@ class ChatListItem extends StatelessWidget with SU {
             ),
             title: Text(
               user?.name ?? 'Unknown',
-              style: AppTextStyles.headingH6.copyWith(color: AppColors.black87),
+              style: AppTextStyles.headingH6.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             subtitle: Text(
               user?.bio ?? 'No messages yet',
-              style: AppTextStyles.mMedium.copyWith(color: AppColors.gray),
+              style: AppTextStyles.mMedium.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
             ),
             trailing: Text(
               "Start Chat",
@@ -176,14 +186,18 @@ class ChatListItem extends StatelessWidget with SU {
             ),
             title: Text(
               chat!.otherUser.name ?? 'Unknown',
-              style: AppTextStyles.headingH6.copyWith(color: AppColors.black87),
+              style: AppTextStyles.headingH6.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             subtitle: Row(
               children: [
                 Text(
                   chat!.lastMessage ?? 'No messages yet',
                   style: AppTextStyles.headingH6.copyWith(
-                    color: AppColors.gray,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
                 10.horizontalSpace,
@@ -207,7 +221,11 @@ class ChatListItem extends StatelessWidget with SU {
               chat!.lastMessageAt != null
                   ? timeago.format(lastMessageDateTime, locale: 'en_short')
                   : 'Now',
-              style: AppTextStyles.mMedium.copyWith(color: AppColors.black45),
+              style: AppTextStyles.mMedium.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
             ),
 
             onTap: () {

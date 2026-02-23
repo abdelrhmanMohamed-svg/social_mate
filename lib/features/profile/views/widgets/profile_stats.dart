@@ -23,7 +23,7 @@ class ProfileStats extends StatelessWidget with SU {
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: Theme.of(context).colorScheme.outline,
-            width: 2.w,
+            width: 1.w,
           ),
         ),
         child: Padding(

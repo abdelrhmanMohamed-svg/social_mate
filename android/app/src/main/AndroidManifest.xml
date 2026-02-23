@@ -4,7 +4,7 @@
     <application
         android:label="social_mate"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
      <!-- Google Sign-In Configuration -->
     <meta-data
     android:name="com.google.android.gms.version"

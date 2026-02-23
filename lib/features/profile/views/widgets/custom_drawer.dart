@@ -46,12 +46,7 @@ class CustomDrawer extends StatelessWidget with SU {
           ),
           12.verticalSpace,
           Divider(indent: 25.w, endIndent: 25.w),
-          DrawerItem(
-            leadingIcon: Icons.edit,
-            title: S.of(context).editProfileLabel,
-            trailingIcon: Icons.chevron_right_outlined,
-            onTap: () {},
-          ),
+
           12.verticalSpace,
           DrawerItem(
             leadingIcon: Icons.bookmark,
@@ -62,16 +57,7 @@ class CustomDrawer extends StatelessWidget with SU {
               rootNavigator: true,
             ).pushNamed(AppRoutes.savedPostsPageRoute),
           ),
-          12.verticalSpace,
-          DrawerItem(
-            leadingIcon: Icons.settings_outlined,
-            title: S.of(context).settingsLabel,
-            trailingIcon: Icons.chevron_right_outlined,
-            onTap: () => Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pushNamed(AppRoutes.settingsPageRoute),
-          ),
+
           12.verticalSpace,
           DrawerItem(
             leadingIcon: Icons.language_outlined,

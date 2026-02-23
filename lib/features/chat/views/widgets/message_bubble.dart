@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:social_mate/core/utils/theme/app_colors.dart';
 import 'package:social_mate/core/utils/theme/app_text_styles.dart';
 import 'package:social_mate/features/chat/models/response_message_model.dart';
@@ -23,7 +24,9 @@ class MessageBubble extends StatelessWidget with SU {
         margin: EdgeInsets.symmetric(vertical: 4.h),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
         decoration: BoxDecoration(
-          color: isMe ? AppColors.primary : AppColors.gray200,
+          color: isMe
+              ? AppColors.primary
+              : Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12.r),
             topRight: Radius.circular(12.r),
@@ -37,7 +40,9 @@ class MessageBubble extends StatelessWidget with SU {
             color: isLoading
                 ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)
                 : isMe
-                ? Theme.of(context).colorScheme.onPrimary
+                ? context.isDarkMode
+                      ? AppColors.white
+                      : Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.onSurface,
           ),
         ),
