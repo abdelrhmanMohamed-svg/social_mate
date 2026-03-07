@@ -191,8 +191,48 @@ flutter run
 
 ### 🧪 Testing
 
-- Only default `test/widget_test.dart` present.
-- Recommend adding unit tests for cubits and widget tests for key flows.
+A growing suite of unit tests lives under the `test/` directory. The current effort focuses on the **home feature**:
+
+- `test/features/home/services/home_services_test.dart` covers `HomeServicesImpl`.
+  - Uses **mockito** to inject a fake `SupabaseDatabaseServices` instance.
+  - Exercises `fetchStories`, `fetchUserStories`, `addStory`, and `deleteStory` success/error flows.
+  - Mocks are generated via `build_runner` (see below).
+
+> The `home_cubit` tests were previously present but have been removed; feel free to re‑add them or author new ones around the cubit when needed.
+
+#### Running tests
+
+```bash
+# install dependencies
+flutter pub get
+
+# generate mocks (run anytime you add new @GenerateMocks annotations)
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# run all tests
+flutter test
+
+# run a specific file
+flutter test test/features/home/services/home_services_test.dart
+```
+
+#### Dependencies used in tests
+
+The project includes the following dev dependencies for testing:
+
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  mockito: ^5.4.2
+  build_runner: ^2.4.6
+  bloc_test: ^9.1.0
+```
+
+You can add more packages as the test suite expands (e.g. `mocktail`, `integration_test`).
+
+The rest of the README remains unchanged — continue adding widget tests, integration tests, or CI steps as the codebase grows.
 
 ---
 

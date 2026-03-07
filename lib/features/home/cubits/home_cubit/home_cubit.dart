@@ -20,12 +20,26 @@ import 'package:video_player/video_player.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
-  final _homeServices = HomeServicesImpl();
-  final _authcoreServices = AuthCoreServicesImpl();
-  final _nativeServices = NativeServicesImpl();
-  final _supabaseStorageServices = SupabaseStorageServicesImpl();
-  final _postServices = PostServicesImpl();
+  /// Constructor allows injecting mocks for easy testing.
+  HomeCubit({
+    HomeServices? homeServices,
+    AuthCoreServices? authCoreServices,
+    NativeServices? nativeServices,
+    SupabaseStorageServices? supabaseStorageServices,
+    PostServices? postServices,
+  }) : _homeServices = homeServices ?? HomeServicesImpl(),
+       _authcoreServices = authCoreServices ?? AuthCoreServicesImpl(),
+       _nativeServices = nativeServices ?? NativeServicesImpl(),
+       _supabaseStorageServices =
+           supabaseStorageServices ?? SupabaseStorageServicesImpl(),
+       _postServices = postServices ?? PostServicesImpl(),
+       super(HomeInitial());
+
+  final HomeServices _homeServices;
+  final AuthCoreServices _authcoreServices;
+  final NativeServices _nativeServices;
+  final SupabaseStorageServices _supabaseStorageServices;
+  final PostServices _postServices;
 
   File? imagePicked;
   File? videoPicked;
@@ -268,7 +282,6 @@ class HomeCubit extends Cubit<HomeState> {
         var storyWithAuthor = story.copyWith(authorName: authorName);
 
         if (story.authorId == currentUser.id) {
-
           currentUserStoriesList.add(storyWithAuthor);
         } else {
           if (!storiesByAuthor.containsKey(story.authorId)) {

@@ -13,7 +13,12 @@ abstract class HomeServices {
 }
 
 class HomeServicesImpl implements HomeServices {
-  final _supabaseDatabaseServices = SupabaseDatabaseServices.instance;
+  final SupabaseDatabaseServices _supabaseDatabaseServices;
+
+  /// Allows injecting a custom [SupabaseDatabaseServices] instance for testing.
+  HomeServicesImpl({SupabaseDatabaseServices? supabaseDatabaseServices})
+    : _supabaseDatabaseServices =
+          supabaseDatabaseServices ?? SupabaseDatabaseServices.instance;
 
   @override
   Future<List<StoryModel>> fetchStories() async {
